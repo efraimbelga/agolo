@@ -1,0 +1,11 @@
+.errorMsg{
+	color: red;
+}
+.table-condensed>tbody>tr>td{
+	padding: 4px;
+    font-size: 13px;
+}
+.errorinput{
+    background: #fe3939;
+    color: #fff;
+}

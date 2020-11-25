@@ -1,0 +1,17 @@
+div.srboxbody{
+    height: 61vh;
+    overflow: auto;
+}
+tr.sourceTR{
+	cursor: pointer;
+	font-weight: normal;
+}
+/*tr.sourceTR.selected:hover,*/
+tr.sourceTR:hover{
+	background: #ffcfcf;
+	color: black;
+}
+tr.sourceTR.selected {
+	background: #f75454;
+	color: #fff;
+}
