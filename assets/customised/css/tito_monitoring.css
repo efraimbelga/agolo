@@ -50,6 +50,8 @@ a.deleteSection-btn:hover{
 
 .titoformModal .panel-group .panel{
   border-radius: 0px;
+  border: none;
+    box-shadow: none;
 }
 .titoformModal .panel-heading {
     padding: 5px 5px;

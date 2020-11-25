@@ -173,13 +173,75 @@ $(function(){
 		$('.errorinput').removeClass('errorinput');
 	}
 
+	$(document).on('click', '.taskdone-btn', function(){
+		var x=0;
+		var status = $(this).attr('data-value');
+		var ParentID = $('#titoModal #ParentID').val()
+		var ReferenceID = $('#titoModal #ReferenceID').val();
+		var NewSourceID = $('#titoModal #NewSourceID').val();
+		var SourceURL = $('#titoModal #SourceURL').text();
+		var SourceName = $('#titoModal #SourceName').text();
+
+		var formData = new FormData();		
+		formData.append('ParentID', ParentID)
+		// formData.append('AllocationRefId', AllocationRefId)
+		formData.append('status', status)
+		formData.append('ReferenceID', ReferenceID)
+		formData.append('NewSourceID', NewSourceID)
+		formData.append('SourceURL', SourceURL)
+		formData.append('SourceName', SourceName)
+		formData.append('status', status)
+		$('.myForm .editablediv').each(function(){
+			var el = $(this);
+			var value = el.text();
+			var key = el.attr('data-key');
+			formData.append(key, value);
+			if(value==''){
+				x++;
+				el.addClass('errorinput');
+				el.focus();
+			}
+		})
+		console.log(x)
+
+		if(x<= 0){
+			$.ajax({
+			    url: domain + 'Tito_controller/task_out_source',
+			    type: 'POST',
+			    data: formData,
+			    contentType: false,
+			    processData: false,
+			    beforeSend: function(){
+			       	$('#loadingModal').modal();
+			    },
+			    success: function(data, textStatus, jqXHR)
+			    {
+			    	$('#loadingModal').modal('hide');
+			    	$('.titoformModal .errorMsg').text(data)
+			    	if(data=='' || data=='success'){
+			    		view_source_request(processId)
+			    		setTimeout(function(){ $('#titoModal').modal('hide'); }, 1500);
+			    	}
+			    },
+			    error: function (jqXHR, textStatus, errorThrown)
+			    {
+			    	$('#loadingModal').modal('hide');
+			    	$('.titoformModal .errorMsg').text(jqXHR.responseText)
+			 		
+			    }
+			});
+		}
+		
+			
+
+
+	})
+
 	$(document).on('click', '.taskout-btn', function(){
 		var x = 0;
 		// var AllocationRefId = $('#titoModal #AllocationRefId').val();
 		var status = $(this).attr('data-value');
-		if(status=='Pending'){
-			$('#titoModal').modal('hide')
-		}
+		
 		var ParentID = $('#titoModal #ParentID').val()
 		var ReferenceID = $('#titoModal #ReferenceID').val();
 		var NewSourceID = $('#titoModal #NewSourceID').val();
@@ -258,7 +320,7 @@ $(function(){
 		}
 	})
 
-	$(document).on('keyup', '#psourceTbl .form-control', function(e){
+	$(document).on('keyup', '.form-control', function(e){
 		$(this).addClass('edited')
 		$(this).removeClass('errorinput')
 	})

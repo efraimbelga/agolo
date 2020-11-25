@@ -250,8 +250,12 @@ class Tito_controller extends CI_Controller {
 
 
 	public function task_out_source(){
+		// echo "<pre>";
+		// print_r($_POST);
+		// echo "</pre>";
+		
 		$processId = $this->session->userdata('processId');
-
+		// die($processId);
 		$ParentID 			= $this->input->post('ParentID');
 		$AllocationRefId 	= $this->input->post('AllocationRefId');
 		$status 			= $this->input->post('status');
@@ -261,7 +265,6 @@ class Tito_controller extends CI_Controller {
 		$SourceURL 			= $this->input->post('SourceURL');
 		$SourceName 		= $this->input->post('SourceName');
 		$SourceID = $SubSourceID = '';
-
 
 		if($status=='Done'){
 			if($processId=='1'){
@@ -293,6 +296,27 @@ class Tito_controller extends CI_Controller {
 						$x++;
 			        }
 			    }
+			}
+			else if($processId=='2'){
+				$sql="UPDATE [dbo].[AGLDE_SourceDetails] SET [DateFormat]= '".$this->input->post('DateFormat')."',
+    			[StoryFrequency] = '".$this->input->post('StoryFrequency')."',
+    			[CrawlPatterns] = '".$this->input->post('CrawlPatterns')."',
+    			[Difficulty] = '".$this->input->post('Difficulty')."',
+    			[ConfigNotes] = '".$this->input->post('ConfigNotes')."',
+    			[ExclusionNotes] = '".$this->input->post('ExclusionNotes')."',
+    			[Status]='3' WHERE [ParentID] = ".$ParentID;
+    			// die($sql);
+    			$this->base_model->executequery($sql);
+			}
+			else if($processId=='3'){
+				$sql="UPDATE [dbo].[AGLDE_SourceDetails] SET [PublicationNotes]= '".$this->input->post('PublicationNotes')."', [Status]='4' WHERE [ParentID] = ".$ParentID;
+    			// die($sql);
+    			$this->base_model->executequery($sql);
+			}
+			else if($processId=='4'){
+				$sql="UPDATE [dbo].[AGLDE_SourceDetails] SET [ReConfigNotes]= '".$this->input->post('ReConfigNotes')."', [Status]='5' WHERE [ParentID] = ".$ParentID;
+    			// die($sql);
+    			$this->base_model->executequery($sql);
 			}
 			
 		}		
