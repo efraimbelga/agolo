@@ -1,5 +1,5 @@
 @media only screen and (min-width: 992px) {
-  .titoformModal.modal-lg {
+  .titoformModal.modal-lg.CONTENT_ANALYSIS {
       width: 96%;
   }
 }

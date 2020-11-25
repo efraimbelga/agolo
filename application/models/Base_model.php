@@ -194,7 +194,20 @@ class Base_model extends CI_Model {
     //     return $response;
     // }
 
+    public function get_data_array($sql){
+        $query = $this->db->query($sql);
+        return $query->result_array();
+    }
 
+    public function get_data_row($sql){
+        $query = $this->db->query($sql);
+        return $query->row();
+    }
+
+    public function executequery($sql){
+        $this->db->query($sql);
+        return $this->db->affected_rows(); 
+    }
 }
 
 

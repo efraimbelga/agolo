@@ -164,7 +164,7 @@ class Basecontroller extends CI_Controller {
 				// print_r($data);
 				// echo"</pre>";
 				// die();
-				echo sizeof($data)."<br>";
+				// echo sizeof($data)."<br>";
 				if(sizeof($data) > 0){
 					foreach ($data as $row) {
 						$sql= "EXEC USP_AGLDE_REGISTERJOB @ParentId=".$row['ParentID'];

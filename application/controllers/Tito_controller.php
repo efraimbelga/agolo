@@ -55,31 +55,47 @@ class Tito_controller extends CI_Controller {
 			$processId = 1;
 		}
 
-		$APIResult = $this->base_model->SessionLogin($processId);
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die($data['error']); }
-        
-  //       $APIResult = $this->base_model->AutoAllocate(0, '', '');
+		// $APIResult = $this->base_model->SessionLogin($processId);
 		// $data = json_decode($APIResult, true);
 		// if (array_key_exists('error', $data)) { die($data['error']); }
+       
+  //       $APIResult = $this->base_model->GetAllocationsDt();
+	 //    $data = json_decode($APIResult, true);
+	 //    if (array_key_exists('error', $data)) { die($data['error']); }
 
-        $APIResult = $this->base_model->GetAllocationsDt();
-	    $data = json_decode($APIResult, true);
-	    if (array_key_exists('error', $data)) { die($data['error']); }
-	   	// echo "<pre>";
-	   	// print_r($data);
-	   	// echo "</pre>";
-	    if(sizeof($data) > 0){
-			foreach ($data as $row) {
-				echo'<tr class="sourceTR" data-ParentID="'.$row['ParentID'].'" data-AllocationRefId="'.$row['AllocationRefId'].'" data-ReferenceID="'.$row['ReferenceID'].'">';
+		$sql="SELECT * FROM [WMS_AGLDE].[dbo].[VIEW_AGLDE_SOURCEMOREDETAILS] WHERE ";
+		if($processId=='1'){
+			$sql .= "([Status] IS NULL OR [Status] ='1') AND [IsParent] = 1 ";
+		}else{
+			$sql .= "([Status] = '".$processId."') ";
+		}
+		$sql .= "ORDER BY [ParentID] ASC";
+		
+		$result = $this->base_model->get_data_array($sql);
+		if($result){
+			foreach ($result as $row) {
+				// data-AllocationRefId="'.$row['AllocationRefId'].'" 
+				echo'<tr class="sourceTR" data-ParentID="'.$row['ParentID'].'" data-ReferenceID="'.$row['ReferenceID'].'">';
 					echo'<td>'.$row['ReferenceID'].'</td>';
-					echo'<td>'.$row['SourceUrl'].'</td>';
+					echo'<td>'.$row['NSRSourceURL'].'</td>';
 					echo'<td>'.$row['SourceUserName'].'</td>';
 					echo'<td>'.$row['SourcePassword'].'</td>';
 					echo'<td>'.$row['ClaimedBy'].'</td>';										
 				echo'</tr>';
 			}
 		}
+
+	 //    if(sizeof($data) > 0){
+		// 	foreach ($data as $row) {
+		// 		echo'<tr class="sourceTR" data-ParentID="'.$row['ParentID'].'" data-AllocationRefId="'.$row['AllocationRefId'].'" data-ReferenceID="'.$row['ReferenceID'].'">';
+		// 			echo'<td>'.$row['ReferenceID'].'</td>';
+		// 			echo'<td>'.$row['SourceUrl'].'</td>';
+		// 			echo'<td>'.$row['SourceUserName'].'</td>';
+		// 			echo'<td>'.$row['SourcePassword'].'</td>';
+		// 			echo'<td>'.$row['ClaimedBy'].'</td>';										
+		// 		echo'</tr>';
+		// 	}
+		// }
 		else{
 			echo'<tr>';
 				echo'<td colspan="9"><p class="text-center">No data found</p></td>';
@@ -90,52 +106,32 @@ class Tito_controller extends CI_Controller {
 
 	public function view_tito_form()
 	{
-		if($this->session->userdata('AllocationRefId')){
-			
-			$sessionData = ['AllocationRefId'];
-			$this->session->unset_userdata($sessionData);	
-		}
-
 		$processId = $this->session->userdata('processId');
-		$AllocationRefId = $this->input->post('AllocationRefId');
 		$ReferenceID = $this->input->post('ReferenceID');
 		$ParentID = $this->input->post('ParentID');
 
-		$sessionData = [
-            'AllocationRefId'=> $AllocationRefId
-        ];
-        $this->session->set_userdata($sessionData);
-
-		$sql="SELECT * FROM [VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
-	
-		$APIResult = $this->base_model->GetDatabaseDataset($sql);
-		$arrayRes = json_decode($APIResult, true);
-		$fdata = $arrayRes[0][0];
-		$ParentID = $fdata['ParentID'];
-		$parentData = $fdata;
-		// print_r($SourceDetails);
-		// die();
+		$sql="SELECT * FROM [WMS_AGLDE].[dbo].[VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
+		$parentData = $this->base_model->get_data_row($sql);
+		$sectionData = false;
+		if($processId == '1'){
+			$sql="SELECT * FROM [VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [SectionParentID] = ".$ParentID." ";
+			$sectionData = $this->base_model->get_data_array($sql);
+		}
 		
-		$sql="SELECT * FROM [AGLDE_SourceDetails] WHERE [SectionParentID] = ".$ParentID." ";
-		$APIResult = $this->base_model->GetDatabaseDataset($sql);
-		$arrayRes = json_decode($APIResult, true);
-		$fdata = $arrayRes[0];
-		$sectionData = $fdata;
+
 		$data = array(
 			'process' => $this->getprocessname($processId),
 			'parentData'	=> $parentData,
 			'sectionData' 	=> $sectionData,
 			'processId' 	=> $processId,
-			'AllocationRefId' => $AllocationRefId,
 			'ReferenceID' => $ReferenceID
-		);
+		);	
 
-		$AllocationRefId = $this->input->post('AllocationRefId');
-		$APIResult = $this->base_model->TaskStart($AllocationRefId);
-        $data2 = json_decode($APIResult, true);
-        if (array_key_exists('error', $data2)) { die($data2['error']); }
-      
-		$this->load->view('pages/titoformModal', $data);
+		if($processId == '1'){	
+			$this->load->view('pages/titoformModal', $data);
+		}else{
+			$this->load->view('pages/titoformModal2', $data);
+		}
 	}
 
 	public function subsectionform(){
@@ -254,10 +250,7 @@ class Tito_controller extends CI_Controller {
 
 
 	public function task_out_source(){
-		// echo"<pre>";
-		// print_r($_POST);
-		// echo "</pre>";
-		// die();
+		$processId = $this->session->userdata('processId');
 
 		$ParentID 			= $this->input->post('ParentID');
 		$AllocationRefId 	= $this->input->post('AllocationRefId');
@@ -268,98 +261,41 @@ class Tito_controller extends CI_Controller {
 		$SourceURL 			= $this->input->post('SourceURL');
 		$SourceName 		= $this->input->post('SourceName');
 		$SourceID = $SubSourceID = '';
-		
-		$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status);
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die("E. :".$data['error']); }
-		
-		$APIResult =  $this->base_model->SessionLogout();
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die("D. :".$data['error']); }	
 
-		$sessionData = ['AllocationRefId'];
-		$this->session->unset_userdata($sessionData);
 
 		if($status=='Done'){
+			if($processId=='1'){
+				$json = '{ "referenceId": "'.$ReferenceID.'", "sources": [{ "url": "'.$SourceURL.'", "name": "'.$SourceName.'" ';
 			
-			$json = '{ "referenceId": "'.$ReferenceID.'", "sources": [{ "url": "'.$SourceURL.'", "name": "'.$SourceName.'" ';
-			
-			$sql="SELECT [ParentID], [SourceName], [SourceURL] FROM [WMS_AGLDE].[dbo].[AGLDE_SourceDetails] WHERE 
-			[SectionParentID] = ".$ParentID." AND [IsParent] IS NULL ORDER BY [ParentID] ASC";
-			$APIResult = $this->base_model->GetDatabaseDataset($sql);
-			$data = json_decode($APIResult, true);
-			if (array_key_exists('error', $data)) { die("T4. ".$data['error']); }
-			$SectionData = $data[0];
-			
-			if(sizeof($SectionData) > 0){
-				$json .= ',"sections": [ ';
-				$sections='';
-				foreach ($SectionData as $row) { $sections .= '{ "url": "'.$row['SourceURL'].'", "name": "'.$row['SourceName'].'" },'; }
-				$sections = rtrim($sections, ',');
-				$json .= $sections.']';
-			}
-			$json .= '}] }';
-			$APIResult = $this->base_model->sourcesmanagementcrawlers($json);
-		    $data = json_decode($APIResult, true);
-		    if (array_key_exists('sources', $data)){
-		    	$sources = $data['sources'];
-		    	$x = $e = 0;
-		        foreach ($sources as $row) {
-		    	    $SourceID = $row['id'];
-		    	    
-
-		    	    $APIResult = $this->base_model->SessionLogin('2');
-					$data = json_decode($APIResult, true);
-					if (array_key_exists('error', $data)) { die("T1. ".$data['error']); }
-
-					if($x > 0){
-		    	    	$ParentID = $SectionData[$e]['ParentID'];
-		    	    	$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE_SourceID @SourceID='".$SourceID."', @ParentID =".$ParentID;
-			    	    $APIResult = $this->base_model->ExecuteDatabaseScript($sql);
-			    	    $data = json_decode($APIResult, true);
-						if (array_key_exists('error', $data)) { die("T6. ".$data['error']); }
-
-			    	    $sql= "EXEC USP_AGLDE_REGISTERJOB @ParentId=".$ParentID;
-			    	    echo $sql."<br>";
-						$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
-						$data1 = json_decode($APIResult, true);
-						extract($data1);
-						if (array_key_exists('error', $data1)) { die("T5. ".$data1['error']); }
-
-						$e++;
-		    	    }
-
-
-					$APIResult = $this->base_model->AutoAllocate(0, '', '');
-					$data = json_decode($APIResult, true);
-					if (array_key_exists('error', $data)) { die("T2. ".$data['error']); }
-
-					if($x > 0){
-						$APIResult = $this->base_model->GetAllocationsDt();
-					    $data = json_decode($APIResult, true);
-					    if (array_key_exists('error', $data)) { die("T8. ".$data['error']); }
-					    if(sizeof($data) > 0){
-							foreach ($data as $row) {
-								$AllocationRefId = $row['AllocationRefId'];
-							}
-						}
-
-						echo $AllocationRefId."<br>";
-						$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status);
-						$data = json_decode($APIResult, true);
-						if (array_key_exists('error', $data)) { die("E2. :".$data['error']); }
+				$sql="SELECT [ParentID], [SourceName], [SourceURL] FROM [WMS_AGLDE].[dbo].[AGLDE_SourceDetails] WHERE 
+				[SectionParentID] = ".$ParentID." AND [IsParent] IS NULL ORDER BY [ParentID] ASC";
+				$result = $this->base_model->get_data_array($sql);
+				if($result){
+					$json .= ',"sections": [ ';
+					$sections='';
+					foreach ($result as $row) {
+						$sections .= '{ "url": "'.$row['SourceURL'].'", "name": "'.$row['SourceName'].'" },';
 					}
-					
+					$sections = rtrim($sections, ',');
+					$json .= $sections.']';
+				}
+				$json .= '}] }';
+				$APIResult = $this->base_model->sourcesmanagementcrawlers($json);
+			    $data = json_decode($APIResult, true);
 
-					$APIResult =  $this->base_model->SessionLogout();
-					$data = json_decode($APIResult, true);
-					if (array_key_exists('error', $data)) { die("T3. ".$data['error']); }
-					$x++;
-		        }
-		    }
-		}
+			    if (array_key_exists('sources', $data)){
+			    	$sources = $data['sources'];
+			    	$x = $e = 0;
+			        foreach ($sources as $row) {
+			    	    $SourceID = $row['id'];
+			    	    $sql="UPDATE [dbo].[AGLDE_SourceDetails] SET [SourceID] = '".$SourceID."', [Status]='2' WHERE [SourceName] = '".$row['name']."' AND [SourceURL] = '".$row['url']."' ";
+			    	   	$this->base_model->executequery($sql);
+						$x++;
+			        }
+			    }
+			}
 			
-		
+		}		
 	}
 }
 

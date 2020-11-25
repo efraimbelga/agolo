@@ -32,12 +32,12 @@ $(function(){
 
 		var ParentID = $(this).attr('data-ParentID');
 		var ReferenceID = $(this).attr('data-ReferenceID');
-		var AllocationRefId = $(this).attr('data-AllocationRefId');
-
+		// var AllocationRefId = $(this).attr('data-AllocationRefId');
+		// AllocationRefId:AllocationRefId
 		$.ajax({
 	        url: domain + 'Tito_controller/view_tito_form',
 	        type: 'POST',
-	        data: {ReferenceID : ReferenceID, ParentID:ParentID, AllocationRefId:AllocationRefId},
+	        data: {ReferenceID : ReferenceID, ParentID:ParentID},
 	        success: function(data, textStatus, jqXHR)
 	        {
 	        	$('#titoModal').html(data)
@@ -175,8 +175,11 @@ $(function(){
 
 	$(document).on('click', '.taskout-btn', function(){
 		var x = 0;
-		var AllocationRefId = $('#titoModal #AllocationRefId').val();
+		// var AllocationRefId = $('#titoModal #AllocationRefId').val();
 		var status = $(this).attr('data-value');
+		if(status=='Pending'){
+			$('#titoModal').modal('hide')
+		}
 		var ParentID = $('#titoModal #ParentID').val()
 		var ReferenceID = $('#titoModal #ReferenceID').val();
 		var NewSourceID = $('#titoModal #NewSourceID').val();
@@ -185,7 +188,7 @@ $(function(){
 
 		var formData = new FormData();		
 		formData.append('ParentID', ParentID)
-		formData.append('AllocationRefId', AllocationRefId)
+		// formData.append('AllocationRefId', AllocationRefId)
 		formData.append('status', status)
 		formData.append('ReferenceID', ReferenceID)
 		formData.append('NewSourceID', NewSourceID)
