@@ -92,6 +92,14 @@
                             <div class="panel-body form-horizontal <?= ($processId=='2' ? 'myForm': '');?>" style="border-top: none; padding: 0px">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group ">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Agent ID:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm AgentID editablediv" id="AgentID" data-key="AgentID" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group ">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Date Format:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
                                             <div class="form-control input-sm DateFormat editablediv" id="DateFormat" data-key="DateFormat" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->DateFormat;?></div>

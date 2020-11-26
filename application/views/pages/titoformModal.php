@@ -23,6 +23,7 @@
                                 <th>Client</th>
                                 <th>Access</th>
                                 <th>Priority</th>
+                                <th>Remark</th>
                                 <?= ($process=='CONTENT_ANALYSIS' ? '<th></th>' : ''); ?>
                                 
                             </tr>
@@ -53,6 +54,9 @@
                                 <td>
                                     <div class="form-control input-sm Priority editablediv" data-key="Priority" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $parentData->Priority;?></div>
                                 </td>
+                                <td>
+                                    <div class="form-control input-sm Remark editablediv" data-key="Remark" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>></div>
+                                </td>
                                 <?= ($process=='CONTENT_ANALYSIS' ? '<td>
                                     <a href="" class="savepsource-btn" ><i class="fa fa-check-square" aria-hidden="true"></i></a>
                                     <a href="" class="clearpsource-btn"><i class="fa fa-window-close" aria-hidden="true"></i></a>
@@ -60,7 +64,7 @@
                                 
                             </tr>
                             <tr>
-                                <td colspan="9"></td>
+                                <td colspan="10"></td>
                             </tr>
                             <?php
                                 // echo"<pre>";
@@ -93,6 +97,9 @@
                                         </td>
                                         <td>
                                             <div class="form-control input-sm Priority" data-key="Priority" contenteditable="true" ><?= $row['Priority'];?></div>
+                                        </td>
+                                        <td>
+                                            <div class="form-control input-sm Remark editablediv" data-key="Remark" contenteditable="true"></div>
                                         </td>
                                         <?= ($process=='CONTENT_ANALYSIS' ? '<td>
                                             <a href="" class="savesection-btn"><i class="fa fa-check-square" aria-hidden="true"></i></a>

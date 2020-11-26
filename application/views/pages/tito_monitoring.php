@@ -8,9 +8,9 @@
 </section>
 <section class="content">
     <div class="box">
-        <div class="box-header">
+        <!-- <div class="box-header">
             <h3 class="box-title">TITO Monitoring</h3>
-        </div>
+        </div> -->
         <div class="box-body srboxbody table-responsive">
             <table class="table table-condensed table-bordered" id="srTable">
                 <thead>
