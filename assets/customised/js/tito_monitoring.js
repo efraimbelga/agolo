@@ -32,12 +32,12 @@ $(function(){
 
 		var ParentID = $(this).attr('data-ParentID');
 		var ReferenceID = $(this).attr('data-ReferenceID');
-		// var AllocationRefId = $(this).attr('data-AllocationRefId');
-		// AllocationRefId:AllocationRefId
+		var AllocationRefId = $(this).attr('data-AllocationRefId');
+	
 		$.ajax({
 	        url: domain + 'Tito_controller/view_tito_form',
 	        type: 'POST',
-	        data: {ReferenceID : ReferenceID, ParentID:ParentID},
+	        data: {ReferenceID : ReferenceID, ParentID:ParentID, AllocationRefId:AllocationRefId},
 	        success: function(data, textStatus, jqXHR)
 	        {
 	        	$('#titoModal').html(data)
@@ -72,6 +72,12 @@ $(function(){
 
 	$(document).on('click', '.clearsection-btn', function(e){
 		e.preventDefault();
+		var ParentID = $(this).closest('tr').attr('data-id')
+		if(ParentID != '0'){
+			$.post(domain + 'Tito_controller/delete_section', {ParentID: ParentID}, function(result){
+				console.log(result)
+			})
+		}
 		$(this).closest('tr').remove();
 	})
 
@@ -239,7 +245,7 @@ $(function(){
 
 	$(document).on('click', '.taskout-btn', function(){
 		var x = 0;
-		// var AllocationRefId = $('#titoModal #AllocationRefId').val();
+		var AllocationRefId = $('#titoModal #AllocationRefId').val();
 		var status = $(this).attr('data-value');
 		
 		var ParentID = $('#titoModal #ParentID').val()
@@ -250,14 +256,14 @@ $(function(){
 
 		var formData = new FormData();		
 		formData.append('ParentID', ParentID)
-		// formData.append('AllocationRefId', AllocationRefId)
+		formData.append('AllocationRefId', AllocationRefId)
 		formData.append('status', status)
 		formData.append('ReferenceID', ReferenceID)
 		formData.append('NewSourceID', NewSourceID)
 		formData.append('SourceURL', SourceURL)
 		formData.append('SourceName', SourceName)
 
-		$('#psourceTbl .form-control').each(function(){
+		$('.contentanalysiTbl .form-control').each(function(){
 			if($(this).text()==''){
 				x++;
 			}
@@ -270,14 +276,15 @@ $(function(){
 			}
 		})
 
-		if($( ".edited" ).length) {
-			x++;
-			$(".edited").addClass('errorinput')
-			alert('Please save all the changes and try again');
+		if(status=='Pending'){
+			x=0;
 		}
 
-		if(x > 0){
-			alert('Error detected. Please check')
+		if($( ".edited" ).length) {
+			$(".edited").addClass('errorinput')
+			alert('Please save all the changes and try again');
+		}else if(x > 0){
+			alert('Please complete all feild')
 		}else{
 			$.ajax({
 			    url: domain + 'Tito_controller/task_out_source',

@@ -8,8 +8,9 @@
             <input type="hidden" id="ParentID" value="<?= $parentData->ParentID;?>">
             <input type="hidden" id="processId" value="<?= $processId;?>">
             <input type="hidden" id="ReferenceID" value="<?= $ReferenceID;?>">
+            <input type="hidden" id="AllocationRefId" value="<?= $AllocationRefId;?>">
             <input type="hidden" id="NewSourceID" value="<?= $parentData->NewSourceID;?>">
-
+            <p>Reference Id: <b><?= $ReferenceID;?></b></p>
             <div class="row">
                 <div class="col-lg-12 modalcol1">
                     <table class="table table-condensed table-bordered contentanalysiTbl" id="psourceTbl">
@@ -64,7 +65,21 @@
                                 
                             </tr>
                             <tr>
-                                <td colspan="10"></td>
+                                <td colspan="10" class="text-left">
+                                    <b style="float: left; margin-left: 5px;">Sections</b>
+                                </td>
+                            </tr>
+                            <tr>
+                                <th>Source URL</th>
+                                <th>Source Name</th>
+                                <th>Type</th>
+                                <th>Region</th>
+                                <th>Country</th>
+                                <th>Client</th>
+                                <th>Access</th>
+                                <th>Priority</th>
+                                <th>Remark</th>
+                                <?= ($process=='CONTENT_ANALYSIS' ? '<th></th>' : ''); ?>
                             </tr>
                             <?php
                                 // echo"<pre>";
@@ -75,28 +90,28 @@
                                 ?>
                                     <tr class="subsection" data-id="<?= $row['ParentID'];?>">
                                         <td>
-                                            <div class="form-control input-sm SourceURL" data-key="SourceURL" contenteditable="true" ><?= $row['SourceURL'];?></div>
+                                            <div class="form-control input-sm SourceURL editablediv" data-key="SourceURL" contenteditable="true" ><?= $row['SourceURL'];?></div>
                                         </td>
                                         <td>
-                                            <div class="form-control input-sm SourceName" data-key="SourceName" contenteditable="true" ><?= $row['SourceName'];?></div>
+                                            <div class="form-control input-sm SourceName editablediv" data-key="SourceName" contenteditable="true" ><?= $row['SourceName'];?></div>
                                         </td>
                                         <td>
-                                            <div class="form-control input-sm Type" data-key="Type" contenteditable="true" ><?= $row['Type'];?></div>
+                                            <div class="form-control input-sm Type editablediv" data-key="Type" contenteditable="true" ><?= $row['Type'];?></div>
                                         </td>
                                         <td>
-                                            <div class="form-control input-sm Region" data-key="Region" contenteditable="true" ><?= $row['Region'];?></div>
+                                            <div class="form-control input-sm Region editablediv" data-key="Region" contenteditable="true" ><?= $row['Region'];?></div>
                                         </td>
                                         <td>
-                                            <div class="form-control input-sm Country" data-key="Country" contenteditable="true" ><?= $row['Country'];?></div>
+                                            <div class="form-control input-sm Country editablediv" data-key="Country" contenteditable="true" ><?= $row['Country'];?></div>
                                         </td>
                                         <td>
-                                            <div class="form-control input-sm Client" data-key="Client" contenteditable="true" ><?= $row['Client'];?></div>
+                                            <div class="form-control input-sm Client editablediv" data-key="Client" contenteditable="true" ><?= $row['Client'];?></div>
                                         </td>
                                         <td>
-                                            <div class="form-control input-sm Access" data-key="Access" contenteditable="true" ><?= $row['Access'];?></div>
+                                            <div class="form-control input-sm Access editablediv" data-key="Access" contenteditable="true" ><?= $row['Access'];?></div>
                                         </td>
                                         <td>
-                                            <div class="form-control input-sm Priority" data-key="Priority" contenteditable="true" ><?= $row['Priority'];?></div>
+                                            <div class="form-control input-sm Priority editablediv" data-key="Priority" contenteditable="true" ><?= $row['Priority'];?></div>
                                         </td>
                                         <td>
                                             <div class="form-control input-sm Remark editablediv" data-key="Remark" contenteditable="true"></div>
