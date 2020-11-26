@@ -6,7 +6,7 @@
         </div>
         <div class="modal-body">
             <input type="hidden" id="ParentID" value="<?= $parentData->ParentID;?>">
-            <input type="text" id="processId" value="<?= $processId;?>">
+            <input type="hidden" id="processId" value="<?= $processId;?>">
             <input type="hidden" id="ReferenceID" value="<?= $ReferenceID;?>">
             <input type="hidden" id="NewSourceID" value="<?= $parentData->NewSourceID;?>">
 
@@ -207,52 +207,13 @@
                             <div class="panel-body form-horizontal" style="border-top: none; padding: 0px">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group ">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Date Format:</label>
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Agent Remarks:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
                                             <div class="form-control input-sm DateFormat" id="DateFormat" data-key="DateFormat" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->DateFormat;?></div>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Story Frequency :</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm StoryFrequency editablediv " id="StoryFrequency " data-key="StoryFrequency" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->StoryFrequency;?></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Crawl Patterns:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm CrawlPatterns editablediv " data-key="CrawlPatterns" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->CrawlPatterns;?></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Difficulty:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm Difficulty editablediv" data-key="Difficulty" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->Difficulty;?></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Configuration Notes:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm ConfigNotes editablediv" data-key="ConfigNotes" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->ConfigNotes;?></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Exclusion Notes:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm ExclusionNotes editablediv" data-key="ExclusionNotes" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->ExclusionNotes;?></div>
-                                        </div>
-                                    </div>
-                                </div>
+                                
                             </div>
                         </div>
                     </div>
