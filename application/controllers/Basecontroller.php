@@ -48,8 +48,10 @@ class Basecontroller extends CI_Controller {
                 'passwordExpiry' => $data['passwordExpiry'],
                 'sessionExpiry' => $data['sessionExpiry'],
                 'projects'		=> $data['projects'],
-                'workflows'		=> $data['workflows']
+                'workflows'		=> $data['workflows'],
+                'processId'		=> 'CONTENT_ANALYSIS'
             ];
+            
 
             $this->session->set_userdata($sessionData);
             echo 'ok';
@@ -140,6 +142,7 @@ class Basecontroller extends CI_Controller {
 		$ClaimedBy = $this->session->userdata('userName');
 
 		$sql="EXEC USP_AGLDE_NEWSOURCEREQUEST_UPDATE @ClaimedBy='".$ClaimedBy."', @ClaimedDate='".$ClaimedDate."', @Id='".$source."'";
+
 		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 		$data = json_decode($APIResult, true);
 		if (array_key_exists('error', $data)) { die("1 : ".$data['error']); }
@@ -147,6 +150,7 @@ class Basecontroller extends CI_Controller {
 		extract($data);
         if($result == '' || $result == 'success'){
 			$sql="EXEC USP_AGLDE_SOURCEDETAILS_INSERT @ClaimedBy='".$ClaimedBy."', @ClaimedDate='".$ClaimedDate."', @Id='".$source."'";
+
 			$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 			$data = json_decode($APIResult, true);
 			if (array_key_exists('error', $data)) { die("1 : ".$data['error']); }
@@ -159,32 +163,20 @@ class Basecontroller extends CI_Controller {
 				if (array_key_exists('error', $data)) { die("2 : ".$data['error']); }
 
 				$data = $data[0];
-				// echo sizeof($data);
-				// echo "<pre>";
-				// print_r($data);
-				// echo"</pre>";
-				// die();
-				echo sizeof($data)."<br>";
+				
+				// $sql="SELECT TOP (1) [ProcessId] FROM [WMS_AGLDE].[dbo].[wms_Processes] WHERE [ProcessCode] = 'CONTENT_ANALYSIS'"
+				// $APIResult = $this->base_model->GetDatabaseDataset($sql);
+				// $data = json_decode($APIResult, true);
+				// if (array_key_exists('error', $data)) { die("2 : ".$data['error']); }
+				// $data = $data[0];
+
+
 				if(sizeof($data) > 0){
 					foreach ($data as $row) {
-						$sql= "EXEC USP_AGLDE_REGISTERJOB @ParentId=".$row['ParentID'];
+						$sql= "EXEC USP_AGLDE_REGISTERJOB @ParentId=".$row['ParentID'].", @processid=1, @userName=".$this->session->userdata('userName');
 						$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 						$data1 = json_decode($APIResult, true);
-						if (array_key_exists('error', $data1)) { die("3 : ".$data1['error']); }
-						extract($data1);
-						if($result == '' || $result == 'success'){
-							$APIResult = $this->base_model->SessionLogin('1');
-			                $data = json_decode($APIResult, true);
-			                if (array_key_exists('error', $data)) { die("4 : ".$data['error']); }
-
-			                $APIResult = $this->base_model->AutoAllocate(0, '', '');
-			                $data = json_decode($APIResult, true);
-			                if (array_key_exists('error', $data)) { die("5 : ".$data['error']); }
-
-			                $APIResult =  $this->base_model->SessionLogout();
-				            $data = json_decode($APIResult, true);
-				            if (array_key_exists('error', $data)) { die("6 : ".$data['error']); }
-						}						
+						if (array_key_exists('error', $data1)) { die("3 : ".$data1['error']); }						
 					}
 				}
 			}

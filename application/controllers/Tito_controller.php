@@ -56,13 +56,9 @@ class Tito_controller extends CI_Controller {
 		}
 
 		$APIResult = $this->base_model->SessionLogin($processId);
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die($data['error']); }
-        
-  //       $APIResult = $this->base_model->AutoAllocate(0, '', '');
 		// $data = json_decode($APIResult, true);
 		// if (array_key_exists('error', $data)) { die($data['error']); }
-
+        
         $APIResult = $this->base_model->GetAllocationsDt();
 	    $data = json_decode($APIResult, true);
 	    if (array_key_exists('error', $data)) { die($data['error']); }
@@ -85,6 +81,8 @@ class Tito_controller extends CI_Controller {
 				echo'<td colspan="9"><p class="text-center">No data found</p></td>';
 			echo'</tr>';
 		}
+
+		$this->base_model->SessionLogout();
 	
 	}
 
