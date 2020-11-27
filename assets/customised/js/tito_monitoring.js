@@ -30,14 +30,15 @@ $(function(){
 		$('.sourceTR').removeClass('selected');	
 		$(this).toggleClass('selected');	
 
-		var ParentID = $(this).attr('data-ParentID');
+		var ParentID = $(this).attr('data-parentid');
 		var ReferenceID = $(this).attr('data-ReferenceID');
 		var AllocationRefId = $(this).attr('data-AllocationRefId');
+		var status = $(this).attr('data-status')
 	
 		$.ajax({
 	        url: domain + 'Tito_controller/view_tito_form',
 	        type: 'POST',
-	        data: {ReferenceID : ReferenceID, ParentID:ParentID, AllocationRefId:AllocationRefId},
+	        data: {ReferenceID : ReferenceID, ParentID:ParentID, AllocationRefId:AllocationRefId, status:status},
 	        success: function(data, textStatus, jqXHR)
 	        {
 	        	$('#titoModal').html(data)
@@ -187,10 +188,12 @@ $(function(){
 		var NewSourceID = $('#titoModal #NewSourceID').val();
 		var SourceURL = $('#titoModal #SourceURL').text();
 		var SourceName = $('#titoModal #SourceName').text();
-
+		var processId = $('#titoModal #processId').text();
+		var AllocationRefId = $('#titoModal #AllocationRefId').val();
+		
 		var formData = new FormData();		
 		formData.append('ParentID', ParentID)
-		// formData.append('AllocationRefId', AllocationRefId)
+		formData.append('AllocationRefId', AllocationRefId)
 		formData.append('status', status)
 		formData.append('ReferenceID', ReferenceID)
 		formData.append('NewSourceID', NewSourceID)
@@ -208,6 +211,10 @@ $(function(){
 				el.focus();
 			}
 		})
+
+		if(processId=='2'){
+
+		}
 		console.log(x)
 
 		if(x<= 0){

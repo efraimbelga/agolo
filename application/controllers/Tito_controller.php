@@ -7,113 +7,7 @@ class Tito_controller extends CI_Controller {
         $this->load->model('base_model');
     }
 
-	public function tito_monitoring($processId)
-	{
-		$this->load->view('pages/sample');
-		// if($this->session->userdata('userkey')){
-			
-		// 	$sessionData = [
-  //               'processId'=> $processId
-  //           ];
-  //           $this->session->set_userdata($sessionData);
-		// 	$data = array(
-		// 		'page' => 'pages/tito_monitoring',
-		// 		'css' => array(
-		// 			'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
-		// 		),
-		// 		'js' => array(
-		// 			'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
-		// 		)
-		// 	);
-		// 	$this->load->view('base', $data);
-		// }else{
-		// 	redirect();
-		// }
-	}
-
-	public function view_tito_monitoring(){
-		
-		$processId = $this->session->userdata('processId');
-		if($processId== 0){
-			$processId = 1;
-		}
-
-		$APIResult = $this->base_model->SessionLogin($processId);
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die($data['error']); }
-		
-		$APIResult = $this->base_model->GetAllocationsDt();
-	    $data = json_decode($APIResult, true);
-	    if (array_key_exists('error', $data)) { die($data['error']); }
-	    if(sizeof($data) > 0){
-			foreach ($data as $row) {
-				echo'<tr class="sourceTR" data-ParentID="'.$row['ParentID'].'" data-AllocationRefId="'.$row['AllocationRefId'].'" data-ReferenceID="'.$row['ReferenceID'].'">';
-					echo'<td>'.$row['ReferenceID'].'</td>';
-					echo'<td>'.$row['SourceUrl'].'</td>';
-					echo'<td>'.$row['SourceUserName'].'</td>';
-					echo'<td>'.$row['SourcePassword'].'</td>';
-					echo'<td>'.$row['ClaimedBy'].'</td>';										
-				echo'</tr>';
-			}
-		}
-		else{
-			echo'<tr>';
-				echo'<td colspan="9"><p class="text-center">No data found</p></td>';
-			echo'</tr>';
-		}
-
-		$this->base_model->SessionLogout();	
-	}
-
-	public function delete_section(){
-		$ParentID = $this->input->post('ParentID');
-		$sql="DELETE FROM [WMS_AGLDE].[dbo].[AGLDE_SourceDetails] WHERE [ParentID] = ".$ParentID;
-		echo $result = $this->base_model->executequery($sql);
-	}
-
-	public function view_tito_form()
-	{
-		// print_r($_POST);
-
-		$processId = $this->session->userdata('processId');
-		$ReferenceID = $this->input->post('ReferenceID');
-		$ParentID = $this->input->post('ParentID');
-		$AllocationRefId = $this->input->post('AllocationRefId');
-
-		$APIResult = $this->base_model->SessionLogin($processId);
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die("1. ".$data['error']); }
-
-		$APIResult=$this->base_model->TaskStart($AllocationRefId);
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die("2. ".$data['error']); }
-
-		$sql="SELECT * FROM [VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
-		$parentData = $this->base_model->get_data_row($sql);
-		$data = array(
-			'AllocationRefId' => $AllocationRefId,
-			'process' => $this->getprocessname($processId),
-			'parentData'	=> $parentData,			
-			'processId' 	=> $processId,
-			'ReferenceID' => $ReferenceID
-		);	
-
-		if($processId == '1'){	
-			$sql="SELECT * FROM [AGLDE_SourceDetails] WHERE [SectionParentID] = ".$ParentID." ";
-			$sectionData = $this->base_model->get_data_array($sql);
-					
-			$data['sectionData']= $sectionData;
-			$this->load->view('pages/titoformModal', $data);
-		}else{
-			$this->load->view('pages/titoformModal2', $data);
-		}
-	}
-
-	public function subsectionform(){
-		$this->load->view('pages/subsectionform');
-	}
-
-	public function getprocessname($id){
+    public function getprocessname($id){
 		switch ($id) {
 		  	case 1:
 		  	 	return 'CONTENT_ANALYSIS';
@@ -137,6 +31,148 @@ class Tito_controller extends CI_Controller {
 		     return 'CONTENT_ANALYSIS';
 		}
 	}
+
+	public function tito_monitoring($processId)
+	{
+	
+		if($this->session->userdata('userkey')){
+			$sessionData = [
+                'processId'=> $processId
+            ];
+            $this->session->set_userdata($sessionData);
+			$data = array(
+				'process' => $this->getprocessname($processId),
+				'page' => 'pages/tito_monitoring',
+				'css' => array(
+					'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
+				),
+				'js' => array(
+					'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
+				)
+			);
+			$this->load->view('base', $data);
+		}else{
+			redirect();
+		}
+	}
+
+	public function view_tito_monitoring(){
+		$processId = $_POST['processId'];
+		if($processId== 0){
+			$processId = 1;
+		}
+
+		$APIResult = $this->base_model->GetSessionInfo();
+		$data = json_decode($APIResult, true);
+		if (array_key_exists('error', $data)) {
+			if($data['error'] == 'No active session!'){
+				$APIResult = $this->base_model->SessionLogin($processId);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { die($data['error']); }
+			}
+		}
+		
+		
+		$APIResult = $this->base_model->GetAllocationsDt();
+	    $data = json_decode($APIResult, true);
+	    echo"<pre>";
+	    	print_r($data);
+	    echo"</pre>";
+	    if (array_key_exists('error', $data)) { die($data['error']); }
+	    if(sizeof($data) > 0){
+			foreach ($data as $row) {
+				echo'<tr class="sourceTR '.$row['StatusString'].'" data-ParentID="'.$row['ParentID'].'" data-AllocationRefId="'.$row['AllocationRefId'].'" data-ReferenceID="'.$row['ReferenceID'].'" data-status="'.$row['StatusString'].'">';
+				if($processId==1){
+					echo'<td>'.$row['ReferenceID'].'</td>';
+				}else{
+					echo'<td>xx'.$row['ReferenceID'].'</td>';
+				}
+					
+					echo'<td>'.$row['SourceUrl'].'</td>';
+					echo'<td>'.$row['SourceUserName'].'</td>';
+					echo'<td>'.$row['SourcePassword'].'</td>';
+					echo'<td>'.$row['ClaimedBy'].'</td>';
+					echo'<td>'.$row['StatusString'].'</td>';	
+														
+				echo'</tr>';
+			}
+		}
+		else{
+			echo'<tr>';
+				echo'<td colspan="6"><p class="text-center">No data found</p></td>';
+			echo'</tr>';
+		}
+
+		$this->base_model->SessionLogout();	
+	}
+
+	public function delete_section(){
+		$ParentID = $this->input->post('ParentID');
+		$sql="DELETE FROM [WMS_AGLDE].[dbo].[AGLDE_SourceDetails] WHERE [ParentID] = ".$ParentID;
+		echo $result = $this->base_model->executequery($sql);
+	}
+
+	public function view_tito_form()
+	{
+		// print_r($_POST);
+		// die();
+
+		$processId = $this->session->userdata('processId');
+		$ReferenceID = $this->input->post('ReferenceID');
+		$ParentID = $this->input->post('ParentID');
+		
+		$AllocationRefId = $this->input->post('AllocationRefId');
+		$error = false;
+		$errorMsg = '';
+		if($_POST['status'] != 'Ongoing'){
+			$APIResult = $this->base_model->SessionLogin($processId);
+			$data = json_decode($APIResult, true);
+			if (array_key_exists('error', $data)) { 
+				$error = true;
+				$errorMsg  = "VTF1. ".$data['error'];
+			}
+
+			$APIResult=$this->base_model->TaskStart($AllocationRefId);
+			$data = json_decode($APIResult, true);
+			if (array_key_exists('error', $data)) { 
+				$error = true;
+				$errorMsg  = "VTF2. ".$data['error'];
+			}
+		}
+
+		if($error){
+			$result = array('errorMsg' => $errorMsg);
+			$this->load->view('errorModalcontent', $result);
+		}else{
+			$sql="SELECT * FROM [VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
+			$parentData = $this->base_model->get_data_row($sql);
+			$data = array(
+				'AllocationRefId' => $AllocationRefId,
+				'process' => $this->getprocessname($processId),
+				'parentData'	=> $parentData,			
+				'processId' 	=> $processId,
+				'ReferenceID' => $ReferenceID
+			);	
+
+			if($processId == '1'){	
+				$sql="SELECT * FROM [AGLDE_SourceDetails] WHERE [SectionParentID] = ".$ParentID." ";
+				$sectionData = $this->base_model->get_data_array($sql);
+						
+				$data['sectionData'] = $sectionData;
+				$this->load->view('pages/titoformModal', $data);
+			}else{
+				$this->load->view('pages/titoformModal2', $data);
+			}
+		}
+
+		
+	}
+
+	public function subsectionform(){
+		$this->load->view('pages/subsectionform');
+	}
+
+	
 
 	public function save_content_analysis(){
 		$SourceID = '';
@@ -258,19 +294,18 @@ class Tito_controller extends CI_Controller {
 
 		$SourceID = $SubSourceID = '';
 
-		$PublicationNotes = 
+		// die($AllocationRefId." - ".$status);		
 		$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status);
 		$data = json_decode($APIResult, true);
 		if (array_key_exists('error', $data)) { die("E. :".$data['error']); }
 
 		// die();
-		$APIResult =  $this->base_model->SessionLogout();
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die("D. :".$data['error']); }	
+		// $APIResult =  $this->base_model->SessionLogout();
+		// $data = json_decode($APIResult, true);
+		// if (array_key_exists('error', $data)) { die("D. :".$data['error']); }	
 
 		if($status=='Done'){
 			if($processId=='1'){
-
 				$json = '{ "referenceId": "'.$ReferenceID.'", "sources": [{ "url": "'.$SourceURL.'", "name": "'.$SourceName.'" ';
 			
 				$sql="SELECT [ParentID], [SourceName], [SourceURL] FROM [WMS_AGLDE].[dbo].[AGLDE_SourceDetails] WHERE 
@@ -292,7 +327,7 @@ class Tito_controller extends CI_Controller {
 			    	$sources = $data['sources'];
 			        foreach ($sources as $row) {
 			    	    $SourceID = $row['id'];
-			    	    $Ssql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+			    	    $sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
 			    	    	@Type ='',
 							@Region ='',
 							@Country ='',
@@ -311,7 +346,8 @@ class Tito_controller extends CI_Controller {
 							@ConfigNotes ='',
 							@ExclusionNotes ='',							
 							@PublicationNotes ='',						
-							@ReConfigNotes =''"
+							@ReConfigNotes =''";
+						// die($sql);
 						$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 					    $data = json_decode($APIResult, true);
 					   	if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
@@ -323,7 +359,7 @@ class Tito_controller extends CI_Controller {
 			   	if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
 			}
 			else if($processId=='2'){
-				$Ssql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
 					@Type ='',
 					@Region ='',
 					@Country ='',
@@ -342,14 +378,15 @@ class Tito_controller extends CI_Controller {
 					@ConfigNotes ='".$this->input->post('ConfigNotes')."',
 					@ExclusionNotes ='".$this->input->post('ExclusionNotes')."',							
 					@PublicationNotes ='',						
-					@ReConfigNotes =''"
+					@ReConfigNotes =''";
+				// die($sql);
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
 
 			}
 			else if($processId=='3'){
-				$Ssql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
 					@Type ='',
 					@Region ='',
 					@Country ='',
@@ -368,13 +405,13 @@ class Tito_controller extends CI_Controller {
 					@ConfigNotes ='',
 					@ExclusionNotes ='',							
 					@PublicationNotes ='".$this->input->post('PublicationNotes')."',						
-					@ReConfigNotes =''"
+					@ReConfigNotes =''";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
 			}
 			else if($processId=='4'){
-				$Ssql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
 					@Type ='',
 					@Region ='',
 					@Country ='',
@@ -393,12 +430,11 @@ class Tito_controller extends CI_Controller {
 					@ConfigNotes ='',
 					@ExclusionNotes ='',							
 					@PublicationNotes ='',						
-					@ReConfigNotes ='".$this->input->post('ReConfigNotes')."'"
+					@ReConfigNotes ='".$this->input->post('ReConfigNotes')."'";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
 			}
-			
 		}		
 	}
 }

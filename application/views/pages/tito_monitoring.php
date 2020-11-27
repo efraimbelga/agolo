@@ -1,5 +1,5 @@
 <section class="content-header">
-    <h1>TITO Monitoring</h1>
+    <h1>TITO Monitoring <small><?= $process;?></small></h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
         <li><a href="#">Examples</a></li>
@@ -15,11 +15,18 @@
             <table class="table table-condensed table-bordered" id="srTable">
                 <thead>
                     <tr>
-                        <th>Reference ID</th>
+                        <?php
+                            if($process=='CONTENT_ANALYSIS'){
+                                echo '<th>Reference ID</th>';
+                            }else{
+                                echo '<th>Source ID</th>';
+                            }
+                        ?>
                         <th>Source URL</th>
                         <th>Source Username</th>
                         <th>Source Password</th>
                         <th>Claimed By</th>
+                        <th>Status</th>
                     </tr>
                 </thead>
                 <tbody></tbody>
