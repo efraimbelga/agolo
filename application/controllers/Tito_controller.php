@@ -245,12 +245,14 @@ class Tito_controller extends CI_Controller {
 		$data = json_decode($APIResult, true);
 		if (array_key_exists('error', $data)) { die("E. :".$data['error']); }
 
+		// die();
 		$APIResult =  $this->base_model->SessionLogout();
 		$data = json_decode($APIResult, true);
 		if (array_key_exists('error', $data)) { die("D. :".$data['error']); }	
 
 		if($status=='Done'){
 			if($processId=='1'){
+
 				$json = '{ "referenceId": "'.$ReferenceID.'", "sources": [{ "url": "'.$SourceURL.'", "name": "'.$SourceName.'" ';
 			
 				$sql="SELECT [ParentID], [SourceName], [SourceURL] FROM [WMS_AGLDE].[dbo].[AGLDE_SourceDetails] WHERE 
@@ -268,7 +270,6 @@ class Tito_controller extends CI_Controller {
 				$json .= '}] }';
 				$APIResult = $this->base_model->sourcesmanagementcrawlers($json);
 			    $data = json_decode($APIResult, true);
-
 			    if (array_key_exists('sources', $data)){
 			    	$sources = $data['sources'];
 			        foreach ($sources as $row) {
@@ -276,44 +277,11 @@ class Tito_controller extends CI_Controller {
 			    	    $sql="UPDATE [dbo].[AGLDE_SourceDetails] SET [SourceID] = '".$SourceID."', [Status]='2' WHERE [SourceName] = '".$row['name']."' AND [SourceURL] = '".$row['url']."' ";
 			    	   	$this->base_model->executequery($sql);
 			        }
-
-			        $sql="SELECT [ParentID] FROM [AGLDE_SourceDetails] WHERE [SectionParentID] = ".$ParentID." ORDER BY [ParentID] ASC";
-			        $res = $this->base_model->get_data_array($sql);
-			        if($res){
-			        	foreach ($res as $row) {
-			        		$sql= "EXEC USP_AGLDE_REGISTERJOB @ParentId=".$row['ParentID'].", @processid=1, @userName=".$this->session->userdata('userName');
-							$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
-							$data1 = json_decode($APIResult, true);
-							if (array_key_exists('error', $data1)) { die("3 : ".$data1['error']); }
-
-							$APIResult = $this->base_model->SessionLogin($processId);
-							$data = json_decode($APIResult, true);
-							if (array_key_exists('error', $data)) { die("1. ".$data['error']); }
-
-
-							$APIResult = $this->base_model->GetAllocationsDt();
-						    $data = json_decode($APIResult, true);
-						    if (array_key_exists('error', $data)) { die($data['error']); }	
-						    if(sizeof($data) > 0){
-								foreach ($data as $row2) {
-									$AllocationRefId = $row2['AllocationRefId'];
-									$APIResult=$this->base_model->TaskStart($AllocationRefId);
-									$data = json_decode($APIResult, true);
-									if (array_key_exists('error', $data)) { die("2. ".$data['error']); }
-
-									$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status);
-									$data = json_decode($APIResult, true);
-									if (array_key_exists('error', $data)) { die("E. :".$data['error']); }
-
-								}
-							}
-
-							$APIResult =  $this->base_model->SessionLogout();
-							$data = json_decode($APIResult, true);
-							if (array_key_exists('error', $data)) { die("D. :".$data['error']); }	
-			        	}
-			        }			
 			    }
+			    $sql="EXEC USP_AGLDE_GENERATEBATCHES @ParentId=".$ParentID.", @userName = '".$this->session->userdata('userName')."' ";
+			    $APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+			    $data = json_decode($APIResult, true);
+			   	if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
 			}
 			else if($processId=='2'){
 				$sql="UPDATE [dbo].[AGLDE_SourceDetails] SET [DateFormat]= '".$this->input->post('DateFormat')."',
