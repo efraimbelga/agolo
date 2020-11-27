@@ -9,25 +9,26 @@ class Tito_controller extends CI_Controller {
 
 	public function tito_monitoring($processId)
 	{
-		if($this->session->userdata('userkey')){
+		$this->load->view('pages/sample');
+		// if($this->session->userdata('userkey')){
 			
-			$sessionData = [
-                'processId'=> $processId
-            ];
-            $this->session->set_userdata($sessionData);
-			$data = array(
-				'page' => 'pages/tito_monitoring',
-				'css' => array(
-					'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
-				),
-				'js' => array(
-					'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
-				)
-			);
-			$this->load->view('base', $data);
-		}else{
-			redirect();
-		}
+		// 	$sessionData = [
+  //               'processId'=> $processId
+  //           ];
+  //           $this->session->set_userdata($sessionData);
+		// 	$data = array(
+		// 		'page' => 'pages/tito_monitoring',
+		// 		'css' => array(
+		// 			'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
+		// 		),
+		// 		'js' => array(
+		// 			'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
+		// 		)
+		// 	);
+		// 	$this->load->view('base', $data);
+		// }else{
+		// 	redirect();
+		// }
 	}
 
 	public function view_tito_monitoring(){
@@ -142,7 +143,7 @@ class Tito_controller extends CI_Controller {
 		$sourceType = $this->input->post('sourceType');
 		$ParentID = $this->input->post('ParentID');
 		if($sourceType=='Parent'){
-			$sql = "EXEC USP_AGLDE_SOURCEDETAILS_CA_UPDATE 
+			$sql = "EXEC USP_AGLDE_SOURCEDETAILS_UPDATE 
 			@SourceURL = '".$this->input->post('SourceURL')."',
 			@SourceName = '".$this->input->post('SourceName')."',
 			@Type = '".$this->input->post('Type')."',
@@ -151,10 +152,17 @@ class Tito_controller extends CI_Controller {
 			@Client = '".$this->input->post('Client')."',
 			@Access = '".$this->input->post('Access')."',
 			@Priority ='".$this->input->post('Priority')."',
-			@Status = '',
+			@Status = '0',
 			@SourceID = '".$SourceID."',
-			@ParentID = ".$ParentID;
-
+			@ParentID = ".$ParentID.",
+			@DateFormat ='',
+			@StoryFrequency ='',
+			@CrawlPatterns ='',
+			@Difficulty ='',
+			@ConfigNotes ='',
+			@ExclusionNotes ='',							
+			@PublicationNotes ='',						
+			@ReConfigNotes =''";
       		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 			$data = json_decode($APIResult, true);
 			if (array_key_exists('error', $data)) { die("4. ".$data['error']); }
@@ -199,7 +207,7 @@ class Tito_controller extends CI_Controller {
 				echo $ParentID = $fdata['ParentID'];
 
 			}else{
-				$sql = "EXEC USP_AGLDE_SOURCEDETAILS_CA_UPDATE 
+				$sql = "EXEC USP_AGLDE_SOURCEDETAILS_UPDATE 
 				@SourceURL = '".$this->input->post('SourceURL')."',
 				@SourceName = '".$this->input->post('SourceName')."',
 				@Type = '".$this->input->post('Type')."',
@@ -208,10 +216,18 @@ class Tito_controller extends CI_Controller {
 				@Client = '".$this->input->post('Client')."',
 				@Access = '".$this->input->post('Access')."',
 				@Priority ='".$this->input->post('Priority')."',
-				@Status = '',
+				@Status = '0',
 				@SourceID = '".$SourceID."',
-				@ParentID = ".$ParentID;
-								
+				@ParentID = ".$ParentID.",						
+				@DateFormat ='',
+				@StoryFrequency ='',
+				@CrawlPatterns ='',
+				@Difficulty ='',
+				@ConfigNotes ='',
+				@ExclusionNotes ='',							
+				@PublicationNotes ='',						
+				@ReConfigNotes =''";
+
 	      		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { die("3. ".$data['error']); }
@@ -239,8 +255,10 @@ class Tito_controller extends CI_Controller {
 		$NewSourceID 		= $this->input->post('NewSourceID');
 		$SourceURL 			= $this->input->post('SourceURL');
 		$SourceName 		= $this->input->post('SourceName');
+
 		$SourceID = $SubSourceID = '';
 
+		$PublicationNotes = 
 		$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status);
 		$data = json_decode($APIResult, true);
 		if (array_key_exists('error', $data)) { die("E. :".$data['error']); }
@@ -274,8 +292,29 @@ class Tito_controller extends CI_Controller {
 			    	$sources = $data['sources'];
 			        foreach ($sources as $row) {
 			    	    $SourceID = $row['id'];
-			    	    $sql="UPDATE [dbo].[AGLDE_SourceDetails] SET [SourceID] = '".$SourceID."', [Status]='2' WHERE [SourceName] = '".$row['name']."' AND [SourceURL] = '".$row['url']."' ";
-			    	   	$this->base_model->executequery($sql);
+			    	    $Ssql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+			    	    	@Type ='',
+							@Region ='',
+							@Country ='',
+    						@Client ='',
+    						@Access='',
+    						@Priority='',
+			    	   		@Status = '2',
+							@ParentID = 0,						
+							@SourceID ='".$SourceID."',
+							@SourceName ='".$row['name']."',
+							@SourceURL ='".$row['url']."',						
+							@DateFormat ='',
+							@StoryFrequency ='',
+							@CrawlPatterns ='',
+							@Difficulty ='',
+							@ConfigNotes ='',
+							@ExclusionNotes ='',							
+							@PublicationNotes ='',						
+							@ReConfigNotes =''"
+						$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+					    $data = json_decode($APIResult, true);
+					   	if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
 			        }
 			    }
 			    $sql="EXEC USP_AGLDE_GENERATEBATCHES @ParentId=".$ParentID.", @userName = '".$this->session->userdata('userName')."' ";
@@ -284,25 +323,80 @@ class Tito_controller extends CI_Controller {
 			   	if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
 			}
 			else if($processId=='2'){
-				$sql="UPDATE [dbo].[AGLDE_SourceDetails] SET [DateFormat]= '".$this->input->post('DateFormat')."',
-    			[StoryFrequency] = '".$this->input->post('StoryFrequency')."',
-    			[CrawlPatterns] = '".$this->input->post('CrawlPatterns')."',
-    			[Difficulty] = '".$this->input->post('Difficulty')."',
-    			[ConfigNotes] = '".$this->input->post('ConfigNotes')."',
-    			[ExclusionNotes] = '".$this->input->post('ExclusionNotes')."',
-    			[Status]='3' WHERE [ParentID] = ".$ParentID;
-    			// die($sql);
-    			$this->base_model->executequery($sql);
+				$Ssql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+					@Type ='',
+					@Region ='',
+					@Country ='',
+    				@Client ='',
+    				@Access='',
+    				@Priority='',
+			    	@Status = '3',
+					@ParentID = ".$ParentID.",						
+					@SourceID ='',
+					@SourceName ='',
+					@SourceURL ='',						
+					@DateFormat ='".$this->input->post('DateFormat')."',
+					@StoryFrequency ='".$this->input->post('StoryFrequency')."',
+					@CrawlPatterns ='".$this->input->post('CrawlPatterns')."',
+					@Difficulty ='".$this->input->post('Difficulty')."',
+					@ConfigNotes ='".$this->input->post('ConfigNotes')."',
+					@ExclusionNotes ='".$this->input->post('ExclusionNotes')."',							
+					@PublicationNotes ='',						
+					@ReConfigNotes =''"
+				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
+
 			}
 			else if($processId=='3'){
-				$sql="UPDATE [dbo].[AGLDE_SourceDetails] SET [PublicationNotes]= '".$this->input->post('PublicationNotes')."', [Status]='4' WHERE [ParentID] = ".$ParentID;
-    			// die($sql);
-    			$this->base_model->executequery($sql);
+				$Ssql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+					@Type ='',
+					@Region ='',
+					@Country ='',
+    				@Client ='',
+    				@Access='',
+    				@Priority='',
+			    	@Status = '4',
+					@ParentID = ".$ParentID.",						
+					@SourceID ='',
+					@SourceName ='',
+					@SourceURL ='',						
+					@DateFormat ='',
+					@StoryFrequency ='',
+					@CrawlPatterns ='',
+					@Difficulty ='',
+					@ConfigNotes ='',
+					@ExclusionNotes ='',							
+					@PublicationNotes ='".$this->input->post('PublicationNotes')."',						
+					@ReConfigNotes =''"
+				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
 			}
 			else if($processId=='4'){
-				$sql="UPDATE [dbo].[AGLDE_SourceDetails] SET [ReConfigNotes]= '".$this->input->post('ReConfigNotes')."', [Status]='5' WHERE [ParentID] = ".$ParentID;
-    			// die($sql);
-    			$this->base_model->executequery($sql);
+				$Ssql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+					@Type ='',
+					@Region ='',
+					@Country ='',
+    				@Client ='',
+    				@Access='',
+    				@Priority='',
+			    	@Status = '5',
+					@ParentID = ".$ParentID.",						
+					@SourceID ='',
+					@SourceName ='',
+					@SourceURL ='',						
+					@DateFormat ='',
+					@StoryFrequency ='',
+					@CrawlPatterns ='',
+					@Difficulty ='',
+					@ConfigNotes ='',
+					@ExclusionNotes ='',							
+					@PublicationNotes ='',						
+					@ReConfigNotes ='".$this->input->post('ReConfigNotes')."'"
+				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
 			}
 			
 		}		
