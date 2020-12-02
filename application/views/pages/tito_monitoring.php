@@ -1,9 +1,8 @@
 <section class="content-header">
     <h1>User Task View <small><?= $process;?></small></h1>
     <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Examples</a></li>
-        <li class="active">Blank page</li>
+        <li><a href="#"><i class="fa fa-dashboard"></i> User Task View</a></li>
+        <li class="active"><?= $process; ?></li>
     </ol>
 </section>
 <section class="content">

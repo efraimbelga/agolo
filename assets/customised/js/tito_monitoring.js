@@ -76,10 +76,10 @@ $(function(){
 			        	// console.log(data)
 			        	tr.removeClass('Allocated')
 			        	tr.addClass('Ongoing')
-			        	if(window.opener && !window.opener.closed){
-			        		contentanalysiswindow.close();
-			        		urlwindow.close()
-			        	}
+			        	// if(window.opener && !window.opener.closed){
+			        	// 	contentanalysiswindow.close();
+			        	// 	urlwindow.close()
+			        	// }
 			        	contentanalysiswindow = window.open(domain+"content_analysis?ParentID="+ParentID+"&AllocationRefId="+AllocationRefId+"&status="+status, "contentanalysiswindow", "width="+w+", height="+h+", left=0, top=0"); 
 			        	h = h+50;
 			        	urlwindow = window.open(data, "urlwindow", "width="+w+", height="+h2+", left=0, top="+h+"");
@@ -455,6 +455,10 @@ $(function(){
 			    	if(data=='' || data=='success'){
 			    	
 			        	window.close()
+			        	
+						// if (contentanalysiswindow.closed) {
+						//     window.opener.location.reload(true);
+						// }
 
 			    		view_source_request(processId)
 			    		setTimeout(function(){ $('#titoModal').modal('hide'); }, 1500);
