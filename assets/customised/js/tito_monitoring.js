@@ -34,18 +34,25 @@ $(function(){
 		var ReferenceID = $(this).attr('data-ReferenceID');
 		var AllocationRefId = $(this).attr('data-AllocationRefId');
 		var status = $(this).attr('data-status')
-	
+		
+		var w = window.screen.availWidth ;
+        var h = window.screen.availHeight / 3;
+        var h2 = window.screen.availHeight / 2;
+        h2 = h2 + 50;
+        var mywindow;
+        var URLWindow;
+
 		$.ajax({
-	        url: domain + 'Tito_controller/view_tito_form',
+	        // url: domain + 'Tito_controller/view_tito_form',
+	        url: domain + 'Tito_controller/get_url',
 	        type: 'POST',
-	        data: {ReferenceID : ReferenceID, ParentID:ParentID, AllocationRefId:AllocationRefId, status:status},
+	        data: {ParentID:ParentID},
 	        success: function(data, textStatus, jqXHR)
 	        {
-	        	$('#titoModal').html(data)
-	            $('#titoModal').modal({
-		            backdrop: 'static',
-		            keyboard: false
-		        });
+	        	// console.log(data)
+	        	mywindow = window.open(domain+"content_analysis?ParentID="+ParentID+"&AllocationRefId="+AllocationRefId+"&status="+status, "myWindow", "width="+w+", height="+h+", left=0, top=0"); 
+	        	h = h+50;
+	        	URLWindow = window.open(data, "URLWindow", "width="+w+", height="+h2+", left=0, top="+h+"");
 	        },
 	        error: function (jqXHR, textStatus, errorThrown)
 	        {
@@ -54,6 +61,35 @@ $(function(){
 	    });
 		
 	})
+
+	// $(document).on('click', '.sourceTR', function(){
+	// 	$('.sourceTR').removeClass('selected');	
+	// 	$(this).toggleClass('selected');	
+
+	// 	var ParentID = $(this).attr('data-parentid');
+	// 	var ReferenceID = $(this).attr('data-ReferenceID');
+	// 	var AllocationRefId = $(this).attr('data-AllocationRefId');
+	// 	var status = $(this).attr('data-status')
+	// 	console.log(ParentID)
+	// 	$.ajax({
+	//         url: domain + 'Tito_controller/view_tito_form',
+	//         type: 'POST',
+	//         data: {ReferenceID : ReferenceID, ParentID:ParentID, AllocationRefId:AllocationRefId, status:status},
+	//         success: function(data, textStatus, jqXHR)
+	//         {
+	//         	$('#titoModal').html(data)
+	//             $('#titoModal').modal({
+	// 	            backdrop: 'static',
+	// 	            keyboard: false
+	// 	        });
+	//         },
+	//         error: function (jqXHR, textStatus, errorThrown)
+	//         {
+	//      		console.log(jqXHR.responseText)
+	//         }
+	//     });
+		
+	// })
 
 	$(document).on('keydown', 'div[contenteditable=true]', function(e) {
 	    // trap the return key being pressed
@@ -67,6 +103,7 @@ $(function(){
 
 	$(document).on('click', '.addsesction-btn', function(){
 		$.post(domain + 'Tito_controller/subsectionform', function(result){
+			$('.subsectiontr').removeClass('displayNone');
 			$('#psourceTbl').append(result)
 		})
 	})
@@ -154,19 +191,20 @@ $(function(){
 		    },
 		    success: function(data, textStatus, jqXHR)
 		    {
+		    	console.log(data)
 		    	$('#loadingModal').modal('hide');
 		    	if(ParentID=='0'){
 		    		if(parseInt(data) > 0){
 		    			tr.attr("data-id", data);
-		    			$('.titoformModal .errorMsg').text('Data saved')
+		    			$('.CONTENT_ANALYSIS .errorMsg').text('Data saved')
 		    			tr.find('.form-control').removeClass('edited')
 		    		}
 		    	}else{
 		    		if(data=='' || data=='success'){
-		    			$('.titoformModal .errorMsg').text('Data saved')
+		    			$('.CONTENT_ANALYSIS .errorMsg').text('Data saved')
 		    			tr.find('.form-control').removeClass('edited')
 		    		}else{
-		    			$('.titoformModal .errorMsg').text(data)
+		    			$('.CONTENT_ANALYSIS .errorMsg').text(data)
 		    		}
 		    	}
 		    },

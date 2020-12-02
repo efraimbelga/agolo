@@ -140,7 +140,7 @@
                     if($process=='CONTENT_ANALYSIS'){
                 ?>
                     <div class="col-lg-12">
-                        <iframe src="<?= $parentData->NSRSourceURL;?>" name="iframe_a" height="600px" width="100%" title="NSRSourceURL"></iframe>
+                        <!-- <iframe src="<?= $parentData->NSRSourceURL;?>" name="iframe_a" height="600px" width="100%" title="NSRSourceURL"></iframe> -->
                     </div>
                 <?php
                     }

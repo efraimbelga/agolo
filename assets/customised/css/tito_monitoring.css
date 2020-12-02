@@ -1,39 +1,39 @@
-@media only screen and (min-width: 992px) {
-  .titoformModal.modal-lg.CONTENT_ANALYSIS {
+/*@media only screen and (min-width: 992px) {
+  .CONTENT_ANALYSIS.modal-lg.CONTENT_ANALYSIS {
       width: 96%;
   }
 }
-
-.titoformModal .modal-header{
+*/
+.CONTENT_ANALYSIS .modal-header{
   padding-top: 5px;
   padding-bottom: 5px; 
 }
 #titoModal .modal-header .close {
      margin-top: 0px; 
 }
-.titoformModal .form-group {
+.CONTENT_ANALYSIS .form-group {
     margin-bottom: 5px;
 }
-.titoformModal div.form-control{
+.CONTENT_ANALYSIS div.form-control{
   height: auto;
   padding: 3px 5px;
   min-height: 24px;
 }
 
-.titoformModal .form-horizontal .control-label{
+.CONTENT_ANALYSIS .form-horizontal .control-label{
   padding-top: 0px;
   font-size: 12px;
 }
 
-.titoformModal table td{
+.CONTENT_ANALYSIS table td{
   vertical-align: top;
   padding: 3px;
 }
 
-.titoformModal table td:nth-child(1) {
+.CONTENT_ANALYSIS table td:nth-child(1) {
   width: 95%;
 }
-.titoformModal table td:nth-child(2) {
+.CONTENT_ANALYSIS table td:nth-child(2) {
   width: 5%;
 }
 a.deleteSection-btn {
@@ -43,25 +43,25 @@ a.deleteSection-btn:hover{
   opacity: .65;
 }
 
-.titoformModal div.modalcol1{
+.CONTENT_ANALYSIS div.modalcol1{
   max-height: 200px;
   overflow: auto;
 }
 
-.titoformModal .panel-group .panel{
+.CONTENT_ANALYSIS .panel-group .panel{
   border-radius: 0px;
   border: none;
     box-shadow: none;
 }
-.titoformModal .panel-heading {
+.CONTENT_ANALYSIS .panel-heading {
     padding: 5px 5px;
     border-radius: 0px;
 }
 
-.titoformModal .panel-heading .panel-title{
+.CONTENT_ANALYSIS .panel-heading .panel-title{
   font-size: 14px;
 }
-.titoformModal .panel-collapse{
+.CONTENT_ANALYSIS .panel-collapse{
   padding: 15px;
 }
 
@@ -93,4 +93,8 @@ a.clearpsource-btn{
 a.clearsection-btn:hover,
 a.clearpsource-btn:hover{
   opacity: .65;
+}
+
+tr.sourceTR.Ongoing {
+    background: #ffc930;
 }

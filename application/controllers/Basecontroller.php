@@ -89,7 +89,13 @@ class Basecontroller extends CI_Controller {
 			}else{
 				$APIResult =  $this->base_model->SessionLogout();
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die($data['error']); }
+				if (array_key_exists('error', $data)) {
+					if($data['error']=='Active TITO for the current session detected!'){
+						redirect('tito_monitoring/1');
+					}else{
+						die($data['error']);
+					}
+				}
 			}
 		
 			$data = array(

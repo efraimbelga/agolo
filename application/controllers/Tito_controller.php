@@ -75,9 +75,9 @@ class Tito_controller extends CI_Controller {
 		
 		$APIResult = $this->base_model->GetAllocationsDt();
 	    $data = json_decode($APIResult, true);
-	    echo"<pre>";
-	    	print_r($data);
-	    echo"</pre>";
+	    // echo"<pre>";
+	    // 	print_r($data);
+	    // echo"</pre>";
 	    if (array_key_exists('error', $data)) { die($data['error']); }
 	    if(sizeof($data) > 0){
 			foreach ($data as $row) {
@@ -436,6 +436,80 @@ class Tito_controller extends CI_Controller {
 				if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
 			}
 		}		
+	}
+
+	public function content_analysis(){
+		// $data = array(
+		// 	'AllocationRefId' => $AllocationRefId,
+		// 	'process' => $this->getprocessname($processId),
+		// 	'parentData'	=> $parentData,			
+		// 	'processId' 	=> 1,
+		// 	'ReferenceID' => $ReferenceID
+		// );	
+
+		
+
+		if(isset($_GET['ParentID']) && $_GET['ParentID'] !='' && isset($_GET['AllocationRefId']) && $_GET['AllocationRefId'] != ''){
+			$ParentID = $_GET['ParentID'];
+			$error = false;
+			$errorMsg = '';
+			if($_GET['status'] != 'Ongoing'){
+				$APIResult = $this->base_model->SessionLogin(1);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { 
+					$error = true;
+					$errorMsg  = "VTF1. ".$data['error'];
+				}
+
+				$APIResult=$this->base_model->TaskStart(1);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { 
+					$error = true;
+					$errorMsg  = "VTF2. ".$data['error'];
+				}
+			}
+
+			$sql="SELECT * FROM [dbo].[VIEW_AGLDE_SOURCEMOREDETAILS]  WHERE [ParentID] = ".$ParentID;
+			$APIResult = $this->base_model->GetDatabaseDataset($sql);
+			$parentData = json_decode($APIResult, true);
+			if (array_key_exists('error', $parentData)) { die("2. ".$parentData['error']); }
+
+			$sql="SELECT * FROM [AGLDE_SourceDetails] WHERE [SectionParentID] = ".$ParentID." ";
+			$APIResult = $this->base_model->GetDatabaseDataset($sql);
+			$sectionData = json_decode($APIResult, true);
+			if (array_key_exists('error', $sectionData)) { die("2. ".$sectionData['error']); }
+
+			
+			$fdata = array(
+				'error'			=> $error,
+				'errorMsg'		=> $errorMsg,
+				'parentData'	=> $parentData[0],
+				'sectionData' 	=> $sectionData[0],
+				'process' 		=> 'CONTENT_ANALYSIS',
+				'processId' 	=> '1',
+				'AllocationRefId' => $_GET['AllocationRefId'],
+				'css' => array(
+						'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
+					),
+					'js' => array(
+						'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
+					)
+			);
+			$this->load->view('pages/content_analysis', $fdata);
+			
+		}
+
+		
+	}
+
+	public function get_url(){
+		$ParentID = $this->input->post('ParentID');
+		$sql="SELECT TOP (1) [NSRSourceURL] FROM [WMS_AGLDE].[dbo].[VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
+		$APIResult = $this->base_model->GetDatabaseDataset($sql);
+		$data = json_decode($APIResult, true);
+		if (array_key_exists('error', $data)) { die("2. ".$data['error']); }
+		$rawdata = $data[0][0];
+		echo $rawdata['NSRSourceURL'];
 	}
 }
 

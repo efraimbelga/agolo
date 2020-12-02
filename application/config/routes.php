@@ -6,7 +6,7 @@ $route['dashboard'] = 'Basecontroller/dashboard';
 
 $route['home'] = 'Basecontroller/home';
 $route['tito_monitoring/(:any)'] = 'Tito_controller/tito_monitoring/$1';
-
+$route['content_analysis'] = 'Tito_controller/content_analysis';
 
 
 $route['404_override'] = '';

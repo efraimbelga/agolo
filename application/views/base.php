@@ -42,7 +42,7 @@
         ?>
     </div>
     <?php
-        $this->load->view('footer');
+        // $this->load->view('footer');
         $this->load->view('navbar-right');
     ?>
     <div class="modal fade" id="loadingModal" data-backdrop="static" data-keyboard="false">
@@ -79,8 +79,8 @@
 
 <script type="text/javascript">
     $(function(){
-    $('.sidebar-menu').tree()
-});
+        $('.sidebar-menu').tree()
+    });
 </script>
 <script type="text/javascript" src="<?= base_url('assets/customised/js/general.js');?>"></script>
 <?php

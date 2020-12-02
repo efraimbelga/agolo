@@ -9,3 +9,6 @@
     background: #fe3939;
     color: #fff;
 }
+.displayNone {
+    display: none !important;
+}
