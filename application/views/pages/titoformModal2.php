@@ -31,6 +31,14 @@
                     </div>
                     <div class="col-lg-6 col-md-6 col-sm-12">
                         <div class="form-group">
+                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source ID:</label>
+                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                <div class="form-control input-sm SourceID editablediv " id="SourceID" data-key="SourceID" ><?= $parentData->SourceID;?></div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 col-md-6 col-sm-12">
+                        <div class="form-group">
                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Type:</label>
                             <div class="col-sm-9 col-lg-8 col-xs-12">
                                 <div class="form-control input-sm Type editablediv " data-key="Type" ><?= $parentData->Type;?></div>

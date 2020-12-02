@@ -65,24 +65,24 @@ a.deleteSection-btn:hover{
   padding: 15px;
 }
 
-.contentanalysiTbl tbody td{
+.contentanalysisTbl tbody td{
   padding: 0px !important;
   width: 8%;
 
 }
-.contentanalysiTbl tbody td:nth-child(1){
+.contentanalysisTbl tbody td:nth-child(1){
   width: 15%;
 }
-.contentanalysiTbl tbody td:nth-child(2),
-.contentanalysiTbl tbody td:nth-child(4),
-.contentanalysiTbl tbody td:nth-child(5) {
+.contentanalysisTbl tbody td:nth-child(2),
+.contentanalysisTbl tbody td:nth-child(4),
+.contentanalysisTbl tbody td:nth-child(5) {
   width: 13%;
 }
-.contentanalysiTbl tbody td:last-child {
+.contentanalysisTbl tbody td:last-child {
     width: 3%;
    text-align: center;
 }
-.contentanalysiTbl tbody td div.form-control{
+.contentanalysisTbl tbody td div.form-control{
   border: none;
 }
 a.clearsection-btn,
@@ -94,7 +94,15 @@ a.clearsection-btn:hover,
 a.clearpsource-btn:hover{
   opacity: .65;
 }
-
-tr.sourceTR.Ongoing {
+tr.sourceTR.Pending {
     background: #ffc930;
+}
+tr.sourceTR.Ongoing{
+ background: #ff3030;
+}
+
+tr.sourceTR.Pending:hover,
+tr.sourceTR.Ongoing:hover{
+  background: #ffcfcf;
+  color: black;
 }

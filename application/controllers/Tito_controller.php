@@ -32,10 +32,51 @@ class Tito_controller extends CI_Controller {
 		}
 	}
 
+	public function allocate_source(){
+		$APIResult = $this->base_model->GetSessionInfo();
+		$data = json_decode($APIResult, true);
+		
+		if (array_key_exists('error', $data)) {
+			if($data['error'] == 'No active session!'){
+				// die('here '. $processId);
+				$APIResult = $this->base_model->SessionLogin(3);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { die($data['error']); }
+			}
+		}
+
+		$APIResult = $this->base_model->AutoAllocate(0, '', '');
+		$data = json_decode($APIResult, true);
+		if (array_key_exists('error', $data)) { die($data['error']); }
+
+		$this->base_model->SessionLogout();	
+	}
+
 	public function tito_monitoring($processId)
 	{
-	
 		if($this->session->userdata('userkey')){
+			// if($processId!= '1'){
+			// 	$APIResult = $this->base_model->GetSessionInfo();
+			// 	$data = json_decode($APIResult, true);
+			// 	if (array_key_exists('error', $data)) {
+			// 		// die($data['error']); 
+			// 	}else{
+			// 		$APIResult =  $this->base_model->SessionLogout();
+			// 		$data = json_decode($APIResult, true);
+			// 	// 	print_r($data);
+			// 	// die();
+			// 		if (array_key_exists('error', $data)) {
+
+			// 			if($data['error']=='Active TITO for the current session detected!'){
+			// 				redirect('tito_monitoring/1');
+			// 			}else{
+			// 				die($data['error']);
+			// 			}
+			// 		}
+			// 	}
+			// }
+			
+
 			$sessionData = [
                 'processId'=> $processId
             ];
@@ -58,20 +99,28 @@ class Tito_controller extends CI_Controller {
 
 	public function view_tito_monitoring(){
 		$processId = $_POST['processId'];
+		// echo $processId;
 		if($processId== 0){
 			$processId = 1;
 		}
 
 		$APIResult = $this->base_model->GetSessionInfo();
 		$data = json_decode($APIResult, true);
+		
 		if (array_key_exists('error', $data)) {
 			if($data['error'] == 'No active session!'){
+				// die('here '. $processId);
 				$APIResult = $this->base_model->SessionLogin($processId);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { die($data['error']); }
 			}
 		}
-		
+		// else{
+		// 	$APIResult = $this->base_model->SessionLogin($processId);
+		// 	$data = json_decode($APIResult, true);
+		// 	if (array_key_exists('error', $data)) { die($data['error']); }
+		// }
+
 		
 		$APIResult = $this->base_model->GetAllocationsDt();
 	    $data = json_decode($APIResult, true);
@@ -81,20 +130,22 @@ class Tito_controller extends CI_Controller {
 	    if (array_key_exists('error', $data)) { die($data['error']); }
 	    if(sizeof($data) > 0){
 			foreach ($data as $row) {
-				echo'<tr class="sourceTR '.$row['StatusString'].'" data-ParentID="'.$row['ParentID'].'" data-AllocationRefId="'.$row['AllocationRefId'].'" data-ReferenceID="'.$row['ReferenceID'].'" data-status="'.$row['StatusString'].'">';
-				if($processId==1){
-					echo'<td>'.$row['ReferenceID'].'</td>';
-				}else{
-					echo'<td>xx'.$row['ReferenceID'].'</td>';
+				if($processId==$row['ProcessId']){
+					echo'<tr class="sourceTR '.$row['StatusString'].'" data-ParentID="'.$row['ParentID'].'" data-AllocationRefId="'.$row['AllocationRefId'].'" data-ReferenceID="'.$row['ReferenceID'].'" data-status="'.$row['StatusString'].'">';
+						echo'<td>'.$row['SourceUrl'].'</td>';
+						if($processId==1){
+							echo'<td>'.$row['ReferenceID'].'</td>';
+						}else{
+							echo'<td>'.$row['SourceName'].'</td>';
+							echo'<td>'.($row['IsParent']=='1' ? 'Parent': 'Section').'</td>';
+						}
+						echo'<td>'.$row['SourceUserName'].'</td>';
+						echo'<td>'.$row['SourcePassword'].'</td>';
+						echo'<td>'.$row['ClaimedBy'].'</td>';
+						echo'<td>'.$row['StatusString'].'</td>';	
+															
+					echo'</tr>';
 				}
-					
-					echo'<td>'.$row['SourceUrl'].'</td>';
-					echo'<td>'.$row['SourceUserName'].'</td>';
-					echo'<td>'.$row['SourcePassword'].'</td>';
-					echo'<td>'.$row['ClaimedBy'].'</td>';
-					echo'<td>'.$row['StatusString'].'</td>';	
-														
-				echo'</tr>';
 			}
 		}
 		else{
@@ -118,6 +169,7 @@ class Tito_controller extends CI_Controller {
 		// die();
 
 		$processId = $this->session->userdata('processId');
+		// die($processId);
 		$ReferenceID = $this->input->post('ReferenceID');
 		$ParentID = $this->input->post('ParentID');
 		
@@ -164,14 +216,64 @@ class Tito_controller extends CI_Controller {
 				$this->load->view('pages/titoformModal2', $data);
 			}
 		}
-
-		
 	}
 
 	public function subsectionform(){
 		$this->load->view('pages/subsectionform');
 	}
 
+	public function content_analysis(){
+	
+		if(isset($_GET['ParentID']) && $_GET['ParentID'] !='' && isset($_GET['AllocationRefId']) && $_GET['AllocationRefId'] != ''){
+			$ParentID = $_GET['ParentID'];
+			$AllocationRefId = $_GET['AllocationRefId'];
+			$error = false;
+			$errorMsg = '';
+			if($_GET['status'] != 'Ongoing'){
+				$APIResult = $this->base_model->SessionLogin(1);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { 
+					$error = true;
+					$errorMsg  = "CA1: ".$data['error'];
+				}
+
+				$APIResult=$this->base_model->TaskStart($AllocationRefId);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { 
+					$error = true;
+					$errorMsg  = "CA2: ".$data['error'];
+				}
+			}
+
+			$sql="SELECT * FROM [dbo].[VIEW_AGLDE_SOURCEMOREDETAILS]  WHERE [ParentID] = ".$ParentID;
+			$APIResult = $this->base_model->GetDatabaseDataset($sql);
+			$parentData = json_decode($APIResult, true);
+			if (array_key_exists('error', $parentData)) { die("CA3: ".$parentData['error']); }
+
+			$sql="SELECT * FROM [AGLDE_SourceDetails] WHERE [SectionParentID] = ".$ParentID." ";
+			$APIResult = $this->base_model->GetDatabaseDataset($sql);
+			$sectionData = json_decode($APIResult, true);
+			if (array_key_exists('error', $sectionData)) { die("CA4: ".$sectionData['error']); }
+
+			
+			$fdata = array(
+				'error'			=> $error,
+				'errorMsg'		=> $errorMsg,
+				'parentData'	=> $parentData[0],
+				'sectionData' 	=> $sectionData[0],
+				'process' 		=> 'CONTENT_ANALYSIS',
+				'processId' 	=> '1',
+				'AllocationRefId' => $_GET['AllocationRefId'],
+				'css' => array(
+						'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
+					),
+					'js' => array(
+						'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
+					)
+			);
+			$this->load->view('pages/content_analysis', $fdata);
+		}		
+	}
 	
 
 	public function save_content_analysis(){
@@ -276,10 +378,7 @@ class Tito_controller extends CI_Controller {
 
 
 	public function task_out_source(){
-		// echo "<pre>";
 		// print_r($_POST);
-		// echo "</pre>";
-
 		// die();
 		
 		$processId = $this->session->userdata('processId');
@@ -293,11 +392,10 @@ class Tito_controller extends CI_Controller {
 		$SourceName 		= $this->input->post('SourceName');
 
 		$SourceID = $SubSourceID = '';
-
-		// die($AllocationRefId." - ".$status);		
-		$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status);
+			
+		$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die("E. :".$data['error']); }
+		if (array_key_exists('error', $data)) { die("TO1. :".$data['error']); }
 
 		// die();
 		// $APIResult =  $this->base_model->SessionLogout();
@@ -321,7 +419,7 @@ class Tito_controller extends CI_Controller {
 					$json .= $sections.']';
 				}
 				$json .= '}] }';
-				$APIResult = $this->base_model->sourcesmanagementcrawlers($json);
+				$APIResult = $this->base_model->A1_API($json);
 			    $data = json_decode($APIResult, true);
 			    if (array_key_exists('sources', $data)){
 			    	$sources = $data['sources'];
@@ -347,18 +445,22 @@ class Tito_controller extends CI_Controller {
 							@ExclusionNotes ='',							
 							@PublicationNotes ='',						
 							@ReConfigNotes =''";
-						// die($sql);
 						$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 					    $data = json_decode($APIResult, true);
-					   	if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
+					   	if (array_key_exists('error', $data)) { die("TO2 : ".$data['error']); }
 			        }
 			    }
 			    $sql="EXEC USP_AGLDE_GENERATEBATCHES @ParentId=".$ParentID.", @userName = '".$this->session->userdata('userName')."' ";
 			    $APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 			    $data = json_decode($APIResult, true);
-			   	if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
+			   	if (array_key_exists('error', $data)) { die("TO3 : ".$data['error']); }
 			}
 			else if($processId=='2'){
+
+				// $json = '{ "agentId": "'.$this->input->post('AgentID').'" }';
+				$json = '{ "agentId": "d8bfa0e3-53f0-4d75-b329-9b2f6f628bbe" }';
+				$this->base_model->A2_API($json, $this->input->post('SourceID'));
+				
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
 					@Type ='',
 					@Region ='',
@@ -382,7 +484,7 @@ class Tito_controller extends CI_Controller {
 				// die($sql);
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
+				if (array_key_exists('error', $data)) { die("TO4 : ".$data['error']); }
 
 			}
 			else if($processId=='3'){
@@ -408,7 +510,7 @@ class Tito_controller extends CI_Controller {
 					@ReConfigNotes =''";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
+				if (array_key_exists('error', $data)) { die("TO5 : ".$data['error']); }
 			}
 			else if($processId=='4'){
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
@@ -433,73 +535,9 @@ class Tito_controller extends CI_Controller {
 					@ReConfigNotes ='".$this->input->post('ReConfigNotes')."'";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("3 : ".$data['error']); }
+				if (array_key_exists('error', $data)) { die("TO6 : ".$data['error']); }
 			}
 		}		
-	}
-
-	public function content_analysis(){
-		// $data = array(
-		// 	'AllocationRefId' => $AllocationRefId,
-		// 	'process' => $this->getprocessname($processId),
-		// 	'parentData'	=> $parentData,			
-		// 	'processId' 	=> 1,
-		// 	'ReferenceID' => $ReferenceID
-		// );	
-
-		
-
-		if(isset($_GET['ParentID']) && $_GET['ParentID'] !='' && isset($_GET['AllocationRefId']) && $_GET['AllocationRefId'] != ''){
-			$ParentID = $_GET['ParentID'];
-			$error = false;
-			$errorMsg = '';
-			if($_GET['status'] != 'Ongoing'){
-				$APIResult = $this->base_model->SessionLogin(1);
-				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { 
-					$error = true;
-					$errorMsg  = "VTF1. ".$data['error'];
-				}
-
-				$APIResult=$this->base_model->TaskStart(1);
-				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { 
-					$error = true;
-					$errorMsg  = "VTF2. ".$data['error'];
-				}
-			}
-
-			$sql="SELECT * FROM [dbo].[VIEW_AGLDE_SOURCEMOREDETAILS]  WHERE [ParentID] = ".$ParentID;
-			$APIResult = $this->base_model->GetDatabaseDataset($sql);
-			$parentData = json_decode($APIResult, true);
-			if (array_key_exists('error', $parentData)) { die("2. ".$parentData['error']); }
-
-			$sql="SELECT * FROM [AGLDE_SourceDetails] WHERE [SectionParentID] = ".$ParentID." ";
-			$APIResult = $this->base_model->GetDatabaseDataset($sql);
-			$sectionData = json_decode($APIResult, true);
-			if (array_key_exists('error', $sectionData)) { die("2. ".$sectionData['error']); }
-
-			
-			$fdata = array(
-				'error'			=> $error,
-				'errorMsg'		=> $errorMsg,
-				'parentData'	=> $parentData[0],
-				'sectionData' 	=> $sectionData[0],
-				'process' 		=> 'CONTENT_ANALYSIS',
-				'processId' 	=> '1',
-				'AllocationRefId' => $_GET['AllocationRefId'],
-				'css' => array(
-						'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
-					),
-					'js' => array(
-						'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
-					)
-			);
-			$this->load->view('pages/content_analysis', $fdata);
-			
-		}
-
-		
 	}
 
 	public function get_url(){

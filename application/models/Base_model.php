@@ -36,17 +36,17 @@ class Base_model extends CI_Model {
         return $result;
     }
 
-    public function TaskEnd($AllocationRefId, $status){
+    public function TaskEnd($AllocationRefId, $status, $titoRemarks){
         $postdata = http_build_query(
             array(
-                'apiKey'    => APIKEY,
-                'userKey'   => $this->session->userdata('userkey'),
+                'apiKey'        => APIKEY,
+                'userKey'       => $this->session->userdata('userkey'),
                 'allocationrefid'  => $AllocationRefId,
-                'status'    => strtolower($status),
-                'titoValue' => '0',
-                'titoRemarks' => '',
-                'isNfp'     => 'false',
-                'nfpRemarks'  => ''
+                'status'        => strtolower($status),
+                'titoValue'     => '0',
+                'titoRemarks'   => $titoRemarks,
+                'isNfp'         => 'false',
+                'nfpRemarks'    => ''
             )
         );
         $opts = STREAM_CONTEXT;
@@ -68,7 +68,7 @@ class Base_model extends CI_Model {
         return $result;
     }
 
-    public function SessionLogin($processId=null){
+    public function SessionLogin($processId){
         $postdata = http_build_query(
             array(
                 'apiKey'    => APIKEY,
@@ -128,11 +128,11 @@ class Base_model extends CI_Model {
     public function AutoAllocate($workflowId=null, $allocationCategory=null, $shipmentName=null){
          $postdata = http_build_query(
             array(
-                'apiKey'        => APIKEY,
-                'userKey'       => $this->session->userdata('userkey'),
-                'workflowId'    => $workflowId,
-                'allocationCategory' => $allocationCategory,
-                'shipmentName'  => $shipmentName
+                'apiKey'                => APIKEY,
+                'userKey'               => $this->session->userdata('userkey'),
+                'workflowId'            => $workflowId,
+                'allocationCategory'    => $allocationCategory,
+                'shipmentName'          => $shipmentName
             )
         );
         $opts = STREAM_CONTEXT;
@@ -167,7 +167,22 @@ class Base_model extends CI_Model {
         return $result;
     }
 
-    public function sourcesmanagementcrawlers($json){
+    public function A2_API($json, $SourceID){
+        
+        $context = stream_context_create(array(
+            'http' => array(
+                'method' => 'PUT',
+                'header' => "Content-Type: application/json",
+                'content' => $json
+            )
+        ));
+
+        // Send the request
+        $response = file_get_contents('https://sources-management.crawlers.agolo.com/api/v1/sources/'.$SourceID, FALSE, $context);
+        return $response;
+    }
+
+    public function A1_API($json){
         
         $context = stream_context_create(array(
             'http' => array(

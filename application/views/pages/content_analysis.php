@@ -42,11 +42,13 @@
 <!-- Site wrapper -->
 <div class="wrapper" style="background: #ecf0f5;">
     <?php
-        $this->load->view('navbar-top');
+        // $this->load->view('navbar-top');
     ?>
-    <div class="content-wrapper" >
+    <div class="content-wrapper" style="padding-top: 0px;">
         <br>
-        <div class="col-lg-12 CONTENT_ANALYSIS">
+
+        <div class="col-lg-12">
+            <h1>CONTENT ANALYSIS</h1>
             <?php
                 if($error){
                     die('<h1 class="text-center">'.$errorMsg.'</h1>');
@@ -58,11 +60,6 @@
                 // print_r($parentData);
                 // echo"</pre>";
                     foreach ($parentData as $row) {
-                        echo "<input type='hidden' id='ParentID' value='".$row['ParentID']."'>";
-                        echo "<input type='hidden' id='processId' value='1'>";
-                        echo "<input type='hidden' id='ReferenceID' value='".$row['ReferenceID']."'>";
-                        echo "<input type='hidden' id='AllocationRefId' value='".$AllocationRefId."'>";
-                        echo "<input type='hidden' id='NewSourceID' value='".$row['NewSourceID']."'>";
                         echo"<tr>";
                         echo "<td><p>Reference Id: <b> ".$row['ReferenceID']."</b></p></td>";
                         echo "<td><p>Source Username: <b> ".$row['SourceUserName']."</b></p></td>";
@@ -73,9 +70,9 @@
                 ?>
             </table>
         </div>
-        <div class="col-lg-12">
+        <div class="col-lg-12 CONTENT_ANALYSIS">
             <br>
-            <table class="table table-condensed table-bordered contentanalysiTbl" id="psourceTbl">
+            <table class="table table-condensed table-bordered contentanalysisTbl" id="psourceTbl">
                 <thead>
                     <tr>
                         <th>Source URL</th>
@@ -92,43 +89,51 @@
                 </thead>
                 <tbody>
                     <?php
-                        foreach ($parentData as $row) { ?>
+                        foreach ($parentData as $row) { 
+                        echo "<input type='hidden' id='ParentID' value='".$row['ParentID']."'>";
+                        echo "<input type='hidden' id='processId' value='1'>";
+                        echo "<input type='hidden' id='ReferenceID' value='".$row['ReferenceID']."'>";
+                        echo "<input type='hidden' id='AllocationRefId' value='".$AllocationRefId."'>";
+                        echo "<input type='hidden' id='NewSourceID' value='".$row['NewSourceID']."'>";
+                    ?>
                     <tr>
                         <td>
                             <div class="form-control input-sm" id="SourceURL" data-key="SourceURL"><?= $row['NSRSourceURL'];?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm SourceName editablediv " id="SourceName" data-key="SourceName" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['SourceName'];?></div>
+                            <div class="form-control input-sm SourceName requiredDiv " id="SourceName" data-key="SourceName" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['SourceName'];?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Type editablediv " data-key="Type" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Type'];?></div>
+                            <div class="form-control input-sm Type requiredDiv " data-key="Type" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Type'];?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Region editablediv" data-key="Region" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Region'];?></div>
+                            <div class="form-control input-sm Region requiredDiv" data-key="Region" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Region'];?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Country editablediv" data-key="Country" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Country'];?></div>
+                            <div class="form-control input-sm Country requiredDiv" data-key="Country" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Country'];?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Client editablediv" data-key="Client" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Client'];?></div>
+                            <div class="form-control input-sm Client requiredDiv" data-key="Client" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Client'];?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Access editablediv" data-key="Access" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Access'];?></div>
+                            <div class="form-control input-sm Access requiredDiv" data-key="Access" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Access'];?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Priority editablediv" data-key="Priority" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Priority'];?></div>
+                            <div class="form-control input-sm Priority requiredDiv" data-key="Priority" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Priority'];?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Remark editablediv" data-key="Remark" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>></div>
+                            <div class="form-control input-sm Remark" data-key="Remark" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>></div>
                         </td>
-                        <?= ($process=='CONTENT_ANALYSIS' ? '<td>
+                        <td>
                             <a href="" class="savepsource-btn" ><i class="fa fa-check-square" aria-hidden="true"></i></a>
                             <a href="" class="clearpsource-btn"><i class="fa fa-window-close" aria-hidden="true"></i></a>
-                        </td>' : ''); ?>
+                        </td>
                         
                     </tr>
-                <?php  } ?>
-                    <tr class="subsectiontr displayNone">
+                <?php  } 
+
+                ?>
+                    <tr class="subsectiontr <?= (sizeof($sectionData) > 0 ? '' : 'displayNone');?>">
                         <th>Section Source URL</th>
                         <th>Source Name</th>
                         <th>Type</th>
@@ -137,13 +142,52 @@
                         <th>Client</th>
                         <th>Access</th>
                         <th>Priority</th>
-                        <th>Remark</th>
+                        <!-- <th>Remark</th> -->
                         <th></th>
                     </tr>
+                    <?php
+                        foreach ($sectionData as $row) {
+                    ?>
+                        <tr class="subsection" data-id="<?= $row['ParentID'];?>">
+                            <td>
+                                <div class="form-control input-sm SourceURL requiredDiv" data-key="SourceURL" contenteditable="true" ><?= $row['SourceURL'];?></div>
+                            </td>
+                            <td>
+                                <div class="form-control input-sm SourceName requiredDiv" data-key="SourceName" contenteditable="true" ><?= $row['SourceName'];?></div>
+                            </td>
+                            <td>
+                                <div class="form-control input-sm Type requiredDiv" data-key="Type" contenteditable="true" ><?= $row['Type'];?></div>
+                            </td>
+                            <td>
+                                <div class="form-control input-sm Region requiredDiv" data-key="Region" contenteditable="true" ><?= $row['Region'];?></div>
+                            </td>
+                            <td>
+                                <div class="form-control input-sm Country requiredDiv" data-key="Country" contenteditable="true" ><?= $row['Country'];?></div>
+                            </td>
+                            <td>
+                                <div class="form-control input-sm Client requiredDiv" data-key="Client" contenteditable="true" ><?= $row['Client'];?></div>
+                            </td>
+                            <td>
+                                <div class="form-control input-sm Access requiredDiv" data-key="Access" contenteditable="true" ><?= $row['Access'];?></div>
+                            </td>
+                            <td>
+                                <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" ><?= $row['Priority'];?></div>
+                            </td>
+                            <!-- <td>
+                                <div class="form-control input-sm Remark" data-key="Remark" contenteditable="true"></div>
+                            </td> -->
+                            <td>
+                                <a href="" class="savesection-btn"><i class="fa fa-check-square" aria-hidden="true"></i></a>
+                                <a href="" class="clearsection-btn"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                            </td>                            
+                        </tr>
+                    <?php
+                        }
+                    ?>
                 </tbody>
             </table>
         </div>
-        <div class="col-lg-12">
+        <div class="col-lg-12 CONTENT_ANALYSIS">
             <?= ($process=='CONTENT_ANALYSIS' ? '<button type="button" class="btn btn-xs btn-flat btn-info addsesction-btn" ><i class="fa fa-plus-circle" aria-hidden="true"></i> Add Section</button>' : ''); ?>
             <button class="btn btn-flat btn-xs btn-danger taskout-btn" data-value="Pending" ><i class="fa fa-dot-circle-o" aria-hidden="true"></i> Pending</button>
             <button class="btn btn-flat btn-xs btn-success taskout-btn" data-value="Done" ><i class="fa fa-check-square-o" aria-hidden="true"></i> Done</button>

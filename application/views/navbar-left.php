@@ -19,7 +19,7 @@
             <li class="<?= ($segment1=='home' ? 'active' : '');?>"><a href="<?= base_url('home');?>"><i class="fa fa-circle-o"></i> <span>Home</span></a></li>
             <li class="treeview <?= ($segment1=='tito_monitoring' ? 'active' : '');?>">
                 <a href="#">
-                    <i class="fa fa-files-o"></i> <span>TITO Monitoring</span>
+                    <i class="fa fa-files-o"></i> <span>User Task View</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -35,7 +35,7 @@
                             foreach ($data as $row) {
                                 echo '<li class="'.($segment2==$row['ProcessId'] ? 'active' : '').'"><a href="'.base_url('tito_monitoring/'.$row['ProcessId']).'"><i class="fa fa-circle-o"></i> ';
                                 echo '    <span>'.$row['ProcessCode'].'</span>';
-                                echo '</li>';
+                                echo '</a></li>';
                             }
                         }
                     ?>     
