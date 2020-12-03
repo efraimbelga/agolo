@@ -48,6 +48,7 @@
         <br>
 
         <div class="col-lg-12">
+            
             <h1>CONTENT ANALYSIS</h1>
             <?php
                 if($error){
@@ -56,17 +57,13 @@
             ?>
             <table style="width: 100%;">
                 <?php
-                // echo"<pre>";
-                // print_r($parentData);
-                // echo"</pre>";
-                    foreach ($parentData as $row) {
-                        echo"<tr>";
-                        echo "<td><p>Reference Id: <b> ".$row['ReferenceID']."</b></p></td>";
-                        echo "<td><p>Source Username: <b> ".$row['SourceUserName']."</b></p></td>";
-                        echo "<td><p>Claimed By: <b> ".$row['ClaimedBy']."</b></p></td>";
-                        echo "<td><p>Claimed Date: <b> ".$row['ClaimedDate']."</b></p></td>";
-                        echo"</tr>";
-                    }
+                    extract($parentData);
+                    echo"<tr>";
+                        echo "<td><p>Reference Id: <b> ".$ReferenceID."</b></p></td>";
+                        echo "<td><p>Source Username: <b> ".($SourceUserName=='' ? 'None' : $SourceUserName)."</b></p></td>";
+                        echo "<td><p>Claimed By: <b> ".$ClaimedBy."</b></p></td>";
+                        echo "<td><p>Claimed Date: <b> ".$ClaimedDate."</b></p></td>";
+                    echo"</tr>";
                 ?>
             </table>
         </div>
@@ -88,41 +85,39 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <?php
-                        foreach ($parentData as $row) { 
-                        echo "<input type='hidden' id='ParentID' value='".$row['ParentID']."'>";
-                        echo "<input type='hidden' id='processId' value='1'>";
-                        echo "<input type='hidden' id='ReferenceID' value='".$row['ReferenceID']."'>";
-                        echo "<input type='hidden' id='AllocationRefId' value='".$AllocationRefId."'>";
-                        echo "<input type='hidden' id='NewSourceID' value='".$row['NewSourceID']."'>";
-                    ?>
+                    
                     <tr>
                         <td>
-                            <div class="form-control input-sm" id="SourceURL" data-key="SourceURL"><?= $row['NSRSourceURL'];?></div>
+                            <input type="hidden" id="ParentI" value="<?= $ParentID;?>">
+                            <input type="hidden" id="processI" value="1">
+                            <input type="hidden" id="ReferenceI" value="<?= $ReferenceID;?>">
+                            <input type="hidden" id="AllocationRefI" value="<?= $AllocationRefId;?>">
+                            <input type="hidden" id="NewSourceI" value="<?= $NewSourceID;?>">
+                            <div class="form-control input-sm" id="SourceURL" data-key="SourceURL"><?= $NSRSourceURL;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm SourceName requiredDiv " id="SourceName" data-key="SourceName" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['SourceName'];?></div>
+                            <div class="form-control input-sm SourceName requiredDiv " id="SourceName" data-key="SourceName" contenteditable="true"><?= $SourceName;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Type requiredDiv " data-key="Type" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Type'];?></div>
+                            <div class="form-control input-sm Type requiredDiv " data-key="Type" contenteditable="true"><?= $Type;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Region requiredDiv" data-key="Region" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Region'];?></div>
+                            <div class="form-control input-sm Region requiredDiv" data-key="Region" contenteditable="true"><?= $Region;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Country requiredDiv" data-key="Country" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Country'];?></div>
+                            <div class="form-control input-sm Country requiredDiv" data-key="Country" contenteditable="true"><?= $Country;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Client requiredDiv" data-key="Client" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Client'];?></div>
+                            <div class="form-control input-sm Client requiredDiv" data-key="Client" contenteditable="true"><?= $Client;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Access requiredDiv" data-key="Access" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Access'];?></div>
+                            <div class="form-control input-sm Access requiredDiv" data-key="Access" contenteditable="true"><?= $Access;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Priority requiredDiv" data-key="Priority" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>><?= $row['Priority'];?></div>
+                            <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true"><?= $Priority;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Remark" data-key="Remark" <?= ($processId=='1' ? 'contenteditable="true"' : '');?>></div>
+                            <div class="form-control input-sm Remark" data-key="Remark" contenteditable="true"></div>
                         </td>
                         <td>
                             <a href="" class="savepsource-btn" ><i class="fa fa-check-square" aria-hidden="true"></i></a>
@@ -130,9 +125,6 @@
                         </td>
                         
                     </tr>
-                <?php  } 
-
-                ?>
                     <tr class="subsectiontr <?= (sizeof($sectionData) > 0 ? '' : 'displayNone');?>">
                         <th>Section Source URL</th>
                         <th>Source Name</th>
@@ -235,6 +227,7 @@
         }
     }
 ?>
+<script type="text/javascript" src="<?= base_url('assets/customised/js/content_anaylsis.js');?>"></script>
 
 
 </body>

@@ -159,8 +159,15 @@ class Tito_controller extends CI_Controller {
 
 	public function delete_section(){
 		$ParentID = $this->input->post('ParentID');
-		$sql="DELETE FROM [WMS_AGLDE].[dbo].[AGLDE_SourceDetails] WHERE [ParentID] = ".$ParentID;
-		echo $result = $this->base_model->executequery($sql);
+		// $sql="DELETE FROM [WMS_AGLDE].[dbo].[AGLDE_SourceDetails] WHERE [ParentID] = ".$ParentID;
+		// echo $result = $this->base_model->executequery($sql);
+		$sql="EXEC USP_AGLDE_SOURCEDETAILS_DELETE @ParentID = ".$ParentID;
+		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+		$data = json_decode($APIResult, true);
+		if (array_key_exists('error', $data)) { die("4. ".$data['error']); }
+		extract($data);
+		echo $result;
+		
 	}
 
 	public function view_tito_form()
@@ -196,22 +203,24 @@ class Tito_controller extends CI_Controller {
 			$result = array('errorMsg' => $errorMsg);
 			$this->load->view('errorModalcontent', $result);
 		}else{
-			$sql="SELECT * FROM [VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
-			$parentData = $this->base_model->get_data_row($sql);
+			$sql="SELECT TOP(1) * FROM [VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
+			$APIResult = $this->base_model->GetDatabaseDataset($sql);
+			$parentData = json_decode($APIResult, true);
+			// $parentData = $this->base_model->get_data_row($sql);
 			$data = array(
 				'AllocationRefId' => $AllocationRefId,
 				'process' => $this->getprocessname($processId),
-				'parentData'	=> $parentData,			
+				'parentData'	=> $parentData[0][0],			
 				'processId' 	=> $processId,
 				'ReferenceID' => $ReferenceID
 			);	
 
 			if($processId == '1'){	
-				$sql="SELECT * FROM [AGLDE_SourceDetails] WHERE [SectionParentID] = ".$ParentID." ";
-				$sectionData = $this->base_model->get_data_array($sql);
+				// $sql="SELECT * FROM [AGLDE_SourceDetails] WHERE [SectionParentID] = ".$ParentID." ";
+				// $sectionData = $this->base_model->get_data_array($sql);
 						
-				$data['sectionData'] = $sectionData;
-				$this->load->view('pages/titoformModal', $data);
+				// $data['sectionData'] = $sectionData;
+				// $this->load->view('pages/titoformModal', $data);
 			}else{
 				$this->load->view('pages/titoformModal2', $data);
 			}
@@ -245,10 +254,14 @@ class Tito_controller extends CI_Controller {
 				}
 			}
 
-			$sql="SELECT * FROM [dbo].[VIEW_AGLDE_SOURCEMOREDETAILS]  WHERE [ParentID] = ".$ParentID;
+			$sql="SELECT TOP(1) * FROM [dbo].[VIEW_AGLDE_SOURCEMOREDETAILS]  WHERE [ParentID] = ".$ParentID;
 			$APIResult = $this->base_model->GetDatabaseDataset($sql);
 			$parentData = json_decode($APIResult, true);
 			if (array_key_exists('error', $parentData)) { die("CA3: ".$parentData['error']); }
+			// echo"<pre>";
+			// print_r($parentData[0][0]);
+			// echo"</pre>";
+			// exit();
 
 			$sql="SELECT * FROM [AGLDE_SourceDetails] WHERE [SectionParentID] = ".$ParentID." ";
 			$APIResult = $this->base_model->GetDatabaseDataset($sql);
@@ -259,17 +272,15 @@ class Tito_controller extends CI_Controller {
 			$fdata = array(
 				'error'			=> $error,
 				'errorMsg'		=> $errorMsg,
-				'parentData'	=> $parentData[0],
+				'parentData'	=> $parentData[0][0],
 				'sectionData' 	=> $sectionData[0],
 				'process' 		=> 'CONTENT_ANALYSIS',
 				'processId' 	=> '1',
 				'AllocationRefId' => $_GET['AllocationRefId'],
-				'css' => array(
-						'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
-					),
-					'js' => array(
-						'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
-					)
+				'css' 			=> array(
+					'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
+				),
+				
 			);
 			$this->load->view('pages/content_analysis', $fdata);
 		}		
@@ -408,8 +419,12 @@ class Tito_controller extends CI_Controller {
 			
 				$sql="SELECT [ParentID], [SourceName], [SourceURL] FROM [WMS_AGLDE].[dbo].[AGLDE_SourceDetails] WHERE 
 				[SectionParentID] = ".$ParentID." AND [IsParent] IS NULL ORDER BY [ParentID] ASC";
-				$result = $this->base_model->get_data_array($sql);
-				if($result){
+
+				$APIResult = $this->base_model->GetDatabaseDataset($sql);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { die("2. ".$data['error']); }
+				$result = $data[0];
+				if(sizeof($result)>0){
 					$json .= ',"sections": [ ';
 					$sections='';
 					foreach ($result as $row) {

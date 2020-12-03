@@ -163,8 +163,10 @@ class Basecontroller extends CI_Controller {
 			if($result == '' || $result == 'success'){
 
 				$sql="SELECT TOP (1) [ProcessId] FROM [WMS_AGLDE].[dbo].[wms_Processes] WHERE [ProcessCode] = '".$ProcessCode."' ";
-				$res = $this->base_model->get_data_row($sql);
-				$processid = $res->ProcessId;
+				$APIResult = $this->base_model->GetDatabaseDataset($sql);
+				$data = json_decode($APIResult, true);
+				$res = $data[0][0];
+				$processid = $res['ProcessId'];
 
 				$sql = "SELECT A.ParentID FROM dbo.AGLDE_SourceDetails AS A INNER JOIN dbo.AGLDE_NewSourceRequest AS B ON A.NewSourceID = B.ID WHERE B.IsClaimed IS NOT NULL AND B.ClaimedDate = '".$ClaimedDate."' AND B.ClaimedBy='".$ClaimedBy."' AND B.ID IN (".$source.") ";
 				$APIResult = $this->base_model->GetDatabaseDataset($sql);
@@ -229,18 +231,21 @@ class Basecontroller extends CI_Controller {
 
 	public function analysisModal(){
 		$sql="SELECT * FROM [AGLDE_NewSourceRequest] WHERE [ID] = ".$_POST['id'];
-		$result = $this->base_model->get_data_row($sql);
-		$date = date_create($result->ClaimedDate);
+		// $result = $this->base_model->get_data_row($sql);
+		$APIResult = $this->base_model->GetDatabaseDataset($sql);
+		$result = json_decode($APIResult, true);
+		$result = $result[0][0];
+		$date = date_create($result['ClaimedDate']);
 		$data = array(
 			'ID' => $result->ID,
-      		'ReferenceID' => $result->ReferenceID,
-      		'SourceURL' => $result->SourceURL,
-      		'SourceRequestDate' => $result->SourceRequestDate,
-      		'SourceUserName' => $result->SourceUserName,
-      		'SourcePassword' => $result->SourcePassword,
-      		'IsClaimed' => $result->IsClaimed,
+      		'ReferenceID' => $result['ReferenceID'],
+      		'SourceURL' => $result['SourceURL'],
+      		'SourceRequestDate' => $result['SourceRequestDate'],
+      		'SourceUserName' => $result['SourceUserName'],
+      		'SourcePassword' => $result['SourcePassword'],
+      		'IsClaimed' => $result['IsClaimed'],
       		'ClaimedDate' => date_format($date, "Y-m-d"),
-      		'ClaimedBy' => $result->ClaimedBy,
+      		'ClaimedBy' => $result['ClaimedBy'],
 		);
 		echo json_encode($data);
 	}

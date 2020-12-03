@@ -98,7 +98,8 @@ tr.sourceTR.Pending {
     background: #ffc930;
 }
 tr.sourceTR.Ongoing{
- background: #ff3030;
+  background: #ff3030;
+  color: #fff;
 }
 
 tr.sourceTR.Pending:hover,

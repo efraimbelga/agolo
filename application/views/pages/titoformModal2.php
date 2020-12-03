@@ -5,10 +5,10 @@
             <h4 class="modal-title"><?= $process;?></h4>
         </div>
         <div class="modal-body">
-            <input type="hidden" id="ParentID" value="<?= $parentData->ParentID;?>">
+            <input type="hidden" id="ParentID" value="<?= $parentData['ParentID'];?>">
             <input type="hidden" id="processId" value="<?= $processId;?>">
             <input type="hidden" id="ReferenceID" value="<?= $ReferenceID;?>">
-            <input type="hidden" id="NewSourceID" value="<?= $parentData->NewSourceID;?>">
+            <input type="hidden" id="NewSourceID" value="<?= $parentData['NewSourceID'];?>">
             <input type="hidden" id="AllocationRefId" value="<?= $AllocationRefId;?>">
 
             <div class="row">
@@ -17,7 +17,7 @@
                         <div class="form-group ">
                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source URL:</label>
                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm" id="SourceURL" data-key="SourceURL"><?= $parentData->NSRSourceURL;?></div>
+                                <div class="form-control input-sm" id="SourceURL" data-key="SourceURL"><?= $parentData['NSRSourceURL'];?></div>
                             </div>
                         </div>
                     </div>
@@ -25,7 +25,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source Name:</label>
                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm SourceName editablediv " id="SourceName" data-key="SourceName" ><?= $parentData->SourceName;?></div>
+                                <div class="form-control input-sm SourceName editablediv " id="SourceName" data-key="SourceName" ><?= $parentData['SourceName'];?></div>
                             </div>
                         </div>
                     </div>
@@ -33,7 +33,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source ID:</label>
                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm SourceID editablediv " id="SourceID" data-key="SourceID" ><?= $parentData->SourceID;?></div>
+                                <div class="form-control input-sm SourceID editablediv " id="SourceID" data-key="SourceID" ><?= $parentData['SourceID'];?></div>
                             </div>
                         </div>
                     </div>
@@ -41,7 +41,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Type:</label>
                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Type editablediv " data-key="Type" ><?= $parentData->Type;?></div>
+                                <div class="form-control input-sm Type editablediv " data-key="Type" ><?= $parentData['Type'];?></div>
                             </div>
                         </div>
                     </div>
@@ -49,7 +49,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Region:</label>
                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Region editablediv" data-key="Region" ><?= $parentData->Region;?></div>
+                                <div class="form-control input-sm Region editablediv" data-key="Region" ><?= $parentData['Region'];?></div>
                             </div>
                         </div>
                     </div>
@@ -57,7 +57,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Country:</label>
                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Country editablediv" data-key="Country" ><?= $parentData->Country;?></div>
+                                <div class="form-control input-sm Country editablediv" data-key="Country" ><?= $parentData['Country'];?></div>
                             </div>
                         </div>
                     </div>
@@ -65,7 +65,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Client:</label>
                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Client editablediv" data-key="Client" ><?= $parentData->Client;?></div>
+                                <div class="form-control input-sm Client editablediv" data-key="Client" ><?= $parentData['Client'];?></div>
                             </div>
                         </div>
                     </div>
@@ -73,7 +73,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Access:</label>
                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Access editablediv" data-key="Access" ><?= $parentData->Access;?></div>
+                                <div class="form-control input-sm Access editablediv" data-key="Access" ><?= $parentData['Access'];?></div>
                             </div>
                         </div>
                     </div>
@@ -81,7 +81,7 @@
                         <div class="form-group">
                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Priority:</label>
                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Priority editablediv" data-key="Priority" ><?= $parentData->Priority;?></div>
+                                <div class="form-control input-sm Priority editablediv" data-key="Priority" ><?= $parentData['Priority'];?></div>
                             </div>
                         </div>
                     </div>
@@ -112,7 +112,7 @@
                                     <div class="form-group ">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Date Format:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm DateFormat editablediv" id="DateFormat" data-key="DateFormat" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->DateFormat;?></div>
+                                            <div class="form-control input-sm DateFormat editablediv" id="DateFormat" data-key="DateFormat" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData['DateFormat'];?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -120,7 +120,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Story Frequency :</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm StoryFrequency editablediv " id="StoryFrequency " data-key="StoryFrequency" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->StoryFrequency;?></div>
+                                            <div class="form-control input-sm StoryFrequency editablediv " id="StoryFrequency " data-key="StoryFrequency" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData['StoryFrequency'];?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -128,7 +128,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Crawl Patterns:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm CrawlPatterns editablediv " data-key="CrawlPatterns" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->CrawlPatterns;?></div>
+                                            <div class="form-control input-sm CrawlPatterns editablediv " data-key="CrawlPatterns" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData['CrawlPatterns'];?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -136,7 +136,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Difficulty:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm Difficulty editablediv" data-key="Difficulty" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->Difficulty;?></div>
+                                            <div class="form-control input-sm Difficulty editablediv" data-key="Difficulty" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData['Difficulty'];?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -144,7 +144,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Configuration Notes:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm ConfigNotes editablediv" data-key="ConfigNotes" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->ConfigNotes;?></div>
+                                            <div class="form-control input-sm ConfigNotes editablediv" data-key="ConfigNotes" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData['ConfigNotes'];?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -152,7 +152,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Exclusion Notes:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm ExclusionNotes editablediv" data-key="ExclusionNotes" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData->ExclusionNotes;?></div>
+                                            <div class="form-control input-sm ExclusionNotes editablediv" data-key="ExclusionNotes" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData['ExclusionNotes'];?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -200,7 +200,7 @@
                                     <div class="form-group ">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Publication Notes:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm PublicationNotes editablediv" id="PublicationNotes" data-key="PublicationNotes" <?= ($processId=='3' ? 'contenteditable="true"' : '');?>><?= $parentData->PublicationNotes;?></div>
+                                            <div class="form-control input-sm PublicationNotes editablediv" id="PublicationNotes" data-key="PublicationNotes" <?= ($processId=='3' ? 'contenteditable="true"' : '');?>><?= $parentData['PublicationNotes'];?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -233,7 +233,7 @@
                                     <div class="form-group ">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Reconfiguration Notes:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm ReConfigNotes editablediv" id="ReConfigNotes" data-key="ReConfigNotes" <?= ($processId=='4' ? 'contenteditable="true"' : '');?>><?= $parentData->ReConfigNotes;?></div>
+                                            <div class="form-control input-sm ReConfigNotes editablediv" id="ReConfigNotes" data-key="ReConfigNotes" <?= ($processId=='4' ? 'contenteditable="true"' : '');?>><?= $parentData['ReConfigNotes'];?></div>
                                         </div>
                                     </div>
                                 </div>

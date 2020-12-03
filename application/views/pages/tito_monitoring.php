@@ -7,9 +7,7 @@
 </section>
 <section class="content">
     <div class="box">
-        <!-- <div class="box-header">
-            <h3 class="box-title">TITO Monitoring</h3>
-        </div> -->
+        
         <input type="hidden" id="processidTxtx" value="<?= $process; ?>">
         <div class="box-body srboxbody table-responsive">
             <?php
@@ -41,7 +39,4 @@
     </div>
 </section>
 <div id="titoModal" class="modal fade" role="dialog">
-    <?php
-        // $this->load->view('pages/titoformModal');
-    ?>
 </div>
