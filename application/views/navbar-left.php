@@ -30,6 +30,9 @@
                         $sql="SELECT [ProcessId], [ProcessCode] FROM [WMS_AGLDE].[dbo].[wms_Processes] ORDER BY [ProcessId] ASC";
                         $APIResult = $this->base_model->GetDatabaseDataset($sql);
                         $data = json_decode($APIResult, true);
+                        if (array_key_exists('error', $data)) { die($data['error']); }
+                        // print_r($data);
+                        // exit();
                         $data = $data[0];
                         if(sizeof($data) > 0){
                             foreach ($data as $row) {
