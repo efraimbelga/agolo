@@ -6,9 +6,6 @@ function CloseChildWindows(){
 	urlwindow.close();
 }
 
-
-
-
 var pathname = window.location.pathname;
 var array = pathname.split('/');
 var processId = array[array.length-1];

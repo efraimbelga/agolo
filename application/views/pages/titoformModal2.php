@@ -12,87 +12,96 @@
             <input type="hidden" id="AllocationRefId" value="<?= $AllocationRefId;?>">
 
             <div class="row">
-                <div class="col-lg-12 form-horizontal">
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group ">
-                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source URL:</label>
-                            <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm" id="SourceURL" data-key="SourceURL"><?= $parentData['NSRSourceURL'];?></div>
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a data-toggle="collapse" href="#content_analysis"><h4 class="panel-title">CONTENT_ANALYSIS</h4></a>
+                        </div>
+                        <div id="content_analysis" class="panel-collapse collapse in">
+                            <div class="col-lg-12 form-horizontal">
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group ">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source URL:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm" id="SourceURL" data-key="SourceURL"><?= $parentData['NSRSourceURL'];?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source Name:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm SourceName editablediv " id="SourceName" data-key="SourceName" ><?= $parentData['SourceName'];?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source ID:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm SourceID editablediv " id="SourceID" data-key="SourceID" ><?= $parentData['SourceID'];?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Type:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm Type editablediv " data-key="Type" ><?= $parentData['Type'];?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Region:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm Region editablediv" data-key="Region" ><?= $parentData['Region'];?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Country:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm Country editablediv" data-key="Country" ><?= $parentData['Country'];?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Client:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm Client editablediv" data-key="Client" ><?= $parentData['Client'];?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Access:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm Access editablediv" data-key="Access" ><?= $parentData['Access'];?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Priority:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm Priority editablediv" data-key="Priority" ><?= $parentData['Priority'];?></div>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" >Remarks here</div>
+                                        </div>
+                                    </div>
+                                </div> 
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source Name:</label>
-                            <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm SourceName editablediv " id="SourceName" data-key="SourceName" ><?= $parentData['SourceName'];?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source ID:</label>
-                            <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm SourceID editablediv " id="SourceID" data-key="SourceID" ><?= $parentData['SourceID'];?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Type:</label>
-                            <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Type editablediv " data-key="Type" ><?= $parentData['Type'];?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Region:</label>
-                            <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Region editablediv" data-key="Region" ><?= $parentData['Region'];?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Country:</label>
-                            <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Country editablediv" data-key="Country" ><?= $parentData['Country'];?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Client:</label>
-                            <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Client editablediv" data-key="Client" ><?= $parentData['Client'];?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Access:</label>
-                            <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Access editablediv" data-key="Access" ><?= $parentData['Access'];?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Priority:</label>
-                            <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Priority editablediv" data-key="Priority" ><?= $parentData['Priority'];?></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-6 col-md-6 col-sm-12">
-                        <div class="form-group">
-                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
-                            <div class="col-sm-9 col-lg-8 col-xs-12">
-                                <div class="form-control input-sm Remarks editablediv" data-key="Remarks" >Remarks here</div>
-                            </div>
-                        </div>
-                    </div> 
                 </div>
             </div>
             <br> 
@@ -186,9 +195,34 @@
             </div>
             <?php
             }
-            if($processId >=3){
+            if($processId >=5){
             ?>
             <div class="row">
+                <div class="panel-group">
+                    <div class="panel panel-default">
+                        <div class="panel-heading">
+                            <a data-toggle="collapse" href="#collapse1"><h4 class="panel-title">AGENT_PUBLICATION</h4></a>
+                        </div>
+                        <div id="collapse1" class="panel-collapse collapse in">
+                            <div class="panel-body form-horizontal" style="border-top: none; padding: 0px">
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" >Remarks here</div>
+                                        </div>
+                                    </div>
+                                </div> 
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <?php
+                }
+            if($processId >=3){
+            ?>
+            <!-- <div class="row">
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
@@ -217,9 +251,9 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
             <?php }
-                if($processId >=4){
+                if($processId >=6){
             ?>
             <div class="row">
                 <div class="panel-group">
@@ -251,31 +285,6 @@
                 </div>
             </div>
             <?php }
-                if($processId >=5){
-            ?>
-            <div class="row">
-                <div class="panel-group">
-                    <div class="panel panel-default">
-                        <div class="panel-heading">
-                            <a data-toggle="collapse" href="#collapse1"><h4 class="panel-title">AGENT_PUBLICATION</h4></a>
-                        </div>
-                        <div id="collapse1" class="panel-collapse collapse in">
-                            <div class="panel-body form-horizontal" style="border-top: none; padding: 0px">
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" >Remarks here</div>
-                                        </div>
-                                    </div>
-                                </div> 
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <?php
-                }
                 if($processId >=6){
             ?>
             <div class="row">

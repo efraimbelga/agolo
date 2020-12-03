@@ -88,11 +88,11 @@
                     
                     <tr>
                         <td>
-                            <input type="hidden" id="ParentI" value="<?= $ParentID;?>">
-                            <input type="hidden" id="processI" value="1">
-                            <input type="hidden" id="ReferenceI" value="<?= $ReferenceID;?>">
-                            <input type="hidden" id="AllocationRefI" value="<?= $AllocationRefId;?>">
-                            <input type="hidden" id="NewSourceI" value="<?= $NewSourceID;?>">
+                            <input type="hidden" id="ParentID" value="<?= $ParentID;?>">
+                            <input type="hidden" id="processID" value="1">
+                            <input type="hidden" id="ReferenceID" value="<?= $ReferenceID;?>">
+                            <input type="hidden" id="AllocationRefId" value="<?= $AllocationRefId;?>">
+                            <input type="hidden" id="NewSourceID" value="<?= $NewSourceID;?>">
                             <div class="form-control input-sm" id="SourceURL" data-key="SourceURL"><?= $NSRSourceURL;?></div>
                         </td>
                         <td>

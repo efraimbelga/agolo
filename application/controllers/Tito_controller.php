@@ -406,7 +406,7 @@ class Tito_controller extends CI_Controller {
 			
 		$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die("TO1. :".$data['error']); }
+		if (array_key_exists('error', $data)) { die("TO1 :".$data['error']); }
 
 		// die();
 		// $APIResult =  $this->base_model->SessionLogout();
