@@ -30,5 +30,4 @@
             <button class="btn btn-warning clear-btn btn-flat" disabled>Clear</button>
         </div>
     </div>
-    
 </section>

@@ -15,7 +15,7 @@
         </div>
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="<?= ($segment1=='home' ? 'active' : '');?>"><a href="<?= base_url('home');?>"><i class="fa fa-circle-o"></i> <span>Home</span></a></li>
+            <li class="<?= ($segment1=='home' ? 'active' : '');?>"><a href="<?= base_url('home');?>"><i class="fa fa-circle-o"></i> <span>New Source Request</span></a></li>
             <li class="treeview <?= ($segment1=='tito_monitoring' ? 'active' : '');?>">
                 <a href="#">
                     <i class="fa fa-files-o"></i> <span>User Task View</span>
@@ -26,12 +26,10 @@
                 <ul class="treeview-menu">
                     <?php
                         $this->load->model('base_model');
-                        $sql="select p.* from wms_Processes p
-  inner join wms_WorkFlowProcesses wp on p.processid=wp.ProcessId
-  where wp.workflowid=1 order by wp.RefId asc";
+                        $sql="select p.* from wms_Processes p inner join wms_WorkFlowProcesses wp on p.processid=wp.ProcessId where wp.workflowid=1 order by wp.RefId asc";
                         $APIResult = $this->base_model->GetDatabaseDataset($sql);
                         $data = json_decode($APIResult, true);
-                        if (array_key_exists('error', $data)) { die($data['error']); }
+                        if (array_key_exists('error', $data)) {  }
                        
                         $data = $data[0];
                         if(sizeof($data) > 0){
@@ -44,7 +42,7 @@
                     ?>     
                 </ul>
             </li>
-            <li><a href="<?= base_url('home');?>"><i class="fa fa-circle-o"></i> <span>Home</span></a></li>
+            <li><a href="<?= base_url('published');?>"><i class="fa fa-circle-o"></i> <span>Published List</span></a></li>
         </ul>
     </section>
 </aside>

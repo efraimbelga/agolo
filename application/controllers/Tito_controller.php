@@ -55,27 +55,17 @@ class Tito_controller extends CI_Controller {
 	public function tito_monitoring($processId)
 	{
 		if($this->session->userdata('userkey')){
-			// if($processId!= '1'){
-			// 	$APIResult = $this->base_model->GetSessionInfo();
-			// 	$data = json_decode($APIResult, true);
-			// 	if (array_key_exists('error', $data)) {
-			// 		// die($data['error']); 
-			// 	}else{
-			// 		$APIResult =  $this->base_model->SessionLogout();
-			// 		$data = json_decode($APIResult, true);
-			// 	// 	print_r($data);
-			// 	// die();
-			// 		if (array_key_exists('error', $data)) {
-
-			// 			if($data['error']=='Active TITO for the current session detected!'){
-			// 				redirect('tito_monitoring/1');
-			// 			}else{
-			// 				die($data['error']);
-			// 			}
-			// 		}
-			// 	}
-			// }
-			
+			$APIResult = $this->base_model->GetSessionInfo();
+			$data = json_decode($APIResult, true);
+			if (array_key_exists('error', $data)) {
+				if($data['error'] != 'No active session!'){
+					// die($data['error']);
+					echo "<script type='text/javascript'>";
+					echo "    alert('".$data['error']."');";
+					echo "	window.location='".base_url('signout')."'";
+					echo "</script>";
+				}
+			}
 
 			$sessionData = [
                 'processId'=> $processId

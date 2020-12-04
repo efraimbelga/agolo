@@ -10,7 +10,7 @@ class Basecontroller extends CI_Controller {
     public function index()
 	{
 		if($this->session->userdata('userkey')){
-			redirect('home');
+			redirect('newsource');	
 		}else{
 			$data = array(
 				'js' => array(
@@ -59,7 +59,6 @@ class Basecontroller extends CI_Controller {
 
 	public function signout(){
 		$APIResult = $this->base_model->SessionLogout();
-		
 		$sessionData = [
                 'userkey',
                 // 'UserId',
@@ -78,33 +77,49 @@ class Basecontroller extends CI_Controller {
 		redirect();
 	}
 
-
-	public function home()
+	public function newsource()
 	{
 		if($this->session->userdata('userkey')){
 			$APIResult = $this->base_model->GetSessionInfo();
 			$data = json_decode($APIResult, true);
 			if (array_key_exists('error', $data)) {
-				// die($data['error']); 
+				if($data['error'] != 'No active session!'){
+					// die($data['error']);
+					echo "<script type='text/javascript'>";
+					echo "    alert('".$data['error']."');";
+					echo "	window.location='".base_url('signout')."'";
+					echo "</script>";
+				}
 			}else{
 				$APIResult =  $this->base_model->SessionLogout();
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) {
 					if($data['error']=='Active TITO for the current session detected!'){
-						redirect('tito_monitoring/1');
+						// die($data['error'])
+						$APIResult = $this->base_model->GetAllocationsDt();
+					    $data = json_decode($APIResult, true);
+					    // echo"<pre>";
+					    // 	print_r($data);
+					    // echo"</pre>";
+	
+					    if (array_key_exists('error', $data)) { die($data['error']); }
+					    if(sizeof($data) > 0){
+					    	$pid = strval($data[0]['ProcessId']);
+					    	redirect('tito_monitoring/'.$pid);
+						}						
 					}else{
 						die($data['error']);
 					}
 				}
 			}
 		
-			$data = array(
-				'page' => 'pages/home',
+			$homeData = array(
+				'page' => 'pages/newsource',
 				'js' => array(
-					'<script type="text/javascript" src="'.base_url('assets/customised/js/home.js').'"></script>'
+					'<script type="text/javascript" src="'.base_url('assets/customised/js/newsource.js').'"></script>'
 				)
 			);
-			$this->load->view('base', $data);
+			$this->load->view('base', $homeData);
 		}else{
 			redirect();
 		}
