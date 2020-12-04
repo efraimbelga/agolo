@@ -33,10 +33,31 @@
                        
                         $data = $data[0];
                         if(sizeof($data) > 0){
+                            $segment3 = $this->uri->segment(3);
                             foreach ($data as $row) {
-                                echo '<li class="'.($segment2==$row['ProcessId'] ? 'active' : '').'"><a href="'.base_url('tito_monitoring/'.$row['ProcessId']).'"><i class="fa fa-circle-o"></i> ';
-                                echo '    <span>'.$row['ProcessCode'].'</span>';
-                                echo '</a></li>';
+                                if($row['ProcessId']=='4'){
+                                    echo'<li class="treeview '.($segment2==$row['ProcessId'] ? 'active' : '').'">';
+                                    echo'    <a href="#">';
+                                    echo'        <i class="fa fa-files-o"></i> <span>'.$row['ProcessCode'].'</span>';
+                                    echo'        <span class="pull-right-container">';
+                                    echo'            <i class="fa fa-angle-left pull-right"></i>';
+                                    echo'        </span>';
+                                    echo'    </a>';
+                                    echo'    <ul class="treeview-menu">';
+                                            echo '<li class="'.($segment3=='allocate' ? 'active' : '').'"><a href="'.base_url('tito_monitoring/'.$row['ProcessId'].'/allocate').'"><i class="fa fa-circle-o"></i> ';
+                                            echo '    <span>Allocate</span>';
+                                            echo '</a></li>';
+                                            echo '<li class="'.($segment3=='tito' ? 'active' : '').'"><a href="'.base_url('tito_monitoring/'.$row['ProcessId'].'/tito').'"><i class="fa fa-circle-o"></i> ';
+                                            echo '    <span>Task-in/Task-out</span>';
+                                            echo '</a></li>';
+                                    echo'    </ul>';
+                                    echo'</li>';
+                                }else{
+                                    echo '<li class="'.($segment2==$row['ProcessId'] ? 'active' : '').'"><a href="'.base_url('tito_monitoring/'.$row['ProcessId']).'"><i class="fa fa-circle-o"></i> ';
+                                    echo '    <span>'.$row['ProcessCode'].'</span>';
+                                    echo '</a></li>';
+                                }
+                                
                             }
                         }
                     ?>     

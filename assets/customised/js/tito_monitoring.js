@@ -8,8 +8,11 @@ function CloseChildWindows(){
 
 var pathname = window.location.pathname;
 var array = pathname.split('/');
-var processId = array[array.length-1];
+// console.log(array)
+var processId = array[3]; //array[array.length-1];
+// console.log(processId)
 var timer;
+
 function view_source_request(processId){
 	$.ajax({
         url: domain + 'Tito_controller/view_tito_monitoring',

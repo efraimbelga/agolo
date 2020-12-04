@@ -9,6 +9,7 @@ $route['newsource'] = 'Basecontroller/newsource';
 
 $route['signout'] = 'Basecontroller/signout';
 $route['tito_monitoring/(:any)'] = 'Tito_controller/tito_monitoring/$1';
+$route['tito_monitoring/4/(:any)'] = 'Tito_controller/agent_refinement/$1';
 $route['content_analysis'] = 'Tito_controller/content_analysis';
 
 $route['published'] = 'Published_controller/published';

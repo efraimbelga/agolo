@@ -123,3 +123,7 @@ tr.sourceTR.Ongoing:hover{
 .titoformModal .panel-group{
   margin-bottom: 0px;
 }
+
+.titoformModal .form-horizontal .control-label {
+    padding-top: 0px;
+}

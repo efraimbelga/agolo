@@ -190,7 +190,7 @@
             <!-- </div> -->
             <?php
             }
-            if($processId >=5){
+            if($processId >=4){
             ?>
             <!-- <div class="row"> -->
                 <div class="panel-group">
@@ -248,7 +248,7 @@
                 </div>
             </div> -->
             <?php }
-                if($processId >=6){
+                if($processId >=4){
             ?>
             <div class="row">
                 <div class="panel-group">
@@ -270,7 +270,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" >Remarks here</div>
+                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" <?= ($processId=='4' ? 'contenteditable="true"' : '');?>>Remarks here</div>
                                         </div>
                                     </div>
                                 </div> 

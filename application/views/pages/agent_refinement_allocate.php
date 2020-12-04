@@ -24,15 +24,10 @@
                         <th>Parent ID</th>
                         <th>Batch Name</th>
                         <th>Reference ID</th>
-                        
                     </tr>
                 </thead>
                 <tbody></tbody>
             </table>
         </div>
-        <!-- <div class="box-footer text-right">
-            <button class="btn btn-info allocate-btn btn-flat" disabled>Allocate</button>
-            <button class="btn btn-warning clear-btn btn-flat" disabled>Clear</button>
-        </div> -->
     </div>
 </section>

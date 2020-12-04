@@ -55,33 +55,38 @@ class Tito_controller extends CI_Controller {
 	public function tito_monitoring($processId)
 	{
 		if($this->session->userdata('userkey')){
-			$APIResult = $this->base_model->GetSessionInfo();
-			$data = json_decode($APIResult, true);
-			if (array_key_exists('error', $data)) {
-				if($data['error'] != 'No active session!'){
-					// die($data['error']);
-					echo "<script type='text/javascript'>";
-					echo "    alert('".$data['error']."');";
-					echo "	window.location='".base_url('signout')."'";
-					echo "</script>";
+			if($processId=='4'){
+				redirect('tito_monitoring/4/tito');
+			}else{
+				$APIResult = $this->base_model->GetSessionInfo();
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) {
+					if($data['error'] != 'No active session!'){
+						// die($data['error']);
+						echo "<script type='text/javascript'>";
+						echo "    alert('".$data['error']."');";
+						echo "	window.location='".base_url('signout')."'";
+						echo "</script>";
+					}
 				}
-			}
 
-			$sessionData = [
-                'processId'=> $processId
-            ];
-            $this->session->set_userdata($sessionData);
-			$data = array(
-				'process' => $this->getprocessname($processId),
-				'page' => 'pages/tito_monitoring',
-				'css' => array(
-					'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
-				),
-				'js' => array(
-					'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
-				)
-			);
-			$this->load->view('base', $data);
+				$sessionData = [
+	                'processId'=> $processId
+	            ];
+	            $this->session->set_userdata($sessionData);
+				$data = array(
+					'process' => $this->getprocessname($processId),
+					'page' => 'pages/tito_monitoring',
+					'css' => array(
+						'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
+					),
+					'js' => array(
+						'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
+					)
+				);
+				$this->load->view('base', $data);
+			}
+			
 		}else{
 			redirect();
 		}
@@ -132,8 +137,7 @@ class Tito_controller extends CI_Controller {
 						echo'<td>'.$row['SourceUserName'].'</td>';
 						echo'<td>'.$row['SourcePassword'].'</td>';
 						echo'<td>'.$row['ClaimedBy'].'</td>';
-						echo'<td>'.$row['StatusString'].'</td>';	
-															
+						echo'<td>'.$row['StatusString'].'</td>';						
 					echo'</tr>';
 				}
 			}
@@ -205,15 +209,7 @@ class Tito_controller extends CI_Controller {
 				'ReferenceID' => $ReferenceID
 			);	
 
-			if($processId == '1'){	
-				// $sql="SELECT * FROM [AGLDE_SourceDetails] WHERE [SectionParentID] = ".$ParentID." ";
-				// $sectionData = $this->base_model->get_data_array($sql);
-						
-				// $data['sectionData'] = $sectionData;
-				// $this->load->view('pages/titoformModal', $data);
-			}else{
-				$this->load->view('pages/titoformModal2', $data);
-			}
+			$this->load->view('pages/titoformModal2', $data);
 		}
 	}
 
@@ -560,6 +556,152 @@ class Tito_controller extends CI_Controller {
 		$rawdata = $data[0][0];
 		echo $rawdata['NSRSourceURL'];
 	}
+
+	public function agent_refinement($page){
+		if($page=='tito'){
+			if($this->session->userdata('userkey')){
+				$processId = $this->uri->segment(2);
+			
+				$APIResult = $this->base_model->GetSessionInfo();
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) {
+					if($data['error'] != 'No active session!'){
+						// die($data['error']);
+						echo "<script type='text/javascript'>";
+						echo "    alert('".$data['error']."');";
+						echo "	window.location='".base_url('signout')."'";
+						echo "</script>";
+					}
+				}
+
+				$sessionData = [
+	                'processId'=> $processId
+	            ];
+	            $this->session->set_userdata($sessionData);
+				$data = array(
+					'process' => $this->getprocessname($processId),
+					'page' => 'pages/tito_monitoring',
+					'css' => array(
+						'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
+					),
+					'js' => array(
+						'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
+					)
+				);
+				$this->load->view('base', $data);
+			}else{
+				redirect();
+			}
+		}elseif($page=='allocate'){
+			if($this->session->userdata('userkey')){
+				$APIResult = $this->base_model->GetSessionInfo();
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) {
+					if($data['error'] != 'No active session!'){
+						echo "<script type='text/javascript'>";
+						echo "    alert('".$data['error']."');";
+						echo "	window.location='".base_url('signout')."'";
+						echo "</script>";
+					}
+				}else{
+					$APIResult =  $this->base_model->SessionLogout();
+					$data = json_decode($APIResult, true);
+					if (array_key_exists('error', $data)) {
+						if($data['error']=='Active TITO for the current session detected!'){
+							$APIResult = $this->base_model->GetAllocationsDt();
+						    $data = json_decode($APIResult, true);
+						   	if (array_key_exists('error', $data)) { die($data['error']); }
+						    if(sizeof($data) > 0){
+						    	$pid = strval($data[0]['ProcessId']);
+						    	redirect('tito_monitoring/'.$pid);
+							}						
+						}else{
+							die($data['error']);
+						}
+					}
+				}
+			
+				$homeData = array(
+					'page' => 'pages/agent_refinement_allocate',
+					'js' => array(
+						'<script type="text/javascript" src="'.base_url('assets/customised/js/agent_refinement.js').'"></script>'
+					)
+				);
+				$this->load->view('base', $homeData);
+			}else{
+				redirect();
+			}
+		}else{
+			redirect('tito_monitoring/4/tito');
+		}
+	}
+
+	public function view_published_list()
+    {
+    	$ProcessId = 5; //AGENT_PUBLICATION ProcessId
+    	$sql="SELECT ps.*, u.UserId, u.LoginName as [UserName], bi.BatchName FROM wms_view_JobsBatchInfoProjectSpecificInfo ps
+			INNER JOIN wms_JobsBatchInfo bi ON ps.PS_BatchId = bi.BatchId
+			INNER JOIN wms_JobsBatchAllocation ba on bi.LastAllocationRefId = ba.RefId
+			INNER JOIN NM_Users u ON ba.UserId = u.UserId
+			WHERE bi.StatusId = 7 AND  bi.ProcessId = ".$ProcessId.";";
+		$APIResult = $this->base_model->GetDatabaseDataset($sql);
+		$data = json_decode($APIResult, true);
+		// echo"<pre>";
+		// print_r($data);
+		// echo"</pre>";
+		// die();
+		if (array_key_exists('error', $data)) { die("2. ".$data['error']); }
+		$result = $data[0];
+		if(sizeof($result)>0){
+			foreach ($result as $row) {
+				echo'<tr class="sourceTR">';
+					echo'<td><button class="btn btn-xs btn-primary allocate-btn btn-flat" data-BatchName="'.$row['BatchName'].'"> Allocate</button></td>';
+					echo'<td>'.$row['SourceName'].'</td>';
+                    echo'<td>'.$row['SourceURL'].'</td>';
+                    echo'<td>'.$row['UserName'].'</td>';
+                    echo'<td>'.($row['IsParent'] =='1' ? 'Parent' : 'Section').'</td>';
+                    // echo'<td>'.$row['Status'].'</td>';
+                    echo'<td>'.$row['ParentID'].'</td>';
+                    echo'<td>'.$row['BatchName'].'</td>';
+                    echo'<td>'.$row['ReferenceID'].'</td>';
+
+				echo'</tr>';
+			}
+		}
+    }
+
+    public function allocate_refinement(){
+    	$userName = $this->session->userdata('userName');
+    	
+    	$BatchName = $this->input->post('BatchName');
+
+    	$sql="SELECT TOP(1) [BatchId] FROM [wms_JobsBatchInfo] WHERE [BatchName] = '".$BatchName."' AND [ProcessId] = 4;";
+    	$APIResult = $this->base_model->GetDatabaseDataset($sql);
+		$data = json_decode($APIResult, true);
+		if (array_key_exists('error', $data)) { die("AR1: ".$data['error']); }
+		$BatchId = $data[0][0]['BatchId'];
+
+		$sql="SELECT TOP (1) [UserId] FROM [WMS_AGLDE].[dbo].[NM_Users] WHERE [LoginName] = '".$userName."'";
+		$APIResult = $this->base_model->GetDatabaseDataset($sql);
+		$data = json_decode($APIResult, true);
+		if (array_key_exists('error', $data)) { die("AR1: ".$data['error']); }
+		$userid = $data[0][0]['UserId'];
+
+
+		$sql="EXEC usp_wms_Allocate_BatchToUser @batchid = ".$BatchId.", @userid=".$userid.";";
+		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+		$data = json_decode($APIResult, true);
+		if (array_key_exists('error', $data)) { die("4. ".$data['error']); }
+		extract($data);
+		echo $result;
+
+
+		// echo"<pre>";
+		// print_r($data);
+		// print_r($BatchId);
+		// echo"</pre>";
+		// die();
+    }
 }
 
 
