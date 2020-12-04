@@ -300,7 +300,8 @@ class Tito_controller extends CI_Controller {
 			@Difficulty ='',
 			@ConfigNotes ='',
 			@ExclusionNotes ='',							
-			@PublicationNotes ='',						
+			@PublicationNotes ='',		
+			@AgentID ='',				
 			@ReConfigNotes =''";
       		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 			$data = json_decode($APIResult, true);
@@ -364,7 +365,8 @@ class Tito_controller extends CI_Controller {
 				@Difficulty ='',
 				@ConfigNotes ='',
 				@ExclusionNotes ='',							
-				@PublicationNotes ='',						
+				@PublicationNotes ='',	
+				@AgentID ='',						
 				@ReConfigNotes =''";
 
 	      		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
@@ -448,7 +450,8 @@ class Tito_controller extends CI_Controller {
 							@Difficulty ='',
 							@ConfigNotes ='',
 							@ExclusionNotes ='',							
-							@PublicationNotes ='',						
+							@PublicationNotes ='',	
+							@AgentID ='',					
 							@ReConfigNotes =''";
 						$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 					    $data = json_decode($APIResult, true);
@@ -461,9 +464,9 @@ class Tito_controller extends CI_Controller {
 			   	if (array_key_exists('error', $data)) { die("TO3 : ".$data['error']); }
 			}
 			else if($processId=='2'){
-
-				// $json = '{ "agentId": "'.$this->input->post('AgentID').'" }';
-				$json = '{ "agentId": "d8bfa0e3-53f0-4d75-b329-9b2f6f628bbe" }';
+				// $this->input->post('AgentID');
+				$AgentID = 'd8bfa0e3-53f0-4d75-b329-9b2f6f628bbe';
+				$json = '{ "agentId": "'.$AgentID.'" }';
 				$this->base_model->A2_API($json, $this->input->post('SourceID'));
 				
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
@@ -484,7 +487,8 @@ class Tito_controller extends CI_Controller {
 					@Difficulty ='".$this->input->post('Difficulty')."',
 					@ConfigNotes ='".$this->input->post('ConfigNotes')."',
 					@ExclusionNotes ='".$this->input->post('ExclusionNotes')."',							
-					@PublicationNotes ='',						
+					@PublicationNotes ='',	
+					@AgentID ='".$AgentID."',					
 					@ReConfigNotes =''";
 				// die($sql);
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
@@ -511,7 +515,8 @@ class Tito_controller extends CI_Controller {
 					@Difficulty ='',
 					@ConfigNotes ='',
 					@ExclusionNotes ='',							
-					@PublicationNotes ='".$this->input->post('PublicationNotes')."',						
+					@PublicationNotes ='".$this->input->post('PublicationNotes')."',
+					@AgentID ='',						
 					@ReConfigNotes =''";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
@@ -536,7 +541,8 @@ class Tito_controller extends CI_Controller {
 					@Difficulty ='',
 					@ConfigNotes ='',
 					@ExclusionNotes ='',							
-					@PublicationNotes ='',						
+					@PublicationNotes ='',	
+					@AgentID ='',					
 					@ReConfigNotes ='".$this->input->post('ReConfigNotes')."'";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);

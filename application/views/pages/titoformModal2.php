@@ -1,7 +1,6 @@
 <div class="titoformModal modal-dialog modal-lg <?= $process; ?>">
     <div class="modal-content">
         <div class="modal-header">
-            <!-- <button type="button" class="close close-btn" data-dismiss="modal">&times;</button> -->
             <h4 class="modal-title"><?= $process;?></h4>
         </div>
         <div class="modal-body">
@@ -11,14 +10,14 @@
             <input type="hidden" id="NewSourceID" value="<?= $parentData['NewSourceID'];?>">
             <input type="hidden" id="AllocationRefId" value="<?= $AllocationRefId;?>">
 
-            <div class="row">
+            <!-- <div class="row"> -->
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <a data-toggle="collapse" href="#content_analysis"><h4 class="panel-title">CONTENT_ANALYSIS</h4></a>
                         </div>
-                        <div id="content_analysis" class="panel-collapse collapse in">
-                            <div class="col-lg-12 form-horizontal">
+                        <div id="content_analysis" class="panel-collapse collapse in form-horizontal">
+                            <div class="panel-body">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group ">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source URL:</label>
@@ -103,19 +102,18 @@
                         </div>
                     </div>
                 </div>
-            </div>
-            <br> 
+            <!-- </div> -->
             <?php
                 if($processId >=2){
             ?>
-            <div class="row">
+            <!-- <div class="row"> -->
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a data-toggle="collapse" href="#collapse2"><h4 class="panel-title">AGENT_DEVELOPMENT</h4></a>
+                            <a data-toggle="collapse" href="#agent_development"><h4 class="panel-title">AGENT_DEVELOPMENT</h4></a>
                         </div>
-                        <div id="collapse2" class="panel-collapse collapse in">
-                            <div class="panel-body form-horizontal <?= ($processId=='2' ? 'myForm': '');?>" style="border-top: none; padding: 0px">
+                        <div id="agent_development" class="panel-collapse collapse in">
+                            <div class="panel-body form-horizontal <?= ($processId=='2' ? 'myForm': '');?>" >
                                 
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group ">
@@ -166,9 +164,6 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <!-- <div class="col-lg-12">
-                                        <hr>
-                                    </div> -->
                                     <div class="col-lg-12">
                                         <div class="col-lg-6 col-md-6 col-sm-12">
                                             <div class="form-group ">
@@ -192,24 +187,24 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            <!-- </div> -->
             <?php
             }
             if($processId >=5){
             ?>
-            <div class="row">
+            <!-- <div class="row"> -->
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <a data-toggle="collapse" href="#collapse1"><h4 class="panel-title">AGENT_PUBLICATION</h4></a>
                         </div>
                         <div id="collapse1" class="panel-collapse collapse in">
-                            <div class="panel-body form-horizontal" style="border-top: none; padding: 0px">
+                            <div class="panel-body form-horizontal <?= ($processId=='5' ? 'myForm': '');?>" >
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" >Remarks here</div>
+                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" <?= ($processId=='5' ? 'contenteditable="true"' : '');?>>Remarks here</div>
                                         </div>
                                     </div>
                                 </div> 
@@ -217,7 +212,7 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            <!-- </div> -->
             <?php
                 }
             if($processId >=3){
@@ -229,7 +224,7 @@
                             <a data-toggle="collapse" href="#collapse3"><h4 class="panel-title">AGENT_DEV_REVIEW</h4></a>
                         </div>
                         <div id="collapse3" class="panel-collapse collapse in">
-                            <div class="panel-body form-horizontal <?= ($processId=='3' ? 'myForm': '');?>" style="border-top: none; padding: 0px">
+                            <div class="panel-body form-horizontal <?= ($processId=='3' ? 'myForm': '');?>" >
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group ">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Publication Notes:</label>
@@ -262,7 +257,7 @@
                             <a data-toggle="collapse" href="#collapse4"><h4 class="panel-title">AGENT_REFINEMENT</h4></a>
                         </div>
                         <div id="collapse4" class="panel-collapse collapse in">
-                            <div class="panel-body form-horizontal <?= ($processId=='4' ? 'myForm': '');?>" style="border-top: none; padding: 0px">
+                            <div class="panel-body form-horizontal <?= ($processId=='4' ? 'myForm': '');?>" >
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group ">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Reconfiguration Notes:</label>
@@ -294,7 +289,7 @@
                             <a data-toggle="collapse" href="#collapse1"><h4 class="panel-title">AGENT_REWORK</h4></a>
                         </div>
                         <div id="collapse1" class="panel-collapse collapse in">
-                            <div class="panel-body form-horizontal" style="border-top: none; padding: 0px">
+                            <div class="panel-body form-horizontal" >
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
@@ -308,15 +303,12 @@
                     </div>
                 </div>
             </div>
-            <?php } ?>
-            <div class="row">
-
-                <div class="col-lg-12">
-                    <button class="btn btn-flat btn-xs btn-danger taskdone-btn" data-value="Pending"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> Pending</button>
-                    <button class="btn btn-flat btn-xs btn-success taskdone-btn" data-value="Done"><i class="fa fa-check-square-o" aria-hidden="true"></i> Done</button>
-                    <p class="errorMsg"></p> 
-                </div>
-            </div>
-      
+            <?php } ?>      
+        </div>
+        <div class="modal-footer">
+            <p class="errorMsg"></p>
+            <button class="btn btn-flat btn-xs btn-danger taskdone-btn" data-value="Pending"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> Pending</button>
+            <button class="btn btn-flat btn-xs btn-success taskdone-btn" data-value="Done"><i class="fa fa-check-square-o" aria-hidden="true"></i> Done</button> 
         </div>
     </div>
+</div>

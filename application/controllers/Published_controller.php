@@ -47,6 +47,37 @@ class Published_controller extends CI_Controller {
 			redirect();
 		}
     }
+
+    public function view_published_list()
+    {
+    	$ProcessId = 5; //AGENT_PUBLICATION ProcessId
+    	$sql="SELECT ps.*, u.UserId, u.LoginName as [UserName], bi.BatchName FROM wms_view_JobsBatchInfoProjectSpecificInfo ps
+			INNER JOIN wms_JobsBatchInfo bi ON ps.PS_BatchId = bi.BatchId
+			INNER JOIN wms_JobsBatchAllocation ba on bi.LastAllocationRefId = ba.RefId
+			INNER JOIN NM_Users u ON ba.UserId = u.UserId
+			WHERE bi.StatusId = 7 AND  bi.ProcessId = ".$ProcessId.";";
+		$APIResult = $this->base_model->GetDatabaseDataset($sql);
+		$data = json_decode($APIResult, true);
+		// echo"<pre>";
+		// print_r($data);
+		// echo"</pre>";
+		// die();
+		if (array_key_exists('error', $data)) { die("2. ".$data['error']); }
+		$result = $data[0];
+		if(sizeof($result)>0){
+			foreach ($result as $row) {
+				
+				echo'<tr class="sourceTR" data-ParentID="'.$row['ParentID'].'" data-ref="'.$row['ReferenceID'].'">';
+					echo'<td>'.$row['ReferenceID'].'</td>';
+					echo'<td>'.$row['SourceName'].'</td>';
+					echo'<td>'.$row['SourceUrl'].'</td>';
+					echo'<td>'.$row['SourceName'].'</td>';
+					
+					echo'<td>'.$row['SourcePassword'].'</td>';
+				echo'</tr>';
+			}
+		}
+    }
 }
 
 

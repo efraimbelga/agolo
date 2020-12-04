@@ -3,7 +3,7 @@ $(function(){
 
 	function view_source_request(){
 		$.ajax({
-	        url: domain + 'Basecontroller/view_source_request',
+	        url: domain + 'Published_controller/view_published_list',
 	        type: 'POST',
 	        // dataType: 'json',
 	        // contentType: 'application/json',

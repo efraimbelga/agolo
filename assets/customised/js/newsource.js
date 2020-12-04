@@ -87,9 +87,4 @@ $(function(){
 
 })
 
-function AutoAllocate(){
-	$.post(domain + 'Basecontroller/AutoAllocate', function(result){
-		console.log(result)
-	})
-}
-	
+

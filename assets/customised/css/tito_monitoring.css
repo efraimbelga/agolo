@@ -107,3 +107,19 @@ tr.sourceTR.Ongoing:hover{
   background: #ffcfcf;
   color: black;
 }
+
+.titoformModal .panel {
+    border: none;
+    -webkit-box-shadow: none;
+    box-shadow: none;
+
+}
+.titoformModal .panel-group .panel-heading+.panel-collapse>.panel-body{
+    border-top: none;
+}
+.titoformModal .panel-body {
+    padding: 15px 0px;
+}
+.titoformModal .panel-group{
+  margin-bottom: 0px;
+}

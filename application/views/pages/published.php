@@ -11,15 +11,31 @@
         <!-- <div class="box-header">
             <h3 class="box-title">Source Request View</h3>
         </div> -->
+    <!--     [PS_BatchId] => 10
+                    [SourceUrl] => http://www.simple-news.com
+                    [ParentID] => 3
+                    [SourceRequestDate] => 2020-10-21T14:29:54.977Z
+                    [SourceUserName] => allancontreras
+                    [SourcePassword] => engg@12345
+                    [ClaimedBy] => yh4
+                    [NewSourceID] => 3
+                    [ReferenceID] => 5f8d3cfe51914427df691b3c
+                    [SourceName] => dgfrtreet
+                    [IsParent] => 1
+                    [UserId] => 1112
+                    [UserName] => yh4
+                    [BatchName] => AG202012040000300001 -->
         <div class="box-body srboxbody table-responsive">
             <table class="table table-condensed table-bordered" id="srTable">
                 <thead>
                     <tr>
-                        <th>Reference ID</th>
+                        <th>Source Name</th>
                         <th>Source URL</th>
-                        <th>Request Date</th>
-                        <th>Source Username</th>
-                        <th>Source Password</th>
+                        <th>Agent Name</th>
+                        <th>Heirarchy</th>
+                        <th>Status</th>
+                        <th>BatchName</th>
+                        <th></th>
                     </tr>
                 </thead>
                 <tbody></tbody>
