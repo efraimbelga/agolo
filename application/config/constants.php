@@ -86,7 +86,7 @@ defined('EXIT__AUTO_MAX')      	OR define('EXIT__AUTO_MAX', 125); // highest aut
 
 defined('WMS_URL')       	OR define('WMS_URL', 'https://52.220.114.60/WMS.Services/WMS.Services.asmx/');
 defined('APIKEY')        	OR define('APIKEY', 'Thequickbrownfoxjumpsoverthelazyd0g');
-defined('CONFIG')        	OR define('CONFIG', '019');
+defined('CONFIG')        	OR define('CONFIG', '019Test');
 defined('STREAM_CONTEXT')	OR define('STREAM_CONTEXT', array(
 		'ssl' => array(
 			'verify_peer' => false, 
