@@ -1,6 +1,7 @@
 <div class="titoformModal modal-dialog modal-lg <?= $process; ?>">
     <div class="modal-content">
         <div class="modal-header">
+            <?= ($processId==2 ? '<button type="button" class="close" data-dismiss="modal">&times;</button>' : '');?>
             <h4 class="modal-title"><?= $process;?></h4>
         </div>
         <div class="modal-body">
@@ -104,7 +105,7 @@
                 </div>
             <!-- </div> -->
             <?php
-                if($processId >=2){
+                if($RefId >=8){
             ?>
             <!-- <div class="row"> -->
                 <div class="panel-group">
@@ -169,7 +170,7 @@
                                             <div class="form-group ">
                                                 <label class="control-label col-sm-3 col-lg-4 col-xs-12">Agent ID:</label>
                                                 <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                    <div class="form-control input-sm AgentID" id="AgentID" data-key="AgentID" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>></div>
+                                                    <div class="form-control input-sm AgentID" id="AgentID" data-key="AgentID" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>><?= $parentData['AgentID'];?></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -190,7 +191,7 @@
             <!-- </div> -->
             <?php
             }
-            if($processId >=4){
+            if($RefId >=9){
             ?>
             <!-- <div class="row"> -->
                 <div class="panel-group">
@@ -215,7 +216,7 @@
             <!-- </div> -->
             <?php
                 }
-            if($processId >=3){
+            if($RefId >=0){
             ?>
             <!-- <div class="row">
                 <div class="panel-group">
@@ -248,7 +249,7 @@
                 </div>
             </div> -->
             <?php }
-                if($processId >=4){
+                if($RefId >=10){
             ?>
             <div class="row">
                 <div class="panel-group">
@@ -280,7 +281,7 @@
                 </div>
             </div>
             <?php }
-                if($processId >=6){
+                if($RefId >=11){
             ?>
             <div class="row">
                 <div class="panel-group">
@@ -307,8 +308,11 @@
         </div>
         <div class="modal-footer">
             <p class="errorMsg"></p>
-            <button class="btn btn-flat btn-xs btn-danger taskdone-btn" data-value="Pending"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> Pending</button>
-            <button class="btn btn-flat btn-xs btn-success taskdone-btn" data-value="Done"><i class="fa fa-check-square-o" aria-hidden="true"></i> Done</button> 
+            <?php
+                echo '<button class="btn btn-flat btn-xs btn-danger taskdone-btn" data-value="Pending"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> Pending</button>';
+                echo '<button class="btn btn-flat btn-xs btn-success taskdone-btn" data-value="Done"><i class="fa fa-check-square-o" aria-hidden="true"></i> Done</button>';
+            ?>  
+             
         </div>
     </div>
 </div>

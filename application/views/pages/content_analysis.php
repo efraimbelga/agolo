@@ -219,7 +219,7 @@
 <!-- AdminLTE for demo purposes -->
 
 
-<!-- <script type="text/javascript" src="<?= base_url('assets/customised/js/general.js');?>"></script> -->
+<script type="text/javascript" src="<?= base_url('assets/customised/js/general.js');?>"></script>
 <?php
     if(isset($js)){
         foreach ($js as $jsfile) {

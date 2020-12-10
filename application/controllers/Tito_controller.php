@@ -57,6 +57,8 @@ class Tito_controller extends CI_Controller {
 		if($this->session->userdata('userkey')){
 			if($processId=='4'){
 				redirect('tito_monitoring/4/tito');
+			}elseif($processId=='6'){
+				redirect('tito_monitoring/6/tito');
 			}else{
 				$APIResult = $this->base_model->GetSessionInfo();
 				$data = json_decode($APIResult, true);
@@ -201,12 +203,19 @@ class Tito_controller extends CI_Controller {
 			$APIResult = $this->base_model->GetDatabaseDataset($sql);
 			$parentData = json_decode($APIResult, true);
 			// $parentData = $this->base_model->get_data_row($sql);
+
+			$sql="select TOP(1) wp.RefId from wms_Processes p inner join wms_WorkFlowProcesses wp on p.processid=wp.ProcessId where wp.workflowid=1 AND p.ProcessId=".$processId;
+			$APIResult = $this->base_model->GetDatabaseDataset($sql);
+			$RefIdData = json_decode($APIResult, true);
+
+
 			$data = array(
-				'AllocationRefId' => $AllocationRefId,
-				'process' => $this->getprocessname($processId),
-				'parentData'	=> $parentData[0][0],			
-				'processId' 	=> $processId,
-				'ReferenceID' => $ReferenceID
+				'AllocationRefId'	=> $AllocationRefId,
+				'process' 			=> $this->getprocessname($processId),
+				'parentData'		=> $parentData[0][0],			
+				'processId' 		=> $processId,
+				'ReferenceID' 		=> $ReferenceID,
+				'RefId'				=> $RefIdData[0][0]['RefId']
 			);	
 
 			$this->load->view('pages/titoformModal2', $data);
@@ -558,6 +567,86 @@ class Tito_controller extends CI_Controller {
 	}
 
 	public function agent_refinement($page){
+		if($page=='tito'){
+			if($this->session->userdata('userkey')){
+				$processId = $this->uri->segment(2);
+			
+				$APIResult = $this->base_model->GetSessionInfo();
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) {
+					if($data['error'] != 'No active session!'){
+						// die($data['error']);
+						echo "<script type='text/javascript'>";
+						echo "    alert('".$data['error']."');";
+						echo "	window.location='".base_url('signout')."'";
+						echo "</script>";
+					}
+				}
+
+				$sessionData = [
+	                'processId'=> $processId
+	            ];
+	            $this->session->set_userdata($sessionData);
+				$data = array(
+					'process' => $this->getprocessname($processId),
+					'page' => 'pages/tito_monitoring',
+					'css' => array(
+						'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
+					),
+					'js' => array(
+						'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
+					)
+				);
+				$this->load->view('base', $data);
+			}else{
+				redirect();
+			}
+		}elseif($page=='allocate'){
+			if($this->session->userdata('userkey')){
+				$APIResult = $this->base_model->GetSessionInfo();
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) {
+					if($data['error'] != 'No active session!'){
+						echo "<script type='text/javascript'>";
+						echo "    alert('".$data['error']."');";
+						echo "	window.location='".base_url('signout')."'";
+						echo "</script>";
+					}
+				}else{
+					$APIResult =  $this->base_model->SessionLogout();
+					$data = json_decode($APIResult, true);
+					if (array_key_exists('error', $data)) {
+						if($data['error']=='Active TITO for the current session detected!'){
+							$APIResult = $this->base_model->GetAllocationsDt();
+						    $data = json_decode($APIResult, true);
+						   	if (array_key_exists('error', $data)) { die($data['error']); }
+						    if(sizeof($data) > 0){
+						    	$pid = strval($data[0]['ProcessId']);
+						    	redirect('tito_monitoring/'.$pid);
+							}						
+						}else{
+							die($data['error']);
+						}
+					}
+				}
+			
+				$homeData = array(
+					'page' => 'pages/agent_refinement_allocate',
+					'js' => array(
+						'<script type="text/javascript" src="'.base_url('assets/customised/js/agent_refinement.js').'"></script>'
+					)
+				);
+				$this->load->view('base', $homeData);
+			}else{
+				redirect();
+			}
+		}else{
+			redirect('tito_monitoring/4/tito');
+		}
+	}
+
+	public function agent_rework($page)
+	{
 		if($page=='tito'){
 			if($this->session->userdata('userkey')){
 				$processId = $this->uri->segment(2);
