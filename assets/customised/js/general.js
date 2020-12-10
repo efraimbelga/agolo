@@ -1,7 +1,7 @@
 $(function(){
 	// OpenMe()
-	$( '#loadingModal' ).on( 'hidden.bs.modal' , function() {
-	    $( 'body' ).addClass( 'modal-open' );
+	$(document).on('hidden.bs.modal', '.modal', function () {
+	    $('.modal:visible').length && $(document.body).addClass('modal-open');
 	});
 
 	$(document).on('keydown', 'div[contenteditable=true]', function(e) {
@@ -15,8 +15,13 @@ $(function(){
 	});
 
 	$(document).on('keyup', '.form-control', function(e){
-		$(this).addClass('edited')
+		if($(this).hasClass('noedited')){
+
+		}else{
+			$(this).addClass('edited')
+		}
 		$(this).removeClass('errorinput')
+		$('.errorMsg').text('')
 	})
 })
 

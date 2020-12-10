@@ -38,7 +38,7 @@
         
     </style>
 </head>
-<body class="hold-transition skin-blue sidebar-mini fixed" >
+<body class="hold-transition skin-blue" >
 <!-- Site wrapper -->
 <div class="wrapper" style="background: #ecf0f5;">
     <?php
@@ -96,34 +96,37 @@
                             <div class="form-control input-sm" id="SourceURL" data-key="SourceURL"><?= $NSRSourceURL;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm SourceName requiredDiv " id="SourceName" data-key="SourceName" contenteditable="true"><?= $SourceName;?></div>
+                            <div class="form-control input-sm SourceName requiredDiv" id="SourceName" data-key="SourceName" contenteditable="true"><?= $SourceName;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Type requiredDiv " data-key="Type" contenteditable="true"><?= $Type;?></div>
+                            <div class="form-control input-sm Type " data-key="Type" contenteditable="true"><?= $Type;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Region requiredDiv" data-key="Region" contenteditable="true"><?= $Region;?></div>
+                            <div class="form-control input-sm Region" data-key="Region" contenteditable="true"><?= $Region;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Country requiredDiv" data-key="Country" contenteditable="true"><?= $Country;?></div>
+                            <div class="form-control input-sm Country" data-key="Country" contenteditable="true"><?= $Country;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Client requiredDiv" data-key="Client" contenteditable="true"><?= $Client;?></div>
+                            <div class="form-control input-sm Client" data-key="Client" contenteditable="true"><?= $Client;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Access requiredDiv" data-key="Access" contenteditable="true"><?= $Access;?></div>
+                            <div class="form-control input-sm Access" data-key="Access" contenteditable="true"><?= $Access;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true"><?= $Priority;?></div>
+                            <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" id="Priority"><?= $Priority;?></div>
                         </td>
                         <td>
-                            <div class="form-control input-sm Remark" data-key="Remark" contenteditable="true"></div>
+                            <div class="form-control input-sm Remark noedited" data-key="Remark" contenteditable="true"></div>
                         </td>
                         <td>
-                            <a href="" class="savepsource-btn" ><i class="fa fa-check-square" aria-hidden="true"></i></a>
-                            <a href="" class="clearpsource-btn"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                            <a href="" class="btn btn-xs btn-success btn-flat savepsource-btn" ><i class="fa fa-check-square" aria-hidden="true"></i></a>
+                            <a href="" class="btn btn-xs btn-danger btn-flat clearpsource-btn"><i class="fa fa fa-trash-o" aria-hidden="true"></i></a>
                         </td>
                         
+                    </tr>
+                    <tr class="subsectiontr <?= (sizeof($sectionData) > 0 ? '' : 'displayNone');?>">
+                        <th colspan="8">Sub-section:</th>
                     </tr>
                     <tr class="subsectiontr <?= (sizeof($sectionData) > 0 ? '' : 'displayNone');?>">
                         <th>Section Source URL</th>
@@ -148,19 +151,19 @@
                                 <div class="form-control input-sm SourceName requiredDiv" data-key="SourceName" contenteditable="true" ><?= $row['SourceName'];?></div>
                             </td>
                             <td>
-                                <div class="form-control input-sm Type requiredDiv" data-key="Type" contenteditable="true" ><?= $row['Type'];?></div>
+                                <div class="form-control input-sm Type" data-key="Type" contenteditable="true" ><?= $row['Type'];?></div>
                             </td>
                             <td>
-                                <div class="form-control input-sm Region requiredDiv" data-key="Region" contenteditable="true" ><?= $row['Region'];?></div>
+                                <div class="form-control input-sm Region" data-key="Region" contenteditable="true" ><?= $row['Region'];?></div>
                             </td>
                             <td>
-                                <div class="form-control input-sm Country requiredDiv" data-key="Country" contenteditable="true" ><?= $row['Country'];?></div>
+                                <div class="form-control input-sm Country" data-key="Country" contenteditable="true" ><?= $row['Country'];?></div>
                             </td>
                             <td>
-                                <div class="form-control input-sm Client requiredDiv" data-key="Client" contenteditable="true" ><?= $row['Client'];?></div>
+                                <div class="form-control input-sm Client" data-key="Client" contenteditable="true" ><?= $row['Client'];?></div>
                             </td>
                             <td>
-                                <div class="form-control input-sm Access requiredDiv" data-key="Access" contenteditable="true" ><?= $row['Access'];?></div>
+                                <div class="form-control input-sm Access" data-key="Access" contenteditable="true" ><?= $row['Access'];?></div>
                             </td>
                             <td>
                                 <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" ><?= $row['Priority'];?></div>
@@ -168,9 +171,9 @@
                             <!-- <td>
                                 <div class="form-control input-sm Remark" data-key="Remark" contenteditable="true"></div>
                             </td> -->
-                            <td>
-                                <a href="" class="savesection-btn"><i class="fa fa-check-square" aria-hidden="true"></i></a>
-                                <a href="" class="clearsection-btn"><i class="fa fa-window-close" aria-hidden="true"></i></a>
+                            <td class="text-left">
+                                <a href="" class="savesection-btn btn btn-xs btn-flat btn-success"><i class="fa fa-check-square" aria-hidden="true"></i></a>
+                                <a href="" class="clearsection-btn btn btn-xs btn-flat btn-danger"><i class="fa fa fa-trash-o" aria-hidden="true"></i></a>
                             </td>                            
                         </tr>
                     <?php

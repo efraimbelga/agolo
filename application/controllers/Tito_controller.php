@@ -55,11 +55,12 @@ class Tito_controller extends CI_Controller {
 	public function tito_monitoring($processId)
 	{
 		if($this->session->userdata('userkey')){
-			if($processId=='4'){
-				redirect('tito_monitoring/4/tito');
-			}elseif($processId=='6'){
-				redirect('tito_monitoring/6/tito');
-			}else{
+			// if($processId=='4'){
+			// 	redirect('tito_monitoring/4/tito');
+			// }elseif($processId=='6'){
+			// 	redirect('tito_monitoring/6/tito');
+			// }
+			// else{
 				$APIResult = $this->base_model->GetSessionInfo();
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) {
@@ -87,7 +88,7 @@ class Tito_controller extends CI_Controller {
 					)
 				);
 				$this->load->view('base', $data);
-			}
+			// }
 			
 		}else{
 			redirect();
@@ -146,7 +147,7 @@ class Tito_controller extends CI_Controller {
 		}
 		else{
 			echo'<tr>';
-				echo'<td colspan="6"><p class="text-center">No data found</p></td>';
+				echo'<td colspan="'.($processId>=2 ? '6' : '5').'"><p class="text-center">No data found</p></td>';
 			echo'</tr>';
 		}
 
@@ -315,6 +316,8 @@ class Tito_controller extends CI_Controller {
 			echo $result;
 		}elseif($sourceType=='Section'){
 			if($ParentID=='0'){
+				// print_r($_POST);
+
 				$sql = "EXEC USP_AGLDE_SOURCEDETAILS_INSERT_SUBSECTION 
 				@SourceURL = '".$this->input->post('SourceURL')."',
 				@SourceName = '".$this->input->post('SourceName')."',
@@ -400,16 +403,6 @@ class Tito_controller extends CI_Controller {
 		$SourceName 		= $this->input->post('SourceName');
 
 		$SourceID = $SubSourceID = '';
-			
-		$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die("TO1 :".$data['error']); }
-
-		// die();
-		// $APIResult =  $this->base_model->SessionLogout();
-		// $data = json_decode($APIResult, true);
-		// if (array_key_exists('error', $data)) { die("D. :".$data['error']); }	
-
 		if($status=='Done'){
 			if($processId=='1'){
 				$json = '{ "referenceId": "'.$ReferenceID.'", "sources": [{ "url": "'.$SourceURL.'", "name": "'.$SourceName.'" ';
@@ -431,7 +424,12 @@ class Tito_controller extends CI_Controller {
 					$json .= $sections.']';
 				}
 				$json .= '}] }';
+				// echo $json;
 				$APIResult = $this->base_model->A1_API($json);
+				if($APIResult === FALSE) { 
+					$error = error_get_last();
+      				die("HTTP request failed. " . $error['message']);
+				}
 			    $data = json_decode($APIResult, true);
 			    if (array_key_exists('sources', $data)){
 			    	$sources = $data['sources'];
@@ -472,8 +470,11 @@ class Tito_controller extends CI_Controller {
 				// $this->input->post('AgentID');
 				$AgentID = 'd8bfa0e3-53f0-4d75-b329-9b2f6f628bbe';
 				$json = '{ "agentId": "'.$AgentID.'" }';
-				$this->base_model->A2_API($json, $this->input->post('SourceID'));
-				
+				$CAPIResult = $this->base_model->A2_API($json, $this->input->post('SourceID'));
+				if($CAPIResult === FALSE) { 
+					$error = error_get_last();
+      				die("HTTP request failed. " . $error['message']);
+				}
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
 					@Type ='',
 					@Region ='',
@@ -499,7 +500,6 @@ class Tito_controller extends CI_Controller {
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { die("TO4 : ".$data['error']); }
-
 			}
 			else if($processId=='3'){
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
@@ -553,6 +553,13 @@ class Tito_controller extends CI_Controller {
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { die("TO6 : ".$data['error']); }
 			}
+			$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
+			$data = json_decode($APIResult, true);
+			if (array_key_exists('error', $data)) { die("TO1 :".$data['error']); }
+		}else{
+			$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
+			$data = json_decode($APIResult, true);
+			if (array_key_exists('error', $data)) { die("TO1 :".$data['error']); }
 		}		
 	}
 
@@ -566,164 +573,84 @@ class Tito_controller extends CI_Controller {
 		echo $rawdata['NSRSourceURL'];
 	}
 
-	public function agent_refinement($page){
-		if($page=='tito'){
-			if($this->session->userdata('userkey')){
-				$processId = $this->uri->segment(2);
+	// public function agent_refinement($page){
+	// 	if($page=='tito'){
+	// 		if($this->session->userdata('userkey')){
+	// 			$processId = $this->uri->segment(2);
 			
-				$APIResult = $this->base_model->GetSessionInfo();
-				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) {
-					if($data['error'] != 'No active session!'){
-						// die($data['error']);
-						echo "<script type='text/javascript'>";
-						echo "    alert('".$data['error']."');";
-						echo "	window.location='".base_url('signout')."'";
-						echo "</script>";
-					}
-				}
+	// 			$APIResult = $this->base_model->GetSessionInfo();
+	// 			$data = json_decode($APIResult, true);
+	// 			if (array_key_exists('error', $data)) {
+	// 				if($data['error'] != 'No active session!'){
+	// 					// die($data['error']);
+	// 					echo "<script type='text/javascript'>";
+	// 					echo "    alert('".$data['error']."');";
+	// 					echo "	window.location='".base_url('signout')."'";
+	// 					echo "</script>";
+	// 				}
+	// 			}
 
-				$sessionData = [
-	                'processId'=> $processId
-	            ];
-	            $this->session->set_userdata($sessionData);
-				$data = array(
-					'process' => $this->getprocessname($processId),
-					'page' => 'pages/tito_monitoring',
-					'css' => array(
-						'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
-					),
-					'js' => array(
-						'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
-					)
-				);
-				$this->load->view('base', $data);
-			}else{
-				redirect();
-			}
-		}elseif($page=='allocate'){
-			if($this->session->userdata('userkey')){
-				$APIResult = $this->base_model->GetSessionInfo();
-				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) {
-					if($data['error'] != 'No active session!'){
-						echo "<script type='text/javascript'>";
-						echo "    alert('".$data['error']."');";
-						echo "	window.location='".base_url('signout')."'";
-						echo "</script>";
-					}
-				}else{
-					$APIResult =  $this->base_model->SessionLogout();
-					$data = json_decode($APIResult, true);
-					if (array_key_exists('error', $data)) {
-						if($data['error']=='Active TITO for the current session detected!'){
-							$APIResult = $this->base_model->GetAllocationsDt();
-						    $data = json_decode($APIResult, true);
-						   	if (array_key_exists('error', $data)) { die($data['error']); }
-						    if(sizeof($data) > 0){
-						    	$pid = strval($data[0]['ProcessId']);
-						    	redirect('tito_monitoring/'.$pid);
-							}						
-						}else{
-							die($data['error']);
-						}
-					}
-				}
+	// 			$sessionData = [
+	//                 'processId'=> $processId
+	//             ];
+	//             $this->session->set_userdata($sessionData);
+	// 			$data = array(
+	// 				'process' => $this->getprocessname($processId),
+	// 				'page' => 'pages/tito_monitoring',
+	// 				'css' => array(
+	// 					'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
+	// 				),
+	// 				'js' => array(
+	// 					'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
+	// 				)
+	// 			);
+	// 			$this->load->view('base', $data);
+	// 		}else{
+	// 			redirect();
+	// 		}
+	// 	}elseif($page=='allocate'){
+	// 		if($this->session->userdata('userkey')){
+	// 			$APIResult = $this->base_model->GetSessionInfo();
+	// 			$data = json_decode($APIResult, true);
+	// 			if (array_key_exists('error', $data)) {
+	// 				if($data['error'] != 'No active session!'){
+	// 					echo "<script type='text/javascript'>";
+	// 					echo "    alert('".$data['error']."');";
+	// 					echo "	window.location='".base_url('signout')."'";
+	// 					echo "</script>";
+	// 				}
+	// 			}else{
+	// 				$APIResult =  $this->base_model->SessionLogout();
+	// 				$data = json_decode($APIResult, true);
+	// 				if (array_key_exists('error', $data)) {
+	// 					if($data['error']=='Active TITO for the current session detected!'){
+	// 						$APIResult = $this->base_model->GetAllocationsDt();
+	// 					    $data = json_decode($APIResult, true);
+	// 					   	if (array_key_exists('error', $data)) { die($data['error']); }
+	// 					    if(sizeof($data) > 0){
+	// 					    	$pid = strval($data[0]['ProcessId']);
+	// 					    	redirect('tito_monitoring/'.$pid);
+	// 						}						
+	// 					}else{
+	// 						die($data['error']);
+	// 					}
+	// 				}
+	// 			}
 			
-				$homeData = array(
-					'page' => 'pages/agent_refinement_allocate',
-					'js' => array(
-						'<script type="text/javascript" src="'.base_url('assets/customised/js/agent_refinement.js').'"></script>'
-					)
-				);
-				$this->load->view('base', $homeData);
-			}else{
-				redirect();
-			}
-		}else{
-			redirect('tito_monitoring/4/tito');
-		}
-	}
-
-	public function agent_rework($page)
-	{
-		if($page=='tito'){
-			if($this->session->userdata('userkey')){
-				$processId = $this->uri->segment(2);
-			
-				$APIResult = $this->base_model->GetSessionInfo();
-				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) {
-					if($data['error'] != 'No active session!'){
-						// die($data['error']);
-						echo "<script type='text/javascript'>";
-						echo "    alert('".$data['error']."');";
-						echo "	window.location='".base_url('signout')."'";
-						echo "</script>";
-					}
-				}
-
-				$sessionData = [
-	                'processId'=> $processId
-	            ];
-	            $this->session->set_userdata($sessionData);
-				$data = array(
-					'process' => $this->getprocessname($processId),
-					'page' => 'pages/tito_monitoring',
-					'css' => array(
-						'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
-					),
-					'js' => array(
-						'<script type="text/javascript" src="'.base_url('assets/customised/js/tito_monitoring.js').'"></script>'
-					)
-				);
-				$this->load->view('base', $data);
-			}else{
-				redirect();
-			}
-		}elseif($page=='allocate'){
-			if($this->session->userdata('userkey')){
-				$APIResult = $this->base_model->GetSessionInfo();
-				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) {
-					if($data['error'] != 'No active session!'){
-						echo "<script type='text/javascript'>";
-						echo "    alert('".$data['error']."');";
-						echo "	window.location='".base_url('signout')."'";
-						echo "</script>";
-					}
-				}else{
-					$APIResult =  $this->base_model->SessionLogout();
-					$data = json_decode($APIResult, true);
-					if (array_key_exists('error', $data)) {
-						if($data['error']=='Active TITO for the current session detected!'){
-							$APIResult = $this->base_model->GetAllocationsDt();
-						    $data = json_decode($APIResult, true);
-						   	if (array_key_exists('error', $data)) { die($data['error']); }
-						    if(sizeof($data) > 0){
-						    	$pid = strval($data[0]['ProcessId']);
-						    	redirect('tito_monitoring/'.$pid);
-							}						
-						}else{
-							die($data['error']);
-						}
-					}
-				}
-			
-				$homeData = array(
-					'page' => 'pages/agent_refinement_allocate',
-					'js' => array(
-						'<script type="text/javascript" src="'.base_url('assets/customised/js/agent_refinement.js').'"></script>'
-					)
-				);
-				$this->load->view('base', $homeData);
-			}else{
-				redirect();
-			}
-		}else{
-			redirect('tito_monitoring/4/tito');
-		}
-	}
+	// 			$homeData = array(
+	// 				'page' => 'pages/agent_refinement_allocate',
+	// 				'js' => array(
+	// 					'<script type="text/javascript" src="'.base_url('assets/customised/js/agent_refinement.js').'"></script>'
+	// 				)
+	// 			);
+	// 			$this->load->view('base', $homeData);
+	// 		}else{
+	// 			redirect();
+	// 		}
+	// 	}else{
+	// 		redirect('tito_monitoring/4/tito');
+	// 	}
+	// }
 
 	public function view_published_list()
     {

@@ -1,7 +1,10 @@
 $(function(){
 
+	
+
 	$(document).on('click', '.savepsource-btn', function(e){
 		e.preventDefault();
+		$('.errorMsg').text('')
 		var x = 0;
 		var tr = $(this).closest('tr');
 		var formData = new FormData();
@@ -9,19 +12,20 @@ $(function(){
 		formData.append('ParentID', ParentID)
 		formData.append('sourceType', 'Parent')
 		
-		tr.find('.form-control').each(function(){
-			var el = $(this);
-			var value = el.text();
-			var key = el.attr('data-key');
-			if(value==''){
-				el.addClass('errorinput');
-				el.focus();
-				x++;
-			}
-			formData.append(key, value);
-		})
-
-		if(x<=0){
+		var priority = $('#Priority').text();
+		priority = priority.replace(/\s/g,'')
+		if(priority===""){
+			$('#Priority').addClass('errorinput');
+			$('#Priority').focus();
+			x++;
+		}
+		else{
+			tr.find('.form-control').each(function(){
+				var el = $(this);
+				var value = el.text();
+				var key = el.attr('data-key');
+				formData.append(key, value);
+			})
 			save_content_analysis(formData, ParentID, tr)
 		}
 	})
@@ -35,15 +39,20 @@ $(function(){
 			})
 		}
 		$(this).closest('tr').remove();
+		if(!$('.subsection').length){
+			$('.subsectiontr').addClass('displayNone');
+		}
 	})
 
 	$(document).on('click', '.clearpsource-btn', function(e){
 		e.preventDefault();
+		$('.errorMsg').text('')
 		$(this).closest('tr').find('.editablediv').text('')
 		$(this).closest('tr').find('.form-control').removeClass('errorinput')
 	})
 
 	$(document).on('click', '.addsesction-btn', function(){
+		$('.errorMsg').text('')
 		$.post(domain + 'Tito_controller/subsectionform', function(result){
 			$('.subsectiontr').removeClass('displayNone');
 			$('#psourceTbl').append(result)
@@ -51,7 +60,12 @@ $(function(){
 	})
 
 	$(document).on('click', '.taskout-btn', function(){
+		$('.errorMsg').text('')
+
 		var x = 0;
+		var error = false;
+		var errorMsg = "";
+
 		var AllocationRefId = $('.CONTENT_ANALYSIS #AllocationRefId').val();
 		var status = $(this).attr('data-value');
 		
@@ -73,14 +87,17 @@ $(function(){
 
 		$('.contentanalysisTbl .requiredDiv').each(function(){
 			if($(this).text()==''){
-				x++;
+				$(this).addClass('errorinput')
+				error=true;
+				errorMsg="Please complete all required fields";
 			}
 		})
 
 		$('.subsection').each(function(){
 			var id = $(this).attr('data-id');
 			if(id=='0'){
-				x++;
+				error=true;
+				errorMsg="Please save or delete newly added subsection";
 			}
 		})
 
@@ -90,19 +107,23 @@ $(function(){
 		}else{
 			$('.contentanalysisTbl .Remark').each(function(){
 				var value = $(this).text();
+				formData.append('Remark', value)
 				if($(this).text()==''){
-					x++;
-				}else{
-					formData.append('Remark', value)
+					$(this).addClass('errorinput')
+					error=true;
+					errorMsg="Please add remark";
 				}
 			})
 		}
-
+		
 		if($( ".edited" ).length) {
 			$(".edited").addClass('errorinput')
-			alert('Please save all the changes and try again');
-		}else if(x > 0){
-			alert('Please complete all feild')
+			error=true;
+			errorMsg="Please save all the changes made";
+		}
+
+		if(error){
+			alert(errorMsg)
 		}else{
 			console.log(status)
 			$.ajax({
@@ -157,14 +178,17 @@ $(function(){
 		formData.append('SectionParentID', $('#ParentID').val())
 		formData.append('NewSourceID', $('#NewSourceID').val())
 		
-		tr.find('.form-control.requiredDiv').each(function(){
+		tr.find('.form-control').each(function(){
 			var el = $(this);
 			var value = el.text();
+			var nospace = value.replace(/\s/g,'');
 			var key = el.attr('data-key');
-			if(value==''){
-				el.addClass('errorinput');
-				el.focus();
-				x++;
+			if(key=='Priority' || key=='SourceURL'){
+				if(nospace===""){
+					el.addClass('errorinput');
+					el.focus();
+					x++;
+				}
 			}
 			formData.append(key, value);
 		})

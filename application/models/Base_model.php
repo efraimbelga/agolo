@@ -178,7 +178,7 @@ class Base_model extends CI_Model {
         ));
 
         // Send the request
-        $response = file_get_contents('https://sources-management.crawlers.agolo.com/api/v1/sources/'.$SourceID, FALSE, $context);
+        $response = @file_get_contents('https://sources-management.crawlers.agolo.com/api/v1/sources/'.$SourceID, FALSE, $context);
         return $response;
     }
 
@@ -193,7 +193,7 @@ class Base_model extends CI_Model {
         ));
 
         // Send the request
-        $response = file_get_contents('https://sources-management.crawlers.agolo.com/api/v1/sources', FALSE, $context);
+        $response = @file_get_contents('https://sources-management.crawlers.agolo.com/api/v1/sources', FALSE, $context);
         return $response;
     }
 

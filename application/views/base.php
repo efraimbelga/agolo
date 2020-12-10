@@ -24,7 +24,11 @@
             echo $cssfile."\n";
         }
     }
-?>
+?> 
+    <!-- jQuery 3 -->
+    <script src="<?= base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
+    <!-- Bootstrap 3.3.7 -->
+    <script src="<?= base_url('assets/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
     <script type="text/javascript">
         var domain = "<?= base_url();?>";
     </script>
@@ -64,10 +68,7 @@
 </div>
 <!-- ./wrapper -->
 
-<!-- jQuery 3 -->
-<script src="<?= base_url('assets/bower_components/jquery/dist/jquery.min.js');?>"></script>
-<!-- Bootstrap 3.3.7 -->
-<script src="<?= base_url('assets/bower_components/bootstrap/dist/js/bootstrap.min.js');?>"></script>
+
 <!-- SlimScroll -->
 <script src="<?= base_url('assets/bower_components/jquery-slimscroll/jquery.slimscroll.min.js');?>"></script>
 <!-- FastClick -->

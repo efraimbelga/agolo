@@ -53,12 +53,9 @@
                                 //     echo'    </ul>';
                                 //     echo'</li>';
                                 // }else{
-                                if($row['ProcessId']!='4' && $row['ProcessId']!='6'){
                                     echo '<li class="'.($segment2==$row['ProcessId'] ? 'active' : '').'"><a href="'.base_url('tito_monitoring/'.$row['ProcessId']).'"><i class="fa fa-circle-o"></i> ';
                                     echo '    <span>'.$row['ProcessCode'].'</span>';
                                     echo '</a></li>';
-                                }
-                                    
                                 // }
                             }
                         }

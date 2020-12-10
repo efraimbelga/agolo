@@ -264,6 +264,99 @@ class Basecontroller extends CI_Controller {
 		);
 		echo json_encode($data);
 	}
+
+	public function allocation()
+	{
+		if($this->session->userdata('userkey')){
+			$APIResult = $this->base_model->GetSessionInfo();
+			$data = json_decode($APIResult, true);
+			if (array_key_exists('error', $data)) {
+				if($data['error'] != 'No active session!'){
+					// die($data['error']);
+					echo "<script type='text/javascript'>";
+					echo "    alert('".$data['error']."');";
+					echo "	window.location='".base_url('signout')."'";
+					echo "</script>";
+				}
+			}else{
+				$APIResult =  $this->base_model->SessionLogout();
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) {
+					if($data['error']=='Active TITO for the current session detected!'){
+						// die($data['error'])
+						$APIResult = $this->base_model->GetAllocationsDt();
+					    $data = json_decode($APIResult, true);
+					    // echo"<pre>";
+					    // 	print_r($data);
+					    // echo"</pre>";
+	
+					    if (array_key_exists('error', $data)) { die($data['error']); }
+					    if(sizeof($data) > 0){
+					    	$pid = strval($data[0]['ProcessId']);
+					    	redirect('tito_monitoring/'.$pid);
+						}						
+					}else{
+						die($data['error']);
+					}
+				}
+			}
+			$data = array(
+				'page' => 'pages/userallocation',
+				'css' => array(
+					'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
+				),
+			);
+			$this->load->view('base', $data);
+			
+		}else{
+			redirect();
+		}
+	}
+
+	public function view_allcationlist(){
+		$APIResult = $this->base_model->GetSessionInfo();
+		$data = json_decode($APIResult, true);		
+		if (array_key_exists('error', $data)) {
+			if($data['error'] == 'No active session!'){
+				// die('here '. $processId);
+				$APIResult = $this->base_model->SessionLogin(6);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { die($data['error']); }
+			}
+		}
+			
+		$APIResult = $this->base_model->GetAllocationsDt();
+	    $data = json_decode($APIResult, true);
+	    // echo"<pre>";
+	    // 	print_r($data);
+	    // echo"</pre>";
+	    if (array_key_exists('error', $data)) { die($data['error']); }
+	    if(sizeof($data) > 0){
+			foreach ($data as $row) {
+				echo'<tr class="sourceTR '.$row['StatusString'].'" data-ParentID="'.$row['ParentID'].'" data-AllocationRefId="'.$row['AllocationRefId'].'" data-ReferenceID="'.$row['ReferenceID'].'" data-status="'.$row['StatusString'].'">';
+						echo'<td>'.$row['SourceUrl'].'</td>';
+						if($processId==1){
+							echo'<td>'.$row['ReferenceID'].'</td>';
+						}else{
+							echo'<td>'.$row['SourceName'].'</td>';
+							echo'<td>'.($row['IsParent']=='1' ? 'Parent': 'Section').'</td>';
+						}
+						echo'<td>'.$row['SourceUserName'].'</td>';
+						echo'<td>'.$row['SourcePassword'].'</td>';
+						echo'<td>'.$row['ClaimedBy'].'</td>';
+						echo'<td>'.$row['StatusString'].'</td>';						
+					echo'</tr>';
+			}
+		}
+		else{
+			echo'<tr>';
+				echo'<td colspan="9"><p class="text-center">No data found</p></td>';
+			echo'</tr>';
+		}
+
+		$this->base_model->SessionLogout();	
+	}
+
 }
 
 

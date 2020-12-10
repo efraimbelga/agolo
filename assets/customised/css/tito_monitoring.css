@@ -80,19 +80,19 @@ a.deleteSection-btn:hover{
 }
 .contentanalysisTbl tbody td:last-child {
     width: 3%;
-   text-align: center;
+   /*text-align: center;*/
 }
 .contentanalysisTbl tbody td div.form-control{
   border: none;
 }
 a.clearsection-btn,
 a.clearpsource-btn{
-    color: #dd4b39;
+    /*color: #dd4b39;*/
 }
 
 a.clearsection-btn:hover,
 a.clearpsource-btn:hover{
-  opacity: .65;
+  /*opacity: .65;*/
 }
 tr.sourceTR.Pending {
     background: #ffc930;
