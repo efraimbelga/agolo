@@ -7,6 +7,8 @@ $(function(){
 		$('.errorMsg').text('')
 		var x = 0;
 		var tr = $(this).closest('tr');
+		tr.find('.errorinput').removeClass('errorinput');
+
 		var formData = new FormData();
 		var ParentID = $('#ParentID').val()
 		formData.append('ParentID', ParentID)
@@ -28,7 +30,7 @@ $(function(){
 			})
 			save_content_analysis(formData, ParentID, tr)
 		}
-	})
+	});
 
 	$(document).on('click', '.clearsection-btn', function(e){
 		e.preventDefault();
@@ -171,6 +173,8 @@ $(function(){
 		e.preventDefault();
 		var x = 0;
 		var tr = $(this).closest('tr');
+		
+
 		var formData = new FormData();
 		var ParentID = tr.attr('data-id')
 		formData.append('ParentID', ParentID)
@@ -180,6 +184,7 @@ $(function(){
 		
 		tr.find('.form-control').each(function(){
 			var el = $(this);
+			el.removeClass('errorinput');
 			var value = el.text();
 			var nospace = value.replace(/\s/g,'');
 			var key = el.attr('data-key');

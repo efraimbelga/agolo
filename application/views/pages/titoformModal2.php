@@ -309,8 +309,13 @@
         <div class="modal-footer">
             <p class="errorMsg"></p>
             <?php
-                echo '<button class="btn btn-flat btn-xs btn-danger taskdone-btn" data-value="Pending"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> Pending</button>';
-                echo '<button class="btn btn-flat btn-xs btn-success taskdone-btn" data-value="Done"><i class="fa fa-check-square-o" aria-hidden="true"></i> Done</button>';
+            // if($processId==2){
+                echo '<button class="btn btn-flat btn-xs btn-success taskdone-btn" data-value="Done"><i class="fa fa-check-square-o" aria-hidden="true"></i> Save</button>';
+            // }else{
+            //     echo '<button class="btn btn-flat btn-xs btn-danger taskdone-btn" data-value="Pending"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> Pending</button>';
+            //     echo '<button class="btn btn-flat btn-xs btn-success taskdone-btn" data-value="Done"><i class="fa fa-check-square-o" aria-hidden="true"></i> Save</button>';
+            // }
+               
             ?>  
              
         </div>
