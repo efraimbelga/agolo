@@ -35,35 +35,16 @@
                         if(sizeof($data) > 0){
                             $segment3 = $this->uri->segment(3);
                             foreach ($data as $row) {
-                                // if($row['ProcessId']=='4' || $row['ProcessId']=='6'){
-                                //     echo'<li class="treeview '.($segment2==$row['ProcessId'] ? 'active' : '').'">';
-                                //     echo'    <a href="#">';
-                                //     echo'        <i class="fa fa-files-o"></i> <span>'.$row['ProcessCode'].'</span>';
-                                //     echo'        <span class="pull-right-container">';
-                                //     echo'            <i class="fa fa-angle-left pull-right"></i>';
-                                //     echo'        </span>';
-                                //     echo'    </a>';
-                                //     echo'    <ul class="treeview-menu">';
-                                //             echo '<li class="'.($segment3=='allocate' && $segment2== $row['ProcessId'] ? 'active' : '').'"><a href="'.base_url('tito_monitoring/'.$row['ProcessId'].'/allocate').'"><i class="fa fa-circle-o"></i> ';
-                                //             echo '    <span>Allocate</span>';
-                                //             echo '</a></li>';
-                                //             echo '<li class="'.($segment3=='tito' && $segment2== $row['ProcessId'] ? 'active' : '').'"><a href="'.base_url('tito_monitoring/'.$row['ProcessId'].'/tito').'"><i class="fa fa-circle-o"></i> ';
-                                //             echo '    <span>Task-in/Task-out</span>';
-                                //             echo '</a></li>';
-                                //     echo'    </ul>';
-                                //     echo'</li>';
-                                // }else{
-                                    echo '<li class="'.($segment2==$row['ProcessId'] ? 'active' : '').'"><a href="'.base_url('tito_monitoring/'.$row['ProcessId']).'"><i class="fa fa-circle-o"></i> ';
-                                    echo '    <span>'.$row['ProcessCode'].'</span>';
-                                    echo '</a></li>';
-                                // }
+                                echo '<li class="'.($segment2==$row['ProcessId'] ? 'active' : '').'"><a href="'.base_url('tito_monitoring/'.$row['ProcessId']).'"><i class="fa fa-circle-o"></i> ';
+                                echo '    <span>'.$row['ProcessCode'].'</span>';
+                                echo '</a></li>';
                             }
                         }
                     ?>     
                 </ul>
             </li>
-            <li><a href="<?= base_url('allocation');?>"><i class="fa fa-circle-o"></i> <span>User Allocation</span></a></li>
-            <li><a href="<?= base_url('published');?>"><i class="fa fa-circle-o"></i> <span>Agennt Published List</span></a></li>
+            <!-- <li><a href="<?= base_url('allocation');?>"><i class="fa fa-circle-o"></i> <span>User Allocation</span></a></li>
+            <li><a href="<?= base_url('published');?>"><i class="fa fa-circle-o"></i> <span>Agennt Published List</span></a></li> -->
         </ul>
     </section>
 </aside>

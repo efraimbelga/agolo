@@ -4,7 +4,7 @@ $(function(){
 
 	$(document).on('click', '.savepsource-btn', function(e){
 		e.preventDefault();
-		$('.errorMsg').text('')
+		$('.errorDiv').html('')
 		var x = 0;
 		var tr = $(this).closest('tr');
 		tr.find('.errorinput').removeClass('errorinput');
@@ -48,13 +48,13 @@ $(function(){
 
 	$(document).on('click', '.clearpsource-btn', function(e){
 		e.preventDefault();
-		$('.errorMsg').text('')
+		$('.errorDiv').html('')
 		$(this).closest('tr').find('.editablediv').text('')
 		$(this).closest('tr').find('.form-control').removeClass('errorinput')
 	})
 
 	$(document).on('click', '.addsesction-btn', function(){
-		$('.errorMsg').text('')
+		$('.errorDiv').html('')
 		$.post(domain + 'Tito_controller/subsectionform', function(result){
 			$('.subsectiontr').removeClass('displayNone');
 			$('#psourceTbl').append(result)
@@ -62,11 +62,11 @@ $(function(){
 	})
 
 	$(document).on('click', '.taskout-btn', function(){
-		$('.errorMsg').text('')
+		$('.errorDiv').html('')
 
 		var x = 0;
 		var error = false;
-		var errorMsg = "";
+		var errorDiv = "";
 
 		var AllocationRefId = $('.CONTENT_ANALYSIS #AllocationRefId').val();
 		var status = $(this).attr('data-value');
@@ -91,7 +91,7 @@ $(function(){
 			if($(this).text()==''){
 				$(this).addClass('errorinput')
 				error=true;
-				errorMsg="Please complete all required fields";
+				errorDiv="Please complete all required fields";
 			}
 		})
 
@@ -99,7 +99,7 @@ $(function(){
 			var id = $(this).attr('data-id');
 			if(id=='0'){
 				error=true;
-				errorMsg="Please save or delete newly added subsection";
+				errorDiv="Please save or delete newly added subsection";
 			}
 		})
 
@@ -107,27 +107,26 @@ $(function(){
 			formData.append('Remark', '')
 			x=0;
 		}else{
-			$('.contentanalysisTbl .Remark').each(function(){
-				var value = $(this).text();
-				formData.append('Remark', value)
-				if($(this).text()==''){
-					$(this).addClass('errorinput')
-					error=true;
-					errorMsg="Please add remark";
-				}
-			})
+			if( $('#Remark').text() ==''){
+				$('#Remark').addClass('errorinput')
+				error=true;
+				errorDiv="Please add remark";
+			}
+			else{
+				formData.append('Remark', $('#Remark').text())
+			}
 		}
 		
 		if($( ".edited" ).length) {
 			$(".edited").addClass('errorinput')
 			error=true;
-			errorMsg="Please save all the changes made";
+			errorDiv="Please save all the changes made";
 		}
 
 		if(error){
-			alert(errorMsg)
+			alert(errorDiv)
 		}else{
-			console.log(status)
+			// console.log(status)
 			$.ajax({
 			    url: domain + 'Tito_controller/task_out_source',
 			    type: 'POST',
@@ -140,16 +139,20 @@ $(function(){
 			    success: function(data, textStatus, jqXHR)
 			    {
 			    	$('#loadingModal').modal('hide');
-			    	$('.CONTENT_ANALYSIS .errorMsg').text(data)
-			    	if(data=='' || data=='success'){
-			        	window.opener.CloseChildWindows();
+			    	// console.log(data)
+			    	var obj = JSON.parse(data);
+			    	if(obj.error== false){
+			    		alert('Saved');
+			    		window.opener.CloseChildWindows();
 			        	window.opener.view_source_request(1)
+			    	}else{
+			    		$('.errorDiv').html('<p class="errorMsg">'+obj.message+'</p>')
 			    	}
 			    },
 			    error: function (jqXHR, textStatus, errorThrown)
 			    {
 			    	$('#loadingModal').modal('hide');
-			    	$('.CONTENT_ANALYSIS .errorMsg').text(jqXHR.responseText)
+			    	$('.errorDiv').html(jqXHR.responseText)
 			 		
 			    }
 			});
@@ -217,25 +220,22 @@ $(function(){
 		    {
 		    	console.log(data)
 		    	$('#loadingModal').modal('hide');
-		    	if(ParentID=='0'){
-		    		if(parseInt(data) > 0){
-		    			tr.attr("data-id", data);
-		    			$('.CONTENT_ANALYSIS .errorMsg').text('Data saved')
+		    	var obj = JSON.parse(data);
+		    	if(obj.error== false){
+		    		if(ParentID=='0'){
+		    			tr.attr("data-id", obj.message);
 		    			tr.find('.form-control').removeClass('edited')
-		    		}
+			    	}
+			    	tr.find('.form-control').removeClass('edited')
+			    	$('.errorDiv').html('Data saved')
 		    	}else{
-		    		if(data=='' || data=='success'){
-		    			$('.CONTENT_ANALYSIS .errorMsg').text('Data saved')
-		    			tr.find('.form-control').removeClass('edited')
-		    		}else{
-		    			$('.CONTENT_ANALYSIS .errorMsg').text(data)
-		    		}
+		    		$('.errorDiv').html('<p class="errorMsg">'+obj.message+'</p>')
 		    	}
 		    },
 		    error: function (jqXHR, textStatus, errorThrown)
 		    {
 		    	$('#loadingModal').modal('hide');
-		    	$('.titoformModal .errorMsg').text(jqXHR.responseText)
+		    	$('.errorDiv').html(jqXHR.responseText)
 		 		
 		    }
 		});

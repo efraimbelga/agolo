@@ -22,6 +22,7 @@ $(function(){
 		}
 		$(this).removeClass('errorinput')
 		$('.errorMsg').text('')
+		$('.errorDiv').html('')
 	})
 })
 

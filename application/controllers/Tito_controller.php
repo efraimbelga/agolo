@@ -316,9 +316,21 @@ class Tito_controller extends CI_Controller {
 			@ReConfigNotes =''";
       		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 			$data = json_decode($APIResult, true);
-			if (array_key_exists('error', $data)) { die("4. ".$data['error']); }
+			if (array_key_exists('error', $data)) {
+				$returnData = array(
+					'error' => true,
+					'message' =>"SCA1: ".$data['error']
+				);
+			    echo json_encode($returnData);
+				die(); 
+			}
+
 			extract($data);
-			echo $result;
+			$returnData = array(
+				'error' => false,
+				'message' => $result
+			);
+			echo json_encode($returnData);
 		}elseif($sourceType=='Section'){
 			if($ParentID=='0'){
 				// print_r($_POST);
@@ -338,7 +350,15 @@ class Tito_controller extends CI_Controller {
 				@SourceID = '".$SourceID."'";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("1. ".$data['error']); }
+				if (array_key_exists('error', $data)) {  
+					$returnData = array(
+						'error' => true,
+						'message' => "SCA2: ".$data['error']
+					);
+				    echo json_encode($returnData);
+					die(); 
+
+				}
 				
 				$sql="SELECT TOP(1) [ParentID] FROM [AGLDE_SourceDetails] WHERE 
 				[SourceURL] = '".$_POST['SourceURL']."' AND
@@ -355,9 +375,20 @@ class Tito_controller extends CI_Controller {
 				
 				$APIResult = $this->base_model->GetDatabaseDataset($sql);
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("2. ".$data['error']); }
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' => "SCA3: ".$data['error']
+					);
+				    echo json_encode($returnData);
+					die(); 
+				}
 				$fdata = $data[0][0];
-				echo $ParentID = $fdata['ParentID'];
+				$returnData = array(
+					'error' => false,
+					'message' => $fdata['ParentID']
+				);
+				echo json_encode($returnData);
 
 			}else{
 				$sql = "EXEC USP_AGLDE_SOURCEDETAILS_UPDATE 
@@ -384,9 +415,20 @@ class Tito_controller extends CI_Controller {
 
 	      		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("3. ".$data['error']); }
+				if (array_key_exists('error', $data)) {
+					$returnData = array(
+						'error' => true,
+						'message' => "SCA4: ".$data['error']
+					);
+				    echo json_encode($returnData);
+					die(); 
+				}
 				extract($data);
-				echo $result;
+				$returnData = array(
+					'error' => false,
+					'message' => $result
+				);
+				echo json_encode($returnData);
 			}
 		}
 	}
@@ -394,6 +436,10 @@ class Tito_controller extends CI_Controller {
 	public function task_out_source(){
 		// print_r($_POST);
 		// die();
+		$returnData = array(
+			'error' => false,
+			'message' => ''
+		);
 		
 		$processId = $this->session->userdata('processId');
 		// die($processId);
@@ -431,8 +477,17 @@ class Tito_controller extends CI_Controller {
 				
 				$APIResult = $this->base_model->A1_API($json);
 				if($APIResult === FALSE) { 
+					// $APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
+					// $data = json_decode($APIResult, true);
+					// if (array_key_exists('error', $data)) { die("TO1C :".$data['error']); }
+
 					$error = error_get_last();
-      				die("HTTP request failed. " . $error['message']);
+					$returnData = array(
+						'error' => true,
+						'message' => 'HTTP request failed. Please save as <b>Pending</b>'
+					);
+      				echo json_encode($returnData);
+      				die();
 				}
 				else{
 					$data = json_decode($APIResult, true);
@@ -463,28 +518,60 @@ class Tito_controller extends CI_Controller {
 								@ReConfigNotes =''";
 							$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 						    $data = json_decode($APIResult, true);
-						   	if (array_key_exists('error', $data)) { die("TO2 : ".$data['error']); }
+						   	if (array_key_exists('error', $data)) { 
+						   		$returnData = array(
+									'error' => true,
+									'message' => "TO2 : ".$data['error']
+								);
+			      				echo json_encode($returnData);
+			      				die();
+						   	}
 				        }
 				    }
 
 				    $APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 					$data = json_decode($APIResult, true);
-					if (array_key_exists('error', $data)) { die("TO1A :".$data['error']); }
+					if (array_key_exists('error', $data)) { 
+						$returnData = array(
+							'error' => true,
+							'message' => "TO1A :".$data['error']
+						);
+			      		echo json_encode($returnData);
+						die(); 
+					}
 
 				    $sql="EXEC USP_AGLDE_GENERATEBATCHES @ParentId=".$ParentID.", @userName = '".$this->session->userdata('userName')."' ";
 				    $APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				    $data = json_decode($APIResult, true);
-				   	if (array_key_exists('error', $data)) { die("TO3 : ".$data['error']); }
+				   	if (array_key_exists('error', $data)) { 
+				   		$returnData = array(
+							'error' => true,
+							'message' => "TO3 : ".$data['error']
+						);
+			      		echo json_encode($returnData);
+				   	}else{
+				   		$returnData = array(
+							'error' => false,
+							'message' => "Saved"
+						);
+			      		echo json_encode($returnData);
+				   	}
 				}
 			}
 			else if($processId=='2'){
-				// $this->input->post('AgentID');
-				$AgentID = 'd8bfa0e3-53f0-4d75-b329-9b2f6f628bbe';
+				//d8bfa0e3-53f0-4d75-b329-9b2f6f628bbe
+				$AgentID = $this->input->post('AgentID');
 				$json = '{ "agentId": "'.$AgentID.'" }';
 				$CAPIResult = $this->base_model->A2_API($json, $this->input->post('SourceID'));
 				if($CAPIResult === FALSE) { 
 					$error = error_get_last();
-      				die("HTTP request failed. " . $error['message']);
+
+					$returnData = array(
+						'error' => true,
+						'message' => 'A2: HTTP request failed'
+					);
+      				echo json_encode($returnData);
+      				die();
 				}
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
 					@Type ='',
@@ -510,11 +597,31 @@ class Tito_controller extends CI_Controller {
 				// die($sql);
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("TO4 : ".$data['error']); }
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' => "TO4 : ".$data['error']
+					);
+      				echo json_encode($returnData);
+      				die(); 
+				}
 
 				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("TO1B :".$data['error']); }
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' => "TO1B :".$data['error']
+					);
+      				echo json_encode($returnData);
+      			}
+      			else{
+      				$returnData = array(
+						'error' => false,
+						'message' => 'Saved'
+					);
+      				echo json_encode($returnData);
+      			}
 			}
 			else if($processId=='3'){
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
@@ -540,11 +647,31 @@ class Tito_controller extends CI_Controller {
 					@ReConfigNotes =''";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("TO5 : ".$data['error']); }
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' => "TO5 : ".$data['error']
+					);
+      				echo json_encode($returnData);
+      				die();
+      			}
 
 				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("TO1C :".$data['error']); }
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' => "TO1C :".$data['error']
+					);
+      				echo json_encode($returnData);
+      			}
+      			else{
+      				$returnData = array(
+						'error' => false,
+						'message' => 'Saved'
+					);
+      				echo json_encode($returnData);
+      			}
 			}
 			else if($processId=='4'){
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
@@ -570,11 +697,31 @@ class Tito_controller extends CI_Controller {
 					@ReConfigNotes ='".$this->input->post('ReConfigNotes')."'";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("TO6 : ".$data['error']); }
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' => "TO6 : ".$data['error']
+					);
+      				echo json_encode($returnData);
+      				die();
+      			}
 
 				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("TO1D :".$data['error']); }
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' =>"TO1D :".$data['error']
+					);
+      				echo json_encode($returnData);
+      			}
+      			else{
+      				$returnData = array(
+						'error' => false,
+						'message' => 'Saved'
+					);
+      				echo json_encode($returnData);
+      			}
 			}
 			// else if($processId=='5'){
 			// 	$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
@@ -584,14 +731,40 @@ class Tito_controller extends CI_Controller {
 			else{
 				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { die("TO1E :".$data['error']); }
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' =>"TO1E :".$data['error']
+					);
+      				echo json_encode($returnData);
+      			}
+      			else{
+      				$returnData = array(
+						'error' => false,
+						'message' => 'Saved'
+					);
+      				echo json_encode($returnData);
+      			}
 			}
 		}else{
 			$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 			$data = json_decode($APIResult, true);
-			if (array_key_exists('error', $data)) { die("TO1 :".$data['error']); }
+			if (array_key_exists('error', $data)) { 
+				$returnData = array(
+					'error' => true,
+					'message' => "TO1 : ".$data['error']
+				);
+      			echo json_encode($returnData);
+			}else{
+				$returnData = array(
+					'error' => false,
+					'message' => ''
+				);
+      			echo json_encode($returnData);
+			}
 		}		
 	}
+
 
 	public function get_url(){
 		$ParentID = $this->input->post('ParentID');

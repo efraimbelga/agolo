@@ -35,161 +35,167 @@
         .content-wrapper, .main-footer{
             margin-left: 0px !important;
         }
-        
+        div.errorDiv {
+            margin-bottom: 30px;
+        }
     </style>
 </head>
 <body class="hold-transition skin-blue" >
 <!-- Site wrapper -->
 <div class="wrapper" style="background: #ecf0f5;">
-    <?php
-        // $this->load->view('navbar-top');
-    ?>
     <div class="content-wrapper" style="padding-top: 0px;">
-        <br>
+        <div class="row">
+            <div class="col-lg-12">
+                <br>
 
-        <div class="col-lg-12">
-            
-            <h1>CONTENT ANALYSIS</h1>
-            <?php
-                if($error){
-                    die('<h1 class="text-center">'.$errorMsg.'</h1>');
-                }
-            ?>
-            <table style="width: 100%;">
-                <?php
-                    extract($parentData);
-                    echo"<tr>";
-                        echo "<td><p>Reference Id: <b> ".$ReferenceID."</b></p></td>";
-                        echo "<td><p>Source Username: <b> ".($SourceUserName=='' ? 'None' : $SourceUserName)."</b></p></td>";
-                        echo "<td><p>Claimed By: <b> ".$ClaimedBy."</b></p></td>";
-                        echo "<td><p>Claimed Date: <b> ".$ClaimedDate."</b></p></td>";
-                    echo"</tr>";
-                ?>
-            </table>
-        </div>
-        <div class="col-lg-12 CONTENT_ANALYSIS">
-            <br>
-            <table class="table table-condensed table-bordered contentanalysisTbl" id="psourceTbl">
-                <thead>
-                    <tr>
-                        <th>Source URL</th>
-                        <th>Source Name</th>
-                        <th>Type</th>
-                        <th>Region</th>
-                        <th>Country</th>
-                        <th>Client</th>
-                        <th>Access</th>
-                        <th>Priority</th>
-                        <th>Remark</th>
-                        <?= ($process=='CONTENT_ANALYSIS' ? '<th></th>' : ''); ?>
-                    </tr>
-                </thead>
-                <tbody>
+                <div class="col-lg-12">
                     
-                    <tr>
-                        <td>
-                            <input type="hidden" id="ParentID" value="<?= $ParentID;?>">
-                            <input type="hidden" id="processID" value="1">
-                            <input type="hidden" id="ReferenceID" value="<?= $ReferenceID;?>">
-                            <input type="hidden" id="AllocationRefId" value="<?= $AllocationRefId;?>">
-                            <input type="hidden" id="NewSourceID" value="<?= $NewSourceID;?>">
-                            <div class="form-control input-sm" id="SourceURL" data-key="SourceURL"><?= $NSRSourceURL;?></div>
-                        </td>
-                        <td>
-                            <div class="form-control input-sm SourceName requiredDiv" id="SourceName" data-key="SourceName" contenteditable="true"><?= $SourceName;?></div>
-                        </td>
-                        <td>
-                            <div class="form-control input-sm Type " data-key="Type" contenteditable="true"><?= $Type;?></div>
-                        </td>
-                        <td>
-                            <div class="form-control input-sm Region" data-key="Region" contenteditable="true"><?= $Region;?></div>
-                        </td>
-                        <td>
-                            <div class="form-control input-sm Country" data-key="Country" contenteditable="true"><?= $Country;?></div>
-                        </td>
-                        <td>
-                            <div class="form-control input-sm Client" data-key="Client" contenteditable="true"><?= $Client;?></div>
-                        </td>
-                        <td>
-                            <div class="form-control input-sm Access" data-key="Access" contenteditable="true"><?= $Access;?></div>
-                        </td>
-                        <td>
-                            <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" id="Priority"><?= $Priority;?></div>
-                        </td>
-                        <td>
-                            <div class="form-control input-sm Remark noedited" data-key="Remark" contenteditable="true"></div>
-                        </td>
-                        <td>
-                            <a href="" class="btn btn-xs btn-success btn-flat savepsource-btn" ><i class="fa fa-check-square" aria-hidden="true"></i></a>
-                            <a href="" class="btn btn-xs btn-danger btn-flat clearpsource-btn"><i class="fa fa fa-trash-o" aria-hidden="true"></i></a>
-                        </td>
-                        
-                    </tr>
-                    <tr class="subsectiontr <?= (sizeof($sectionData) > 0 ? '' : 'displayNone');?>">
-                        <th colspan="8">Sub-section:</th>
-                    </tr>
-                    <tr class="subsectiontr <?= (sizeof($sectionData) > 0 ? '' : 'displayNone');?>">
-                        <th>Section Source URL</th>
-                        <th>Source Name</th>
-                        <th>Type</th>
-                        <th>Region</th>
-                        <th>Country</th>
-                        <th>Client</th>
-                        <th>Access</th>
-                        <th>Priority</th>
-                        <!-- <th>Remark</th> -->
-                        <th></th>
-                    </tr>
+                    <h1>CONTENT ANALYSIS</h1>
                     <?php
-                        foreach ($sectionData as $row) {
-                    ?>
-                        <tr class="subsection" data-id="<?= $row['ParentID'];?>">
-                            <td>
-                                <div class="form-control input-sm SourceURL requiredDiv" data-key="SourceURL" contenteditable="true" ><?= $row['SourceURL'];?></div>
-                            </td>
-                            <td>
-                                <div class="form-control input-sm SourceName requiredDiv" data-key="SourceName" contenteditable="true" ><?= $row['SourceName'];?></div>
-                            </td>
-                            <td>
-                                <div class="form-control input-sm Type" data-key="Type" contenteditable="true" ><?= $row['Type'];?></div>
-                            </td>
-                            <td>
-                                <div class="form-control input-sm Region" data-key="Region" contenteditable="true" ><?= $row['Region'];?></div>
-                            </td>
-                            <td>
-                                <div class="form-control input-sm Country" data-key="Country" contenteditable="true" ><?= $row['Country'];?></div>
-                            </td>
-                            <td>
-                                <div class="form-control input-sm Client" data-key="Client" contenteditable="true" ><?= $row['Client'];?></div>
-                            </td>
-                            <td>
-                                <div class="form-control input-sm Access" data-key="Access" contenteditable="true" ><?= $row['Access'];?></div>
-                            </td>
-                            <td>
-                                <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" ><?= $row['Priority'];?></div>
-                            </td>
-                            <!-- <td>
-                                <div class="form-control input-sm Remark" data-key="Remark" contenteditable="true"></div>
-                            </td> -->
-                            <td class="text-left">
-                                <a href="" class="savesection-btn btn btn-xs btn-flat btn-success"><i class="fa fa-check-square" aria-hidden="true"></i></a>
-                                <a href="" class="clearsection-btn btn btn-xs btn-flat btn-danger"><i class="fa fa fa-trash-o" aria-hidden="true"></i></a>
-                            </td>                            
-                        </tr>
-                    <?php
+                        if($error){
+                            die('<h1 class="text-center">'.$errorMsg.'</h1>');
                         }
                     ?>
-                </tbody>
-            </table>
+                    <table style="width: 100%;">
+                        <?php
+                            extract($parentData);
+                            echo"<tr>";
+                                echo "<td><p>Reference Id: <b> ".$ReferenceID."</b></p></td>";
+                                echo "<td><p>Source Username: <b> ".($SourceUserName=='' ? 'None' : $SourceUserName)."</b></p></td>";
+                                echo "<td><p>Claimed By: <b> ".$ClaimedBy."</b></p></td>";
+                                echo "<td><p>Claimed Date: <b> ".$ClaimedDate."</b></p></td>";
+                            echo"</tr>";
+                        ?>
+                    </table>
+                </div>
+                <div class="col-lg-12 CONTENT_ANALYSIS">
+                    <br>
+                    <table class="table table-condensed table-bordered contentanalysisTbl" id="psourceTbl">
+                        <thead>
+                            <tr>
+                                <th>Source URL</th>
+                                <th>Source Name</th>
+                                <th>Type</th>
+                                <th>Region</th>
+                                <th>Country</th>
+                                <th>Client</th>
+                                <th>Access</th>
+                                <th>Priority</th>
+                                
+                                <?= ($process=='CONTENT_ANALYSIS' ? '<th></th>' : ''); ?>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <tr>
+                                <td>
+                                    <input type="hidden" id="ParentID" value="<?= $ParentID;?>">
+                                    <input type="hidden" id="processID" value="1">
+                                    <input type="hidden" id="ReferenceID" value="<?= $ReferenceID;?>">
+                                    <input type="hidden" id="AllocationRefId" value="<?= $AllocationRefId;?>">
+                                    <input type="hidden" id="NewSourceID" value="<?= $NewSourceID;?>">
+                                    <div class="form-control input-sm" id="SourceURL" data-key="SourceURL"><?= $NSRSourceURL;?></div>
+                                </td>
+                                <td>
+                                    <div class="form-control input-sm SourceName requiredDiv" id="SourceName" data-key="SourceName" contenteditable="true"><?= $SourceName;?></div>
+                                </td>
+                                <td>
+                                    <div class="form-control input-sm Type " data-key="Type" contenteditable="true"><?= $Type;?></div>
+                                </td>
+                                <td>
+                                    <div class="form-control input-sm Region" data-key="Region" contenteditable="true"><?= $Region;?></div>
+                                </td>
+                                <td>
+                                    <div class="form-control input-sm Country" data-key="Country" contenteditable="true"><?= $Country;?></div>
+                                </td>
+                                <td>
+                                    <div class="form-control input-sm Client" data-key="Client" contenteditable="true"><?= $Client;?></div>
+                                </td>
+                                <td>
+                                    <div class="form-control input-sm Access" data-key="Access" contenteditable="true"><?= $Access;?></div>
+                                </td>
+                                <td>
+                                    <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" id="Priority"><?= $Priority;?></div>
+                                </td>
+                               
+                                <td>
+                                    <a href="" class="btn btn-xs btn-success btn-flat savepsource-btn" ><i class="fa fa-check-square" aria-hidden="true"></i></a>
+                                    <a href="" class="btn btn-xs btn-danger btn-flat clearpsource-btn"><i class="fa fa fa-trash-o" aria-hidden="true"></i></a>
+                                </td>
+                                
+                            </tr>
+                            <tr class="subsectiontr <?= (sizeof($sectionData) > 0 ? '' : 'displayNone');?>">
+                                <th colspan="8">Sub-section:</th>
+                            </tr>
+                            <tr class="subsectiontr <?= (sizeof($sectionData) > 0 ? '' : 'displayNone');?>">
+                                <th>Section Source URL</th>
+                                <th>Source Name</th>
+                                <th>Type</th>
+                                <th>Region</th>
+                                <th>Country</th>
+                                <th>Client</th>
+                                <th>Access</th>
+                                <th>Priority</th>
+                                <th></th>
+                            </tr>
+                            <?php
+                                foreach ($sectionData as $row) {
+                            ?>
+                                <tr class="subsection" data-id="<?= $row['ParentID'];?>">
+                                    <td>
+                                        <div class="form-control input-sm SourceURL requiredDiv" data-key="SourceURL" contenteditable="true" ><?= $row['SourceURL'];?></div>
+                                    </td>
+                                    <td>
+                                        <div class="form-control input-sm SourceName requiredDiv" data-key="SourceName" contenteditable="true" ><?= $row['SourceName'];?></div>
+                                    </td>
+                                    <td>
+                                        <div class="form-control input-sm Type" data-key="Type" contenteditable="true" ><?= $row['Type'];?></div>
+                                    </td>
+                                    <td>
+                                        <div class="form-control input-sm Region" data-key="Region" contenteditable="true" ><?= $row['Region'];?></div>
+                                    </td>
+                                    <td>
+                                        <div class="form-control input-sm Country" data-key="Country" contenteditable="true" ><?= $row['Country'];?></div>
+                                    </td>
+                                    <td>
+                                        <div class="form-control input-sm Client" data-key="Client" contenteditable="true" ><?= $row['Client'];?></div>
+                                    </td>
+                                    <td>
+                                        <div class="form-control input-sm Access" data-key="Access" contenteditable="true" ><?= $row['Access'];?></div>
+                                    </td>
+                                    <td>
+                                        <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" ><?= $row['Priority'];?></div>
+                                    </td>
+                                    <td class="text-left">
+                                        <a href="" class="savesection-btn btn btn-xs btn-flat btn-success"><i class="fa fa-check-square" aria-hidden="true"></i></a>
+                                        <a href="" class="clearsection-btn btn btn-xs btn-flat btn-danger"><i class="fa fa fa-trash-o" aria-hidden="true"></i></a>
+                                    </td>                            
+                                </tr>
+                            <?php
+                                }
+                            ?>
+                        </tbody>
+
+                    </table>
+                    <div class="row">
+                        <div class="col-lg-2">
+                            Remarks:
+                            <div class="form-control input-sm Remark noedited" data-key="Remark" id="Remark" contenteditable="true"></div>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-12 CONTENT_ANALYSIS">
+                    <?= ($process=='CONTENT_ANALYSIS' ? '<button type="button" class="btn btn-xs btn-flat btn-info addsesction-btn" ><i class="fa fa-plus-circle" aria-hidden="true"></i> Add Section</button>' : ''); ?>
+                    <button class="btn btn-flat btn-xs btn-danger taskout-btn" data-value="Pending" ><i class="fa fa-dot-circle-o" aria-hidden="true"></i> Pending</button>
+                    <button class="btn btn-flat btn-xs btn-success taskout-btn" data-value="Done" ><i class="fa fa-check-square-o" aria-hidden="true"></i> Done</button>
+                    <!-- <p class="errorMsg"></p> --> 
+                </div> 
+                <div class="col-lg-12 errorDiv">
+                </div>
+            </div>
         </div>
-        <div class="col-lg-12 CONTENT_ANALYSIS">
-            <?= ($process=='CONTENT_ANALYSIS' ? '<button type="button" class="btn btn-xs btn-flat btn-info addsesction-btn" ><i class="fa fa-plus-circle" aria-hidden="true"></i> Add Section</button>' : ''); ?>
-            <button class="btn btn-flat btn-xs btn-danger taskout-btn" data-value="Pending" ><i class="fa fa-dot-circle-o" aria-hidden="true"></i> Pending</button>
-            <button class="btn btn-flat btn-xs btn-success taskout-btn" data-value="Done" ><i class="fa fa-check-square-o" aria-hidden="true"></i> Done</button>
-            <p class="errorMsg"></p> 
-       </div>  
     </div>
-    
     <div class="modal fade" id="loadingModal" data-backdrop="static" data-keyboard="false">
         <div class="modal-dialog modal-sm">
             <div class="modal-content">

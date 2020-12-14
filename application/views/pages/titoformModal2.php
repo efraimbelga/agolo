@@ -95,7 +95,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" >Remarks here</div>
+                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" ></div>
                                         </div>
                                     </div>
                                 </div> 
@@ -178,7 +178,7 @@
                                             <div class="form-group">
                                                 <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
                                                 <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                    <div class="form-control input-sm Remarks" data-key="Remarks" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>>Remarks here</div>
+                                                    <div class="form-control input-sm Remarks" data-key="Remarks" <?= ($processId=='2' ? 'contenteditable="true"' : '');?>></div>
                                                 </div>
                                             </div>
                                         </div>
@@ -205,7 +205,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" <?= ($processId=='5' ? 'contenteditable="true"' : '');?>>Remarks here</div>
+                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" <?= ($processId=='5' ? 'contenteditable="true"' : '');?>></div>
                                         </div>
                                     </div>
                                 </div> 
@@ -238,7 +238,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" >Remarks here</div>
+                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" ></div>
                                         </div>
                                     </div>
                                 </div> 
@@ -271,7 +271,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" <?= ($processId=='4' ? 'contenteditable="true"' : '');?>>Remarks here</div>
+                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" <?= ($processId=='4' ? 'contenteditable="true"' : '');?>></div>
                                         </div>
                                     </div>
                                 </div> 
@@ -295,7 +295,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remarks:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" >Remarks here</div>
+                                            <div class="form-control input-sm Remarks editablediv" data-key="Remarks" ></div>
                                         </div>
                                     </div>
                                 </div> 

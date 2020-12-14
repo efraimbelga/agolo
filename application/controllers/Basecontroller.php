@@ -325,29 +325,26 @@ class Basecontroller extends CI_Controller {
 			}
 		}
 			
-		$APIResult = $this->base_model->GetAllocationsDt();
+		$sql="SELECT ps.*, u.UserId, u.LoginName as [UserName], bi.BatchName FROM wms_view_JobsBatchInfoProjectSpecificInfo ps INNER JOIN wms_JobsBatchInfo bi ON ps.PS_BatchId = bi.BatchId INNER JOIN wms_JobsBatchAllocation ba on bi.LastAllocationRefId = ba.RefId INNER JOIN NM_Users u ON ba.UserId = u.UserId WHERE bi.StatusId = 7 AND bi.ProcessId = 5;";
+		$APIResult = $this->base_model->GetDatabaseDataset($sql);
 	    $data = json_decode($APIResult, true);
-	    echo"<pre>";
-	    	print_r($data);
-	    echo"</pre>";
+	    // echo"<pre>";
+	    // 	print_r($data);
+	    // echo"</pre>";
+	    // die();
 	    if (array_key_exists('error', $data)) { die($data['error']); }
+	    $data = $data[0];
 	    if(sizeof($data) > 0){
 			foreach ($data as $row) {
-				echo'<tr class="sourceTR '.$row['StatusString'].'" data-ParentID="'.$row['ParentID'].'" data-AllocationRefId="'.$row['AllocationRefId'].'" data-ReferenceID="'.$row['ReferenceID'].'" data-status="'.$row['StatusString'].'">';
-						echo'<td>';
-							echo'<select class="form-control">';
-								echo'<option value=""></option>';
-								echo'<option value="4">AGENT_REFINEMENT</option>';
-								echo'<option value="6">AGENT_REWORK</option>';
-							echo'</select>';
-						echo'</td>';
+				echo'<tr class="sourceTR" data-ParentID="'.$row['ParentID'].'" data-ReferenceID="'.$row['ReferenceID'].'" >';
+						
 						echo'<td>'.$row['SourceUrl'].'</td>';
 						echo'<td>'.$row['SourceName'].'</td>';
 						echo'<td>'.($row['IsParent']=='1' ? 'Parent': 'Section').'</td>';
 						echo'<td>'.$row['SourceUserName'].'</td>';
 						echo'<td>'.$row['SourcePassword'].'</td>';
 						echo'<td>'.$row['ClaimedBy'].'</td>';
-						echo'<td>'.$row['StatusString'].'</td>';						
+						// echo'<td>'.$row['StatusString'].'</td>';						
 					echo'</tr>';
 			}
 		}

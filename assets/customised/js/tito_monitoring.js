@@ -259,10 +259,13 @@ $(function(){
 			    success: function(data, textStatus, jqXHR)
 			    {
 			    	$('#loadingModal').modal('hide');
-			    	$('.titoformModal .errorMsg').text(data)
-			    	if(data=='' || data=='success'){
+			    	// console.log(data)
+			    	var obj = JSON.parse(data);
+			    	$('.titoformModal .errorMsg').text(obj.message)
+			    	if(obj.error== false){
 			    		view_source_request(processId)
 			    		setTimeout(function(){ $('#titoModal').modal('hide'); }, 1500);
+
 			    	}
 			    },
 			    error: function (jqXHR, textStatus, errorThrown)
