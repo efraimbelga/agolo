@@ -428,6 +428,7 @@ class Tito_controller extends CI_Controller {
 				}
 				$json .= '}] }';
 				// echo $json;
+				
 				$APIResult = $this->base_model->A1_API($json);
 				if($APIResult === FALSE) { 
 					$error = error_get_last();
@@ -575,6 +576,11 @@ class Tito_controller extends CI_Controller {
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { die("TO1D :".$data['error']); }
 			}
+			// else if($processId=='5'){
+			// 	$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
+			// 	$data = json_decode($APIResult, true);
+			// 	if (array_key_exists('error', $data)) { die("TO1D :".$data['error']); }
+			// }
 			else{
 				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 				$data = json_decode($APIResult, true);

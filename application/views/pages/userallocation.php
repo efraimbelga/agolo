@@ -25,6 +25,10 @@
                 <tbody></tbody>
             </table>
         </div>
+        <div class="box-footer text-right">
+            <button class="btn btn-info claim-btn btn-flat" disabled>Allocate</button>
+            <button class="btn btn-warning clear-btn btn-flat" disabled>Clear</button>
+        </div>
     </div>
 </section>
 <div id="titoModal" class="modal fade" role="dialog">

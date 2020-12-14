@@ -327,20 +327,23 @@ class Basecontroller extends CI_Controller {
 			
 		$APIResult = $this->base_model->GetAllocationsDt();
 	    $data = json_decode($APIResult, true);
-	    // echo"<pre>";
-	    // 	print_r($data);
-	    // echo"</pre>";
+	    echo"<pre>";
+	    	print_r($data);
+	    echo"</pre>";
 	    if (array_key_exists('error', $data)) { die($data['error']); }
 	    if(sizeof($data) > 0){
 			foreach ($data as $row) {
 				echo'<tr class="sourceTR '.$row['StatusString'].'" data-ParentID="'.$row['ParentID'].'" data-AllocationRefId="'.$row['AllocationRefId'].'" data-ReferenceID="'.$row['ReferenceID'].'" data-status="'.$row['StatusString'].'">';
+						echo'<td>';
+							echo'<select class="form-control">';
+								echo'<option value=""></option>';
+								echo'<option value="4">AGENT_REFINEMENT</option>';
+								echo'<option value="6">AGENT_REWORK</option>';
+							echo'</select>';
+						echo'</td>';
 						echo'<td>'.$row['SourceUrl'].'</td>';
-						if($processId==1){
-							echo'<td>'.$row['ReferenceID'].'</td>';
-						}else{
-							echo'<td>'.$row['SourceName'].'</td>';
-							echo'<td>'.($row['IsParent']=='1' ? 'Parent': 'Section').'</td>';
-						}
+						echo'<td>'.$row['SourceName'].'</td>';
+						echo'<td>'.($row['IsParent']=='1' ? 'Parent': 'Section').'</td>';
 						echo'<td>'.$row['SourceUserName'].'</td>';
 						echo'<td>'.$row['SourcePassword'].'</td>';
 						echo'<td>'.$row['ClaimedBy'].'</td>';
