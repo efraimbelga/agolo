@@ -14,7 +14,18 @@ $(function(){
 	    }
 	});
 
-	$(document).on('keyup', '.form-control', function(e){
+	$(document).on('keyup', 'div.form-control', function(e){
+		if($(this).hasClass('noedited')){
+
+		}else{
+			$(this).addClass('edited')
+		}
+		$(this).removeClass('errorinput')
+		$('.errorMsg').text('')
+		$('.errorDiv').html('')
+	})
+
+	$(document).on('change', 'select.form-control', function(e){
 		if($(this).hasClass('noedited')){
 
 		}else{

@@ -167,8 +167,7 @@ class Base_model extends CI_Model {
         return $result;
     }
 
-    public function A2_API($json, $SourceID){
-        
+    public function A2_API($json, $SourceID){        
         $context = stream_context_create(array(
             'http' => array(
                 'method' => 'PUT',

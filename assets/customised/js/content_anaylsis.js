@@ -14,20 +14,28 @@ $(function(){
 		formData.append('ParentID', ParentID)
 		formData.append('sourceType', 'Parent')
 		
-		var priority = $('#Priority').text();
-		priority = priority.replace(/\s/g,'')
-		if(priority===""){
+		var priority = $('#Priority').val();
+		console.log(priority)
+		if(priority==''){
 			$('#Priority').addClass('errorinput');
 			$('#Priority').focus();
 			x++;
 		}
 		else{
-			tr.find('.form-control').each(function(){
+			tr.find('div.form-control').each(function(){
 				var el = $(this);
 				var value = el.text();
 				var key = el.attr('data-key');
 				formData.append(key, value);
 			})
+
+			tr.find('select.form-control').each(function(){
+				var el = $(this);
+				var value = el.val();
+				var key = el.attr('data-key');
+				formData.append(key, value);
+			})
+
 			save_content_analysis(formData, ParentID, tr)
 		}
 	});
@@ -185,18 +193,31 @@ $(function(){
 		formData.append('SectionParentID', $('#ParentID').val())
 		formData.append('NewSourceID', $('#NewSourceID').val())
 		
-		tr.find('.form-control').each(function(){
+		tr.find('div.form-control').each(function(){
 			var el = $(this);
 			el.removeClass('errorinput');
 			var value = el.text();
 			var nospace = value.replace(/\s/g,'');
 			var key = el.attr('data-key');
-			if(key=='Priority' || key=='SourceURL'){
+			if(key=='SourceURL'){
 				if(nospace===""){
 					el.addClass('errorinput');
 					el.focus();
 					x++;
 				}
+			}
+			formData.append(key, value);
+		})
+
+		tr.find('select.form-control').each(function(){
+			var el = $(this);
+			el.removeClass('errorinput');
+			var value = el.val();
+			var key = el.attr('data-key');
+			if(value==''){
+				el.addClass('errorinput');
+				el.focus();
+				x++;
 			}
 			formData.append(key, value);
 		})

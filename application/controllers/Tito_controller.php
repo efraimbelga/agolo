@@ -562,10 +562,11 @@ class Tito_controller extends CI_Controller {
 				//d8bfa0e3-53f0-4d75-b329-9b2f6f628bbe
 				$AgentID = $this->input->post('AgentID');
 				$json = '{ "agentId": "'.$AgentID.'" }';
+				// echo 'https://sources-management.crawlers.agolo.com/api/v1/sources/'.$this->input->post('SourceID');
+				// echo $json;
 				$CAPIResult = $this->base_model->A2_API($json, $this->input->post('SourceID'));
 				if($CAPIResult === FALSE) { 
 					$error = error_get_last();
-
 					$returnData = array(
 						'error' => true,
 						'message' => 'A2: HTTP request failed'

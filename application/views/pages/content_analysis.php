@@ -115,10 +115,13 @@
                                     <div class="form-control input-sm Access" data-key="Access" contenteditable="true"><?= $Access;?></div>
                                 </td>
                                 <td>
-                                    <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" id="Priority"><?= $Priority;?></div>
-                                    <!-- <select>
-                                        <option></option>
-                                    </select> -->
+                                    <!-- <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" id="Priority"><?= $Priority;?></div> -->
+                                    <select class="form-control input-sm Priority requiredDiv" data-key="Priority" id="Priority">
+                                        <option value="">---</option>
+                                        <option <?= ($Priority=='High' ? 'selected' : ''); ?> value="High">High</option>
+                                        <option <?= ($Priority=='Medium' ? 'selected' : ''); ?> value="Medium">Medium</option>
+                                        <option <?= ($Priority=='Low' ? 'selected' : ''); ?> value="Low">Low</option>
+                                    </select>
                                 </td>
                                
                                 <td>
@@ -167,7 +170,13 @@
                                         <div class="form-control input-sm Access" data-key="Access" contenteditable="true" ><?= $row['Access'];?></div>
                                     </td>
                                     <td>
-                                        <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" ><?= $row['Priority'];?></div>
+                                        <!-- <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" ><?= $row['Priority'];?></div> -->
+                                        <select class="form-control input-sm Priority requiredDiv" data-key="Priority" >
+                                            <option value="">---</option>
+                                            <option <?= ($row['Priority']=='High' ? 'selected' : ''); ?> value="High">High</option>
+                                            <option <?= ($row['Priority']=='Medium' ? 'selected' : ''); ?> value="Medium">Medium</option>
+                                            <option <?= ($row['Priority']=='Low' ? 'selected' : ''); ?> value="Low">Low</option>
+                                        </select>
                                     </td>
                                     <td class="text-left">
                                         <a href="" class="savesection-btn btn btn-xs btn-flat btn-success"><i class="fa fa-check-square" aria-hidden="true"></i></a>
