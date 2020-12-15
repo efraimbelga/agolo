@@ -45,7 +45,7 @@
                 </ul>
             </li>
             
-            <li><a href="<?= base_url('published');?>"><i class="fa fa-circle-o"></i> <span>Agennt Published List</span></a></li>
+            <!-- <li><a href="<?= base_url('published');?>"><i class="fa fa-circle-o"></i> <span>Agennt Published List</span></a></li> -->
         </ul>
     </section>
 </aside>
