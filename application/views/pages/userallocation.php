@@ -8,48 +8,31 @@
 <section class="content">
     <div class="box">
         <div class="box-body srboxbody">
-            <div class="col-lg-10">
-                <table>
+            <div class="col-lg-12">
+                <table class="optionsTable">
                     <tr>
-                        <td>Tasks (For):</td>
+                        <td><b>Tasks (For):</b></td>
                         <td></td>
                     </tr>
                     <tr>
                         <td>
-                            <select class="form-control">
+                            <select class="form-control taskSelect">
                                 <option value="">--Select--</option>
                                 <option value="4">AGENT_REFINEMENT</option>
                                 <option value="6">AGENT_REWORK</option>
                             </select>
                         </td>
+                        <td>
+
+                            <button class="btn btn-info allocate-btn btn-flat btn-xs" disabled>Allocate</button>
+                            <button class="btn btn-warning clear-btn btn-flat btn-xs" disabled>Clear</button>
+                        </td>
                     </tr>
                 </table>
             </div>
-            <div class="col-lg-2 text-right">
-                <button class="btn btn-info claim-btn btn-flat" disabled>Allocate</button>
-                <button class="btn btn-warning clear-btn btn-flat" disabled>Clear</button>
+            <div class="col-lg-12 table-responsive table-holder">               
             </div>
-            <div class="col-lg-12 table-responsive">
-                <br>
-                <table class="table table-condensed table-bordered" id="allocationTable">
-                    <thead>
-                        <tr>
-                            
-                            <th>Source URL</th>
-                            <th>Reference ID</th>
-                            <th>Source Name</th>
-                            <th>Heirarchy</th>                       
-                            <th>Source Username</th>
-                            <th>Source Password</th>
-                            <th>Claimed By</th>
-                            <th>Status</th>
-                        </tr>
-                    </thead>
-                    <tbody></tbody>
-                </table>
-            </div>
-        </div>
-        
+        </div>        
     </div>
 </section>
 <div id="titoModal" class="modal fade" role="dialog">

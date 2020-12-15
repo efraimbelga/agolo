@@ -116,6 +116,9 @@
                                 </td>
                                 <td>
                                     <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" id="Priority"><?= $Priority;?></div>
+                                    <!-- <select>
+                                        <option></option>
+                                    </select> -->
                                 </td>
                                
                                 <td>

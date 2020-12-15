@@ -889,38 +889,7 @@ class Tito_controller extends CI_Controller {
 		}
     }
 
-    public function allocate_refinement(){
-    	$userName = $this->session->userdata('userName');
-    	
-    	$BatchName = $this->input->post('BatchName');
-
-    	$sql="SELECT TOP(1) [BatchId] FROM [wms_JobsBatchInfo] WHERE [BatchName] = '".$BatchName."' AND [ProcessId] = 4;";
-    	$APIResult = $this->base_model->GetDatabaseDataset($sql);
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die("AR1: ".$data['error']); }
-		$BatchId = $data[0][0]['BatchId'];
-
-		$sql="SELECT TOP (1) [UserId] FROM [WMS_AGLDE].[dbo].[NM_Users] WHERE [LoginName] = '".$userName."'";
-		$APIResult = $this->base_model->GetDatabaseDataset($sql);
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die("AR1: ".$data['error']); }
-		$userid = $data[0][0]['UserId'];
-
-
-		$sql="EXEC usp_wms_Allocate_BatchToUser @batchid = ".$BatchId.", @userid=".$userid.";";
-		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
-		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { die("4. ".$data['error']); }
-		extract($data);
-		echo $result;
-
-
-		// echo"<pre>";
-		// print_r($data);
-		// print_r($BatchId);
-		// echo"</pre>";
-		// die();
-    }
+    
 }
 
 

@@ -226,10 +226,10 @@ $(function(){
 
 		if(processId != '1'){
 			if(status=='Done'){
-				var Remark = $('#titoModal .Remarks').text();
+				var Remark = $('.myForm .Remarks').text();
 				if(Remark==''){
 					x++;
-					$('#titoModal .Remarks').addClass('errorinput');
+					$('.myForm .Remarks').addClass('errorinput');
 				}
 				formData.append('Remark', Remark)
 
