@@ -44,7 +44,7 @@
                     ?>     
                 </ul>
             </li>
-            
+            <li class="<?= ($segment1=='masterlist' ? 'active' : '');?>"><a href="<?= base_url('masterlist');?>"><i class="fa fa-circle-o"></i> <span>Master List</span></a></li>
             <!-- <li><a href="<?= base_url('published');?>"><i class="fa fa-circle-o"></i> <span>Agennt Published List</span></a></li> -->
         </ul>
     </section>

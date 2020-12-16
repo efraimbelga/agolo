@@ -1,19 +1,14 @@
 <section class="content-header">
     <h1>
-        Publisher TITO Monitoring
-        <small>Publisher TITO Tracking</small>
+        Masterlist
     </h1>
-    <ol class="breadcrumb">
-        <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
-        <li><a href="#">Examples</a></li>
-        <li class="active">Blank page</li>
-    </ol>
+    
 </section>
 <section class="content">
     <div class="box">
-        <div class="box-header">
+        <!-- <div class="box-header">
             <h3 class="box-title">Publisher Information</h3>
-        </div>
+        </div> -->
         <div class="box-body srboxbody ">
             <!-- <div class="row"> -->
                 <!-- <div class="col-lg-12"> -->

@@ -24,8 +24,8 @@
                         </td>
                         <td>
 
-                            <button class="btn btn-info allocate-btn btn-flat btn-xs" disabled>Allocate</button>
-                            <button class="btn btn-warning clear-btn btn-flat btn-xs" disabled>Clear</button>
+                            <button class="btn btn-info allocate-btn btn-xs" disabled>Allocate</button>
+                            <button class="btn btn-warning clear-btn btn-xs" disabled>Clear</button>
                         </td>
                     </tr>
                 </table>

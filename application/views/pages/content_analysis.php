@@ -132,8 +132,7 @@
                                     <td>
                                         <button form="parentdataForm" type="submit" class="btn btn-xs btn-success savepsource-btn" ><i class="fa fa-check-square" aria-hidden="true"></i></button>
                                         <button type="button" class="btn btn-xs btn-danger clearpsource-btn"><i class="fa fa fa-trash-o" aria-hidden="true"></i></button>
-                                    </td>
-                                type="button" 
+                                    </td> 
                             </tr>
                             <tr class="subsectiontr <?= (sizeof($sectionData) > 0 ? '' : 'displayNone');?>">
                                 <th colspan="8">Sub-section:</th>

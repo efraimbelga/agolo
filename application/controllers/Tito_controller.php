@@ -567,7 +567,7 @@ class Tito_controller extends CI_Controller {
 			else if($processId=='2'){
 				//d8bfa0e3-53f0-4d75-b329-9b2f6f628bbe
 				$AgentID = $this->input->post('AgentID');
-				$sql="SELECT TOP (1) [RecID] ,[AgentID] ,[AgentName] FROM [dbo].[AGLDE_AgentDetails] WHERE [AgentID] = '".$AgentID."';";
+				$sql="SELECT TOP (1) [RecID] ,[AgentID] ,[AgentName] FROM [dbo].[AgentDetails] WHERE [AgentID] = '".$AgentID."';";
 				$APIResult = $this->base_model->GetDatabaseDataset($sql);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
@@ -582,7 +582,7 @@ class Tito_controller extends CI_Controller {
 				if(sizeof($data[0]) <= 0){
 					$returnData = array(
 						'error' => true,
-						'message' => "TOS2 : Agent ID not authorized"
+						'message' => "Agent ID not authorized"
 					);
       				echo json_encode($returnData);
       				die();
@@ -590,7 +590,9 @@ class Tito_controller extends CI_Controller {
 				
 				$json = '{ "agentId": "'.$AgentID.'" }';
 				// echo 'https://sources-management.crawlers.agolo.com/api/v1/sources/'.$this->input->post('SourceID');
+				// echo"<br>";
 				// echo $json;
+				// die();
 				$CAPIResult = $this->base_model->A2_API($json, $this->input->post('SourceID'));
 				if($CAPIResult === FALSE) { 
 					$error = error_get_last();
