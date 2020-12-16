@@ -25,7 +25,7 @@ $(function(){
 		$('.errorDiv').html('')
 	})
 
-	$(document).on('change', 'select.form-control', function(e){
+	$(document).on('change keyup', '.contentanalysisTbl .form-control', function(e){
 		if($(this).hasClass('noedited')){
 
 		}else{

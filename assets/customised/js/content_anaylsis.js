@@ -1,48 +1,9 @@
 $(function(){
-
 	
-
-	$(document).on('click', '.savepsource-btn', function(e){
-		e.preventDefault();
-		$('.errorDiv').html('')
-		var x = 0;
-		var tr = $(this).closest('tr');
-		tr.find('.errorinput').removeClass('errorinput');
-
-		var formData = new FormData();
-		var ParentID = $('#ParentID').val()
-		formData.append('ParentID', ParentID)
-		formData.append('sourceType', 'Parent')
-		
-		var priority = $('#Priority').val();
-		console.log(priority)
-		if(priority==''){
-			$('#Priority').addClass('errorinput');
-			$('#Priority').focus();
-			x++;
-		}
-		else{
-			tr.find('div.form-control').each(function(){
-				var el = $(this);
-				var value = el.text();
-				var key = el.attr('data-key');
-				formData.append(key, value);
-			})
-
-			tr.find('select.form-control').each(function(){
-				var el = $(this);
-				var value = el.val();
-				var key = el.attr('data-key');
-				formData.append(key, value);
-			})
-
-			save_content_analysis(formData, ParentID, tr)
-		}
-	});
-
 	$(document).on('click', '.clearsection-btn', function(e){
 		e.preventDefault();
-		var ParentID = $(this).closest('tr').attr('data-id')
+		var ParentID = $(this).closest('tr').find('.ParentID').val()
+		console.log(ParentID)
 		if(ParentID != '0'){
 			$.post(domain + 'Tito_controller/delete_section', {ParentID: ParentID}, function(result){
 				console.log(result)
@@ -57,8 +18,16 @@ $(function(){
 	$(document).on('click', '.clearpsource-btn', function(e){
 		e.preventDefault();
 		$('.errorDiv').html('')
-		$(this).closest('tr').find('.editablediv').text('')
-		$(this).closest('tr').find('.form-control').removeClass('errorinput')
+		var tr = $(this).closest('tr');
+
+		tr.find('.form-control').each(function(){
+			if($(this).hasClass('SourceURL')){
+
+			}else{
+				$(this).removeClass('errorinput')
+				$(this).val('')
+			}
+		})
 	})
 
 	$(document).on('click', '.addsesction-btn', function(){
@@ -75,28 +44,20 @@ $(function(){
 		var x = 0;
 		var error = false;
 		var errorDiv = "";
-
-		var AllocationRefId = $('.CONTENT_ANALYSIS #AllocationRefId').val();
 		var status = $(this).attr('data-value');
-		
-		var ParentID = $('.CONTENT_ANALYSIS #ParentID').val()
-		var ReferenceID = $('.CONTENT_ANALYSIS #ReferenceID').val();
-		var NewSourceID = $('.CONTENT_ANALYSIS #NewSourceID').val();
-		var SourceURL = $('.CONTENT_ANALYSIS #SourceURL').text();
-		var SourceName = $('.CONTENT_ANALYSIS #SourceName').text();
+		var formData = new FormData();
 
-		var formData = new FormData();		
-		formData.append('ParentID', ParentID)
-		formData.append('AllocationRefId', AllocationRefId)
-		formData.append('status', status)
-		formData.append('ReferenceID', ReferenceID)
-		formData.append('NewSourceID', NewSourceID)
-		formData.append('SourceURL', SourceURL)
-		formData.append('SourceName', SourceName)
+		formData.append('status', status)		
+		formData.append('ParentID', $('.CONTENT_ANALYSIS #ParentID').val())
+		formData.append('AllocationRefId', $('.CONTENT_ANALYSIS #AllocationRefId').val())
+		formData.append('ReferenceID', $('.CONTENT_ANALYSIS #ReferenceID').val())
+		formData.append('NewSourceID', $('.CONTENT_ANALYSIS #NewSourceID').val())
+		formData.append('SourceURL', $('.CONTENT_ANALYSIS #SourceURL').val())
+		formData.append('SourceName', $('.CONTENT_ANALYSIS #SourceName').val())
 		
 
-		$('.contentanalysisTbl .requiredDiv').each(function(){
-			if($(this).text()==''){
+		$('.contentanalysisTbl .form-control').each(function(){
+			if($(this).val()==''){
 				$(this).addClass('errorinput')
 				error=true;
 				errorDiv="Please complete all required fields";
@@ -104,7 +65,7 @@ $(function(){
 		})
 
 		$('.subsection').each(function(){
-			var id = $(this).attr('data-id');
+			var id = $(this).find('.ParentID').val()
 			if(id=='0'){
 				error=true;
 				errorDiv="Please save or delete newly added subsection";
@@ -114,7 +75,7 @@ $(function(){
 		if(status=='Pending'){
 			formData.append('Remark', '')
 			x=0;
-		}else{
+		}else if(status=='Done'){
 			if( $('#Remark').text() ==''){
 				$('#Remark').addClass('errorinput')
 				error=true;
@@ -123,9 +84,7 @@ $(function(){
 			else{
 				formData.append('Remark', $('#Remark').text())
 			}
-		}
-		
-		if($( ".edited" ).length) {
+		}else if($( ".edited" ).length) {
 			$(".edited").addClass('errorinput')
 			error=true;
 			errorDiv="Please save all the changes made";
@@ -134,7 +93,8 @@ $(function(){
 		if(error){
 			alert(errorDiv)
 		}else{
-			// console.log(status)
+			console.log(error)
+			console.log(status)
 			$.ajax({
 			    url: domain + 'Tito_controller/task_out_source',
 			    type: 'POST',
@@ -168,7 +128,7 @@ $(function(){
 	})
 
 	$(document).on('focusout', '.SourceURL', function(){
-		var url = $(this).text();
+		var url = $(this).val();
 		var el = $(this);
 		if(url.length > 0){
 			if(isUrlValid(url)){
@@ -180,72 +140,42 @@ $(function(){
 		}
 	})
 
-	$(document).on('click', '.savesection-btn', function(e){
+
+	$(document).on('submit', '.subsectionFrom', function(e){
 		e.preventDefault();
-		var x = 0;
-		var tr = $(this).closest('tr');
-		
+		var form = $(this);
+		var tr = $(this).closest('tr')
+		var formData = form.serialize()+'&sourceType=Section&SectionParentID='+$('#SectionParentID').val()+'&NewSourceID='+$('#NewSourceID').val();
+		save_content_analysis(formData, tr)
+	});
 
-		var formData = new FormData();
-		var ParentID = tr.attr('data-id')
-		formData.append('ParentID', ParentID)
-		formData.append('sourceType', 'Section')
-		formData.append('SectionParentID', $('#ParentID').val())
-		formData.append('NewSourceID', $('#NewSourceID').val())
-		
-		tr.find('div.form-control').each(function(){
-			var el = $(this);
-			el.removeClass('errorinput');
-			var value = el.text();
-			var nospace = value.replace(/\s/g,'');
-			var key = el.attr('data-key');
-			if(key=='SourceURL'){
-				if(nospace===""){
-					el.addClass('errorinput');
-					el.focus();
-					x++;
-				}
-			}
-			formData.append(key, value);
-		})
+	$(document).on('submit', '#parentdataForm', function(e){
+		e.preventDefault();
+		var form = $(this);
+		var tr = $(this).closest('tr')
+		var formData = form.serialize()+'&sourceType=Parent';
+		save_content_analysis(formData, tr)
+	});
 
-		tr.find('select.form-control').each(function(){
-			var el = $(this);
-			el.removeClass('errorinput');
-			var value = el.val();
-			var key = el.attr('data-key');
-			if(value==''){
-				el.addClass('errorinput');
-				el.focus();
-				x++;
-			}
-			formData.append(key, value);
-		})
-
-		if(x<=0){
-			save_content_analysis(formData, ParentID, tr)
-		}
-	})
-
-	function save_content_analysis(formData, ParentID, tr){
+	function save_content_analysis(formData, tr){
 		$.ajax({
 		    url: domain + 'Tito_controller/save_content_analysis',
 		    type: 'POST',
 		    data: formData,
-		    contentType: false,
-		    processData: false,
+		    // contentType: false,
+		    // processData: false,
 		    beforeSend: function(){
 		       	$('#loadingModal').modal();
 		    },
 		    success: function(data, textStatus, jqXHR)
 		    {
-		    	console.log(data)
 		    	$('#loadingModal').modal('hide');
+		    	console.log(data)
+		    	
 		    	var obj = JSON.parse(data);
 		    	if(obj.error== false){
-		    		if(ParentID=='0'){
-		    			tr.attr("data-id", obj.message);
-		    			tr.find('.form-control').removeClass('edited')
+		    		if(parseInt(obj.message) > 0){
+		    			tr.find('.ParentID').val(obj.message)
 			    	}
 			    	tr.find('.form-control').removeClass('edited')
 			    	$('.errorDiv').html('Data saved')

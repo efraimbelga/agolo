@@ -1,33 +1,46 @@
-<tr class="subsection" data-id="0">
-    <td>
-        <div class="form-control input-sm SourceURL requiredDiv" data-key="SourceURL" contenteditable="true" ></div>
-    </td>
-    <td>
-        <div class="form-control input-sm SourceName requiredDiv" data-key="SourceName" contenteditable="true" ></div>
-    </td>
-    <td>
-        <div class="form-control input-sm Type" data-key="Type" contenteditable="true" ></div>
-    </td>
-    <td>
-        <div class="form-control input-sm Region" data-key="Region" contenteditable="true" ></div>
-    </td>
-    <td>
-        <div class="form-control input-sm Country" data-key="Country" contenteditable="true" ></div>
-    </td>
-    <td>
-        <div class="form-control input-sm Client" data-key="Client" contenteditable="true" ></div>
-    </td>
-    <td>
-        <div class="form-control input-sm Access" data-key="Access" contenteditable="true" ></div>
-    </td>
-    <td>
-        <div class="form-control input-sm Priority requiredDiv" data-key="Priority" contenteditable="true" ></div>
-    </td>
-    <!-- <td>
-        <div class="form-control input-sm Remark" data-key="Remark" contenteditable="true" ></div>
-    </td> -->
-    <td class="text-left">
-        <a href="" class="btn btn-xs btn-flat btn-success savesection-btn"><i class="fa fa-check-square" aria-hidden="true"></i></a>
-        <a href="" class="btn btn-xs btn-flat btn-danger clearsection-btn"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-    </td>
+<tr class="subsection">
+    
+        <td style="display: none;"><form class="subsectionFrom" id="<?= $formID;?>"></form></td>
+        <td>
+            <input form="<?= $formID;?>" type="hidden" class="ParentID" name="ParentID" value="0" required >
+            <input form="<?= $formID;?>" type="text" name="SourceURL" class="form-control input-sm SourceURL" required>
+        </td>
+        <td>
+            <input form="<?= $formID;?>" type="text" name="SourceName" class="form-control input-sm SourceName">
+        </td>
+        <td>
+            <input form="<?= $formID;?>" type="text" name="Type" class="form-control input-sm Type">
+        </td>
+        <td>
+            <select form="<?= $formID;?>" name="Region" class="form-control input-sm Region">
+                <option value=""></option>
+                <?php
+                foreach ($regions as $region) {
+                    echo'<option value="'.$region.'">'.$region.'</option>';
+                }
+                ?>
+            </select>
+        </td>
+        <td>
+            <input form="<?= $formID;?>" type="text" name="Country" class="form-control input-sm Country" >
+        </td>
+        <td>
+            <input form="<?= $formID;?>" type="text" name="Client" class="form-control input-sm Client" >
+        </td>
+        <td>
+            <input form="<?= $formID;?>" type="text" name="Access" class="form-control input-sm Access" >
+        </td>
+        <td>
+            <select form="<?= $formID;?>" class="form-control input-sm Priority" name="Priority" id="Priority" required>
+                <option value=""> </option>
+                <option value="High">High</option>
+                <option value="Medium">Medium</option>
+                <option value="Low">Low</option>
+            </select>
+        </td>
+        <td class="text-left">
+            <button form="<?= $formID;?>" ype="submit" class="btn btn-xs btn-success"><i class="fa fa-check-square" aria-hidden="true"></i></button>
+            <button type="button" class="btn btn-xs btn-danger clearsection-btn"><i class="fa fa-trash-o" aria-hidden="true"></i></button>
+        </td>
+    
 </tr>

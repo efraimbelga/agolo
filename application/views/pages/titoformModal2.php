@@ -249,7 +249,7 @@
                 </div>
             </div> -->
             <?php }
-                if($RefId >=10){
+                if($RefId ==10){
             ?>
             <div class="row">
                 <div class="panel-group">
@@ -281,7 +281,7 @@
                 </div>
             </div>
             <?php }
-                if($RefId >=11){
+                if($RefId ==11){
             ?>
             <div class="row">
                 <div class="panel-group">

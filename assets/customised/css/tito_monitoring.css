@@ -30,12 +30,7 @@
   padding: 3px;
 }
 
-.CONTENT_ANALYSIS table td:nth-child(1) {
-  width: 95%;
-}
-.CONTENT_ANALYSIS table td:nth-child(2) {
-  width: 5%;
-}
+
 a.deleteSection-btn {
     color: red;
 }
@@ -65,23 +60,25 @@ a.deleteSection-btn:hover{
   padding: 15px;
 }
 
-.contentanalysisTbl tbody td{
-  padding: 0px !important;
-  width: 8%;
+.table-bordered>tbody>tr>th,
+table#psourceTbl>tbody>tr>td,
+table#psourceTbl>thead>tr>th, 
+table#psourceTbl {
+    border: 1px solid transparent;
+}
 
+table#psourceTbl>tbody>tr>td {
+    padding: 0px 4px 2px;
+    font-size: 13px;
 }
-.contentanalysisTbl tbody td:nth-child(1){
-  width: 15%;
+
+table#psourceTbl{
+    margin-left: -4px;
+    margin-right: -4px;
 }
-.contentanalysisTbl tbody td:nth-child(2),
-.contentanalysisTbl tbody td:nth-child(4),
-.contentanalysisTbl tbody td:nth-child(5) {
-  width: 13%;
-}
-.contentanalysisTbl tbody td:last-child {
-    width: 3%;
-   /*text-align: center;*/
-}
+
+
+
 .contentanalysisTbl tbody td div.form-control{
   border: none;
 }

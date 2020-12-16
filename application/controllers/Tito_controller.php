@@ -158,7 +158,7 @@ class Tito_controller extends CI_Controller {
 
 	public function delete_section(){
 		$ParentID = $this->input->post('ParentID');
-		// $sql="DELETE FROM [WMS_AGLDE].[dbo].[AGLDE_SourceDetails] WHERE [ParentID] = ".$ParentID;
+		// $sql="DELETE FROM [dbo].[AGLDE_SourceDetails] WHERE [ParentID] = ".$ParentID;
 		// echo $result = $this->base_model->executequery($sql);
 		$sql="EXEC USP_AGLDE_SOURCEDETAILS_DELETE @ParentID = ".$ParentID;
 		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
@@ -229,7 +229,11 @@ class Tito_controller extends CI_Controller {
 	}
 
 	public function subsectionform(){
-		$this->load->view('pages/subsectionform');
+		$data = array(
+			'regions' => REGIONS,
+			'formID' => 'FORM'.date('YmdHis')
+		);
+		$this->load->view('pages/subsectionform', $data);
 	}
 
 	public function content_analysis(){
@@ -269,7 +273,7 @@ class Tito_controller extends CI_Controller {
 			$sectionData = json_decode($APIResult, true);
 			if (array_key_exists('error', $sectionData)) { die("CA4: ".$sectionData['error']); }
 
-			
+
 			$fdata = array(
 				'error'			=> $error,
 				'errorMsg'		=> $errorMsg,
@@ -277,6 +281,7 @@ class Tito_controller extends CI_Controller {
 				'sectionData' 	=> $sectionData[0],
 				'process' 		=> 'CONTENT_ANALYSIS',
 				'processId' 	=> '1',
+				'regions' 		=> REGIONS,
 				'AllocationRefId' => $_GET['AllocationRefId'],
 				'css' 			=> array(
 					'<link rel="stylesheet" type="text/css" href="'.base_url('assets/customised/css/tito_monitoring.css').'">'
@@ -289,6 +294,8 @@ class Tito_controller extends CI_Controller {
 	
 
 	public function save_content_analysis(){
+		// print_r($_POST);
+		// die();
 		$SourceID = '';
 		$sourceType = $this->input->post('sourceType');
 		$ParentID = $this->input->post('ParentID');
@@ -338,12 +345,12 @@ class Tito_controller extends CI_Controller {
 				$sql = "EXEC USP_AGLDE_SOURCEDETAILS_INSERT_SUBSECTION 
 				@SourceURL = '".$this->input->post('SourceURL')."',
 				@SourceName = '".$this->input->post('SourceName')."',
-				@Type = '".$_POST['Type']."',
-				@Region = '".$_POST['Region']."',
-				@Country = '".$_POST['Country']."',
-				@Client = '".$_POST['Client']."',
-				@Access = '".$_POST['Access']."',
-				@Priority = '".$_POST['Priority']."',
+				@Type = '".$this->input->post('Type')."',
+				@Region = '".$this->input->post('Region')."',
+				@Country = '".$this->input->post('Country')."',
+				@Client = '".$this->input->post('Client')."',
+				@Access = '".$this->input->post('Access')."',
+				@Priority = '".$this->input->post('Priority')."',
 				@Status = '',
 				@SectionParentID = ".$this->input->post('SectionParentID').",
 				@NewSourceID = ".$this->input->post('NewSourceID').",
@@ -363,12 +370,12 @@ class Tito_controller extends CI_Controller {
 				$sql="SELECT TOP(1) [ParentID] FROM [AGLDE_SourceDetails] WHERE 
 				[SourceURL] = '".$_POST['SourceURL']."' AND
 				[SourceName] = '".$_POST['SourceName']."' AND
-				[Type] = '".$_POST['Type']."' AND
-				[Region] = '".$_POST['Region']."' AND
-				[Country] = '".$_POST['Country']."' AND
-				[Client] = '".$_POST['Client']."' AND
-				[Access] = '".$_POST['Access']."' AND
-				[Priority] = '".$_POST['Priority']."' AND
+				[Type] = '".$this->input->post('Type')."' AND
+				[Region] = '".$this->input->post('Region')."' AND
+				[Country] = '".$this->input->post('Country')."' AND
+				[Client] = '".$this->input->post('Client')."' AND
+				[Access] = '".$this->input->post('Access')."' AND
+				[Priority] = '".$this->input->post('Priority')."' AND
 				[SectionParentID] = ".$this->input->post('SectionParentID')." AND
 				[NewSourceID] = ".$this->input->post('NewSourceID')." AND
 				[SourceID] = '".$SourceID."'";			
@@ -389,7 +396,6 @@ class Tito_controller extends CI_Controller {
 					'message' => $fdata['ParentID']
 				);
 				echo json_encode($returnData);
-
 			}else{
 				$sql = "EXEC USP_AGLDE_SOURCEDETAILS_UPDATE 
 				@SourceURL = '".$this->input->post('SourceURL')."',
@@ -456,7 +462,7 @@ class Tito_controller extends CI_Controller {
 			if($processId=='1'){
 				$json = '{ "referenceId": "'.$ReferenceID.'", "sources": [{ "url": "'.$SourceURL.'", "name": "'.$SourceName.'" ';
 			
-				$sql="SELECT [ParentID], [SourceName], [SourceURL] FROM [WMS_AGLDE].[dbo].[AGLDE_SourceDetails] WHERE 
+				$sql="SELECT [ParentID], [SourceName], [SourceURL] FROM [dbo].[AGLDE_SourceDetails] WHERE 
 				[SectionParentID] = ".$ParentID." AND [IsParent] IS NULL ORDER BY [ParentID] ASC";
 
 				$APIResult = $this->base_model->GetDatabaseDataset($sql);
@@ -561,6 +567,27 @@ class Tito_controller extends CI_Controller {
 			else if($processId=='2'){
 				//d8bfa0e3-53f0-4d75-b329-9b2f6f628bbe
 				$AgentID = $this->input->post('AgentID');
+				$sql="SELECT TOP (1) [RecID] ,[AgentID] ,[AgentName] FROM [dbo].[AGLDE_AgentDetails] WHERE [AgentID] = '".$AgentID."';";
+				$APIResult = $this->base_model->GetDatabaseDataset($sql);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' => "TOS1 : ".$data['error']
+					);
+      				echo json_encode($returnData);
+      				die();
+				}
+				$rawdata = $data[0];
+				if(sizeof($data[0]) <= 0){
+					$returnData = array(
+						'error' => true,
+						'message' => "TOS2 : Agent ID not authorized"
+					);
+      				echo json_encode($returnData);
+      				die();
+				}
+				
 				$json = '{ "agentId": "'.$AgentID.'" }';
 				// echo 'https://sources-management.crawlers.agolo.com/api/v1/sources/'.$this->input->post('SourceID');
 				// echo $json;
@@ -769,7 +796,7 @@ class Tito_controller extends CI_Controller {
 
 	public function get_url(){
 		$ParentID = $this->input->post('ParentID');
-		$sql="SELECT TOP (1) [NSRSourceURL] FROM [WMS_AGLDE].[dbo].[VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
+		$sql="SELECT TOP (1) [NSRSourceURL] FROM [dbo].[VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
 		$APIResult = $this->base_model->GetDatabaseDataset($sql);
 		$data = json_decode($APIResult, true);
 		if (array_key_exists('error', $data)) { die("2. ".$data['error']); }

@@ -97,6 +97,6 @@ defined('STREAM_CONTEXT')	OR define('STREAM_CONTEXT', array(
 			'method'  => 'POST', 
 			'header'  => 'Content-Type: application/x-www-form-urlencoded')
 	));
-
+defined('REGIONS')        	OR define('REGIONS', array('Australia and Oceania', 'Caribbean', 'Central & South Asia', 'Central America', 'Eastern Europe', 'Middle East', 'North America', 'Northeastern Asia', 'Northern Africa', 'Northern Europe', 'South America', 'Southeastern Asia', 'Southern Africa', 'Southern Europe', 'Western Europe'));
 
 
