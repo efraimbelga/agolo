@@ -23,23 +23,8 @@ class Masterlist_controller extends CI_Controller {
 			}
 
 
-			$sql="EXEC USP_AGLDE_MASTERLIST";
-			$APIResult = $this->base_model->GetDatabaseDataset($sql);
-			$data = json_decode($APIResult, true);
-			if (array_key_exists('error', $data)) { 
-				$returnData = array(
-					'error' => true,
-					'message' =>"Error: ".$data['error']
-				);
-				echo json_encode($returnData);
-				die(); 
-			}
 			$data = array(
 				'page' => 'pages/masterlist',
-				'masterlistData' => $data[0],
-				'css' => array(
-					'<link rel="stylesheet" type="text/css" href="'.base_url('assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css').'">'
-				),
 			);
 			$this->load->view('base', $data);
 			
@@ -48,7 +33,43 @@ class Masterlist_controller extends CI_Controller {
 		}
 	}
 
-	   
+	public function loadMasterlist(){
+		$page = $this->input->post('page');
+		$fetch = $this->input->post('fetch');
+		$offset = $page - 1;
+		
+		$sql="EXEC USP_AGLDE_MASTERLIST @offset = 0,  @fetch = 0";
+		$APIResult = $this->base_model->GetDatabaseDataset($sql);
+		$masterlistCount = json_decode($APIResult, true);
+		if (array_key_exists('error', $masterlistCount)) { 
+			$returnData = array(
+				'error' => true,
+				'message' =>"Error1: ".$masterlistCount['error']
+			);
+			echo json_encode($returnData);
+			die(); 
+		}
+		
+		$sql="EXEC USP_AGLDE_MASTERLIST @offset = ".$offset.",  @fetch = ".$fetch;
+	 	// echo $sql;
+		$APIResult = $this->base_model->GetDatabaseDataset($sql);
+		$masterlistData = json_decode($APIResult, true);
+		if (array_key_exists('error', $masterlistData)) { 
+			$returnData = array(
+				'error' => true,
+				'message' =>"Error2: ".$masterlistData['error']
+			);
+			echo json_encode($returnData);
+			die(); 
+		}
+		
+		$postData = array(
+			'masterlistData' => $masterlistData[0],
+			'Total' => $masterlistCount[0][0]['Total'],
+			'page' => $page
+		);
+		$this->load->view('pages/masterlist_table', $postData);
+	}  
 }
 
 

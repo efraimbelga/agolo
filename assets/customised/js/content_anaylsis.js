@@ -56,13 +56,13 @@ $(function(){
 		formData.append('SourceName', $('.CONTENT_ANALYSIS #SourceName').val())
 		
 
-		$('.contentanalysisTbl .form-control').each(function(){
-			if($(this).val()==''){
-				$(this).addClass('errorinput')
-				error=true;
-				errorDiv="Please complete all required fields";
-			}
-		})
+		// $('.contentanalysisTbl .form-control').each(function(){
+		// 	if($(this).val()==''){
+		// 		$(this).addClass('errorinput')
+		// 		error=true;
+		// 		errorDiv="Please complete all required fields";
+		// 	}
+		// })
 
 		$('.subsection').each(function(){
 			var id = $(this).find('.ParentID').val()
