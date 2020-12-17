@@ -20,30 +20,26 @@ class Masterlist_controller extends CI_Controller {
 					echo "	window.location='".base_url('signout')."'";
 					echo "</script>";
 				}
-			}else{
-				$APIResult =  $this->base_model->SessionLogout();
-				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) {
-					if($data['error']=='Active TITO for the current session detected!'){
-						// die($data['error'])
-						$APIResult = $this->base_model->GetAllocationsDt();
-					    $data = json_decode($APIResult, true);
-					    // echo"<pre>";
-					    // 	print_r($data);
-					    // echo"</pre>";
-	
-					    if (array_key_exists('error', $data)) { die($data['error']); }
-					    if(sizeof($data) > 0){
-					    	$pid = strval($data[0]['ProcessId']);
-					    	redirect('tito_monitoring/'.$pid);
-						}						
-					}else{
-						die($data['error']);
-					}
-				}
+			}
+
+
+			$sql="EXEC USP_AGLDE_MASTERLIST";
+			$APIResult = $this->base_model->GetDatabaseDataset($sql);
+			$data = json_decode($APIResult, true);
+			if (array_key_exists('error', $data)) { 
+				$returnData = array(
+					'error' => true,
+					'message' =>"Error: ".$data['error']
+				);
+				echo json_encode($returnData);
+				die(); 
 			}
 			$data = array(
-				'page' => 'pages/dashboard',
+				'page' => 'pages/masterlist',
+				'masterlistData' => $data[0],
+				'css' => array(
+					'<link rel="stylesheet" type="text/css" href="'.base_url('assets/bower_components/datatables.net-bs/css/dataTables.bootstrap.min.css').'">'
+				),
 			);
 			$this->load->view('base', $data);
 			

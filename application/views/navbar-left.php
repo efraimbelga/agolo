@@ -16,10 +16,10 @@
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
             <li class="<?= ($segment1=='home' ? 'active' : '');?>"><a href="<?= base_url('home');?>"><i class="fa fa-circle-o"></i> <span>New Source Request</span></a></li>
-            <li><a href="<?= base_url('allocation');?>"><i class="fa fa-circle-o"></i> <span>User Allocation</span></a></li>
+            <li><a href="<?= base_url('allocation');?>"><i class="fa fa-user-plus" aria-hidden="true"></i> <span>User Allocation</span></a></li>
             <li class="treeview <?= ($segment1=='tito_monitoring' ? 'active' : '');?>">
                 <a href="#">
-                    <i class="fa fa-files-o"></i> <span>User Task View</span>
+                    <i class="fa fa-pencil-square-o" aria-hidden="true"></i> <span>User Task View</span>
                     <span class="pull-right-container">
                         <i class="fa fa-angle-left pull-right"></i>
                     </span>
@@ -44,7 +44,7 @@
                     ?>     
                 </ul>
             </li>
-            <li class="<?= ($segment1=='masterlist' ? 'active' : '');?>"><a href="<?= base_url('masterlist');?>"><i class="fa fa-circle-o"></i> <span>Master List</span></a></li>
+            <li class="<?= ($segment1=='masterlist' ? 'active' : '');?>"><a href="<?= base_url('masterlist');?>"><i class="fa fa-files-o"></i> <span>Master List</span></a></li>
             <!-- <li><a href="<?= base_url('published');?>"><i class="fa fa-circle-o"></i> <span>Agennt Published List</span></a></li> -->
         </ul>
     </section>
