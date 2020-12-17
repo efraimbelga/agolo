@@ -191,36 +191,36 @@ $(function(){
 	$(document).on('click', '.taskdone-btn', function(){
 		var x=0;
 		var status = $(this).attr('data-value');
-		var ParentID = $('#titoModal #ParentID').val()
-		var ReferenceID = $('#titoModal #ReferenceID').val();
-		var NewSourceID = $('#titoModal #NewSourceID').val();
-		var SourceURL = $('#titoModal #SourceURL').text();
-		var SourceName = $('#titoModal #SourceName').text();
 		var processId = $('#titoModal #processId').val();
-		var AllocationRefId = $('#titoModal #AllocationRefId').val();
-		var SourceID = $('#titoModal #SourceID').text();
-		
+			
 
-		var formData = new FormData();		
-		formData.append('ParentID', ParentID)
-		formData.append('AllocationRefId', AllocationRefId)
-		formData.append('status', status)
-		formData.append('ReferenceID', ReferenceID)
-		formData.append('NewSourceID', NewSourceID)
-		formData.append('SourceURL', SourceURL)
-		formData.append('SourceName', SourceName)
-		formData.append('status', status)
-		formData.append('SourceID', SourceID)
+		var formData = new FormData();	
+		formData.append('status', status)	
+		formData.append('ParentID', $('#titoModal #ParentID').val())
+		formData.append('AllocationRefId', $('#titoModal #AllocationRefId').val())		
+		formData.append('ReferenceID', $('#titoModal #ReferenceID').val())
+		formData.append('NewSourceID', $('#titoModal #NewSourceID').val())
+		formData.append('SourceURL', $('#titoModal #SourceURL').text())
+		formData.append('SourceName', $('#titoModal #SourceName').text())
+		formData.append('SourceID', $('#titoModal #SourceID').text())
 
-		$('.myForm .editablediv').each(function(){
+		$('.myForm .form-control').each(function(){
 			var el = $(this);
 			var value = el.text();
 			var key = el.attr('data-key');
+			if($(this).hasClass('Difficulty')){
+				value = el.val();
+			}
+			
 			formData.append(key, value);
-			if(value==''){
-				x++;
-				el.addClass('errorinput');
-				el.focus();
+			if($(this).hasClass('notesTxt')){
+
+			}else{
+				if(value==''){
+					x++;
+					el.addClass('errorinput');
+					el.focus();
+				}
 			}
 		})
 

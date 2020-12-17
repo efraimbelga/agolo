@@ -127,6 +127,9 @@ class Tito_controller extends CI_Controller {
 	    // echo"<pre>";
 	    // 	print_r($data);
 	    // echo"</pre>";
+
+	   
+
 	    if (array_key_exists('error', $data)) { die($data['error']); }
 	    if(sizeof($data) > 0){
 			foreach ($data as $row) {
@@ -214,6 +217,7 @@ class Tito_controller extends CI_Controller {
 			$APIResult = $this->base_model->GetDatabaseDataset($sql);
 			$RefIdData = json_decode($APIResult, true);
 
+			// $sql=""
 
 			$data = array(
 				'AllocationRefId'	=> $AllocationRefId,
@@ -582,7 +586,7 @@ class Tito_controller extends CI_Controller {
 				if(sizeof($data[0]) <= 0){
 					$returnData = array(
 						'error' => true,
-						'message' => "Agent ID not authorized"
+						'message' => "Invalid AgentID entry. The AgentID does not exist in the AgentDetails list"
 					);
       				echo json_encode($returnData);
       				die();

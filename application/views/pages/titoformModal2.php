@@ -144,7 +144,12 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Difficulty:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm Difficulty editablediv" data-key="Difficulty" <?= ($RefId == 8 ? 'contenteditable="true"' : '');?>><?= $parentData['Difficulty'];?></div>
+                                            <select class="form-control input-sm Difficulty" data-key="Difficulty">
+                                                <option value=""></option>
+                                                <option <?= ($parentData['Difficulty']=='Average' ? 'selected' : '');?> value="Average">Average</option>
+                                                <option <?= ($parentData['Difficulty']=='Difficult' ? 'selected' : '');?> value="Difficult">Difficult</option>
+                                            </select>
+                                            <!-- <div class="form-control input-sm Difficulty editablediv" data-key="Difficulty" <?= ($RefId == 8 ? 'contenteditable="true"' : '');?>><?= $parentData['Difficulty'];?></div> -->
                                         </div>
                                     </div>
                                 </div>
@@ -152,7 +157,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Configuration Notes:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm ConfigNotes editablediv" data-key="ConfigNotes" <?= ($RefId == 8 ? 'contenteditable="true"' : '');?>><?= $parentData['ConfigNotes'];?></div>
+                                            <div class="form-control input-sm ConfigNotes notesTxt" data-key="ConfigNotes" <?= ($RefId == 8 ? 'contenteditable="true"' : '');?>><?= $parentData['ConfigNotes'];?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -160,7 +165,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Exclusion Notes:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm ExclusionNotes editablediv" data-key="ExclusionNotes" <?= ($RefId == 8 ? 'contenteditable="true"' : '');?>><?= $parentData['ExclusionNotes'];?></div>
+                                            <div class="form-control input-sm ExclusionNotes notesTxt" data-key="ExclusionNotes" <?= ($RefId == 8 ? 'contenteditable="true"' : '');?>><?= $parentData['ExclusionNotes'];?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -263,7 +268,7 @@
                                     <div class="form-group ">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Reconfiguration Notes:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm ReConfigNotes editablediv" id="ReConfigNotes" data-key="ReConfigNotes" <?= ($RefId ==10 ? 'contenteditable="true"' : '');?>><?= $parentData['ReConfigNotes'];?></div>
+                                            <div class="form-control input-sm ReConfigNotes notesTxt" id="ReConfigNotes" data-key="ReConfigNotes" <?= ($RefId ==10 ? 'contenteditable="true"' : '');?>><?= $parentData['ReConfigNotes'];?></div>
                                         </div>
                                     </div>
                                 </div>
@@ -308,15 +313,8 @@
         </div>
         <div class="modal-footer">
             <p class="errorMsg"></p>
-            <?php
-            // if($processId==2){
-                echo '<button class="btn btn-xs btn-success taskdone-btn" data-value="Done"><i class="fa fa-check-square-o" aria-hidden="true"></i> Save</button>';
-            // }else{
-            //     echo '<button class="btn btn-flat btn-xs btn-danger taskdone-btn" data-value="Pending"><i class="fa fa-dot-circle-o" aria-hidden="true"></i> Pending</button>';
-            //     echo '<button class="btn btn-flat btn-xs btn-success taskdone-btn" data-value="Done"><i class="fa fa-check-square-o" aria-hidden="true"></i> Save</button>';
-            // }
-               
-            ?>  
+            <button class="btn btn-xs btn-success taskdone-btn" data-value="Done"><i class="fa fa-check-square-o" aria-hidden="true"></i> Save</button>
+           
              
         </div>
     </div>
