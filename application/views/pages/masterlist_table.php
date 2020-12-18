@@ -22,6 +22,10 @@
         </thead>
         <tbody>
             <?php
+                // echo"<pre>";
+                // print_r($masterlistData);
+                // echo"</pre>";
+                // die();
                 if(sizeof($masterlistData) > 0){
                     foreach ($masterlistData as $ml) {
                         echo'<tr>';
@@ -34,13 +38,13 @@
                             echo '<td>'.$ml['Priority'].'</td>';
                             echo '<td>'.$ml['ProcessCode'].'</td>';
                             echo '<td>'.$ml['StatusString'].'</td>';
-                            echo '<td>'.$ml['ReferenceID'].'</td>';
-                            echo '<td>'.$ml['ReferenceID'].'</td>';
-                            echo '<td>'.$ml['ReferenceID'].'</td>';
-                            echo '<td>'.$ml['ReferenceID'].'</td>';
-                            echo '<td>'.$ml['ReferenceID'].'</td>';
-                            echo '<td>'.$ml['ReferenceID'].'</td>';
-                            echo '<td>'.$ml['ReferenceID'].'</td>';
+                            echo '<td>---</td>';
+                            echo '<td>---</td>';
+                            echo '<td>---</td>';
+                            echo '<td>---</td>';
+                            echo '<td>---</td>';
+                            echo '<td>---</td>';
+                            echo '<td>---</td>';
                         echo'</tr>';
                     }
                 }

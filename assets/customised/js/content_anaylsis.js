@@ -47,13 +47,14 @@ $(function(){
 		var status = $(this).attr('data-value');
 		var formData = new FormData();
 
-		formData.append('status', status)		
+		formData.append('Status', status)		
 		formData.append('ParentID', $('.CONTENT_ANALYSIS #ParentID').val())
 		formData.append('AllocationRefId', $('.CONTENT_ANALYSIS #AllocationRefId').val())
 		formData.append('ReferenceID', $('.CONTENT_ANALYSIS #ReferenceID').val())
 		formData.append('NewSourceID', $('.CONTENT_ANALYSIS #NewSourceID').val())
 		formData.append('SourceURL', $('.CONTENT_ANALYSIS #SourceURL').val())
 		formData.append('SourceName', $('.CONTENT_ANALYSIS #SourceName').val())
+		formData.append('processId', '1')
 		
 
 		// $('.contentanalysisTbl .form-control').each(function(){

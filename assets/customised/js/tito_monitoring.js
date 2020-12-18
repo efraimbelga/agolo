@@ -119,7 +119,7 @@ $(function(){
 			        success: function(data, textStatus, jqXHR)
 			        {
 			        	$('#titoModal').html(data);
-			        	$('#titoModal').modal();
+			        	$('#titoModal').modal({backdrop: 'static', keyboard: false});
 			        },
 			        error: function (jqXHR, textStatus, errorThrown)
 			        {
@@ -132,6 +132,10 @@ $(function(){
 		}else{
 			alert('Ongoing TITO detected')
 		}
+	})
+
+	$('#titoModal').on('hidden.bs.modal', function () {
+		view_source_request(processId)
 	})
 
 	function openWindow(url) {  
@@ -159,34 +163,38 @@ $(function(){
 	        }
 	    }
 	}
-	// $(document).on('click', '.sourceTR', function(){
-	// 	$('.sourceTR').removeClass('selected');	
-	// 	$(this).toggleClass('selected');	
+	
+	$(document).on('submit', '#titoForm', function(e){
+		e.preventDefault();
+		var form = $(this);
+		var formData = form.serialize();
+		$.ajax({
+		    url: domain + 'Tito_controller/task_out_source',
+		    type: 'POST',
+		    data: formData,
+		    beforeSend: function(){
+		       	$('#loadingModal').modal();
+		    },
+		    success: function(data, textStatus, jqXHR)
+		    {
+		    	$('#loadingModal').modal('hide');
+		    	console.log(data)
+		    	var obj = JSON.parse(data);
+		    	$('.titoformModal .errorMsg').text(obj.message)
+		    	if(obj.error== false){
+		    		// view_source_request(processId)
+		    		setTimeout(function(){ $('#titoModal').modal('hide'); }, 500);
 
-	// 	var ParentID = $(this).attr('data-parentid');
-	// 	var ReferenceID = $(this).attr('data-ReferenceID');
-	// 	var AllocationRefId = $(this).attr('data-AllocationRefId');
-	// 	var status = $(this).attr('data-status')
-	// 	console.log(ParentID)
-	// 	$.ajax({
-	//         url: domain + 'Tito_controller/view_tito_form',
-	//         type: 'POST',
-	//         data: {ReferenceID : ReferenceID, ParentID:ParentID, AllocationRefId:AllocationRefId, status:status},
-	//         success: function(data, textStatus, jqXHR)
-	//         {
-	//         	$('#titoModal').html(data)
-	//             $('#titoModal').modal({
-	// 	            backdrop: 'static',
-	// 	            keyboard: false
-	// 	        });
-	//         },
-	//         error: function (jqXHR, textStatus, errorThrown)
-	//         {
-	//      		console.log(jqXHR.responseText)
-	//         }
-	//     });
-		
-	// })
+		    	}
+		    },
+		    error: function (jqXHR, textStatus, errorThrown)
+		    {
+		    	$('#loadingModal').modal('hide');
+		    	$('.titoformModal .errorMsg').text(jqXHR.responseText)
+		    }
+		});
+
+	})
 
 	$(document).on('click', '.taskdone-btn', function(){
 		var x=0;
@@ -247,33 +255,7 @@ $(function(){
 		// console.log(processId)
 
 		if(x<= 0){
-			$.ajax({
-			    url: domain + 'Tito_controller/task_out_source',
-			    type: 'POST',
-			    data: formData,
-			    contentType: false,
-			    processData: false,
-			    beforeSend: function(){
-			       	$('#loadingModal').modal();
-			    },
-			    success: function(data, textStatus, jqXHR)
-			    {
-			    	$('#loadingModal').modal('hide');
-			    	// console.log(data)
-			    	var obj = JSON.parse(data);
-			    	$('.titoformModal .errorMsg').text(obj.message)
-			    	if(obj.error== false){
-			    		view_source_request(processId)
-			    		setTimeout(function(){ $('#titoModal').modal('hide'); }, 1500);
-
-			    	}
-			    },
-			    error: function (jqXHR, textStatus, errorThrown)
-			    {
-			    	$('#loadingModal').modal('hide');
-			    	$('.titoformModal .errorMsg').text(jqXHR.responseText)
-			    }
-			});
+			
 		}
 	})
 

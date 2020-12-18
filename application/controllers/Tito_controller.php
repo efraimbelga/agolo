@@ -208,24 +208,24 @@ class Tito_controller extends CI_Controller {
 			$sql="SELECT TOP(1) * FROM [VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
 			$APIResult = $this->base_model->GetDatabaseDataset($sql);
 			$parentData = json_decode($APIResult, true);
-			// echo"<pre>";
-			// print_r($parentData);
-			// echo"<pre>";
-			// die();
+			
 
 			$sql="select TOP(1) wp.RefId from wms_Processes p inner join wms_WorkFlowProcesses wp on p.processid=wp.ProcessId where wp.workflowid=1 AND p.ProcessId=".$processId;
 			$APIResult = $this->base_model->GetDatabaseDataset($sql);
 			$RefIdData = json_decode($APIResult, true);
 
-			// $sql=""
-
+			$sql="EXEC USP_AGLDE_SOURCEDETAILS_REMARKS @ParentID = ".$ParentID;
+			$APIResult = $this->base_model->GetDatabaseDataset($sql);
+			$remarkData = json_decode($APIResult, true);
+			
 			$data = array(
 				'AllocationRefId'	=> $AllocationRefId,
 				'process' 			=> $this->getprocessname($processId),
 				'parentData'		=> $parentData[0][0],			
 				'processId' 		=> $processId,
 				'ReferenceID' 		=> $ReferenceID,
-				'RefId'				=> $RefIdData[0][0]['RefId']
+				'RefId'				=> $RefIdData[0][0]['RefId'],
+				'remarkData'		=> $remarkData[0],
 			);	
 
 			$this->load->view('pages/titoformModal2', $data);
@@ -444,22 +444,23 @@ class Tito_controller extends CI_Controller {
 	}
 
 	public function task_out_source(){
+		// echo"<pre>";
 		// print_r($_POST);
+		// echo"</pre>";
 		// die();
 		$returnData = array(
 			'error' => false,
 			'message' => ''
 		);
 		
-		$processId = $this->session->userdata('processId');
-		// die($processId);
 		$ParentID 			= $this->input->post('ParentID');
-		$AllocationRefId 	= $this->input->post('AllocationRefId');
-		$status 			= $this->input->post('status');
+		$processId 			= $this->input->post('processId');
 		$ReferenceID 		= $this->input->post('ReferenceID');
 		$NewSourceID 		= $this->input->post('NewSourceID');
+		$AllocationRefId 	= $this->input->post('AllocationRefId');			
 		$SourceURL 			= $this->input->post('SourceURL');
 		$SourceName 		= $this->input->post('SourceName');
+		$status 			= $this->input->post('Status');	
 
 		$SourceID = $SubSourceID = '';
 		if($status=='Done'){
@@ -539,7 +540,7 @@ class Tito_controller extends CI_Controller {
 				        }
 				    }
 
-				    $APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
+				    $APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $status);
 					$data = json_decode($APIResult, true);
 					if (array_key_exists('error', $data)) { 
 						$returnData = array(
@@ -757,11 +758,6 @@ class Tito_controller extends CI_Controller {
       				echo json_encode($returnData);
       			}
 			}
-			// else if($processId=='5'){
-			// 	$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
-			// 	$data = json_decode($APIResult, true);
-			// 	if (array_key_exists('error', $data)) { die("TO1D :".$data['error']); }
-			// }
 			else{
 				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 				$data = json_decode($APIResult, true);
