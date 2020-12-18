@@ -36,7 +36,7 @@
                             echo '<td>'.$ml['IsParent'].'</td>';
                             echo '<td>'.$ml['AgentName'].'</td>';
                             echo '<td>'.$ml['Priority'].'</td>';
-                            echo '<td>'.$ml['ProcessCode'].'</td>';
+                            echo '<td>'.str_replace("_", " ", $ml['ProcessCode']).'</td>';
                             echo '<td>'.$ml['StatusString'].'</td>';
                             echo '<td>---</td>';
                             echo '<td>---</td>';

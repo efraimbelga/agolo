@@ -124,3 +124,16 @@ tr.sourceTR.Ongoing:hover{
 .titoformModal .form-horizontal .control-label {
     padding-top: 0px;
 }
+
+input.form-control{
+    height: 25px;
+    padding: 3px 4px;
+    font-size: 13px;
+}
+select.form-control option,
+select.form-control{
+    height: 26px;
+    padding: 2px 8px;
+    font-size: 13px;
+    line-height: 1;
+}

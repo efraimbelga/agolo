@@ -1,8 +1,8 @@
 <section class="content-header">
-    <h1>User Task View <small><?= $process;?></small></h1>
+    <h1>User Task View <small><?= str_replace("_", " ", $process); ?></small></h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> User Task View</a></li>
-        <li class="active"><?= $process; ?></li>
+        <li class="active"><?= str_replace("_", " ", $process); ?></li>
     </ol>
 </section>
 <section class="content">

@@ -9,13 +9,7 @@
 .displayNone {
     display: none !important;
 }
-select.form-control option,
-select.form-control{
-    height: 26px;
-    padding: 2px 8px;
-    font-size: 13px;
-    line-height: 1;
-}
+
 
 table.optionsTable tr td {
     padding: 0 5px 5px;
@@ -28,11 +22,7 @@ table.optionsTable {
     margin-bottom: 10px;
 }
 
-input.form-control{
-    height: 25px;
-    padding: 3px 4px;
-    font-size: 13px;
-}
+
 .form-control[disabled], 
 .form-control[readonly], 
 fieldset[disabled] .form-control {

@@ -2,7 +2,7 @@
     <div class="modal-content">
         <div class="modal-header">
             <?= ($processId==2 ? '<button type="button" class="close" data-dismiss="modal">&times;</button>' : '');?>
-            <h4 class="modal-title"><?= $process;?></h4>
+            <h4 class="modal-title"><?= str_replace("_", " ", $process); ?></h4>
         </div>
         <form id="titoForm">
         <div class="modal-body">
@@ -18,7 +18,7 @@
             <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a data-toggle="collapse" href="#content_analysis"><h4 class="panel-title">CONTENT_ANALYSIS</h4></a>
+                            <a data-toggle="collapse" href="#content_analysis"><h4 class="panel-title">CONTENT ANALYSIS</h4></a>
                         </div>
                         <div id="content_analysis" class="panel-collapse collapse in form-horizontal">
                             <div class="panel-body">
@@ -112,7 +112,7 @@
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a data-toggle="collapse" href="#agent_development"><h4 class="panel-title">AGENT_DEVELOPMENT</h4></a>
+                            <a data-toggle="collapse" href="#agent_development"><h4 class="panel-title">AGENT DEVELOPMENT</h4></a>
                         </div>
                         <div id="agent_development" class="panel-collapse collapse in">
                             <div class="panel-body form-horizontal" >
@@ -207,10 +207,18 @@
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a data-toggle="collapse" href="#collapse1"><h4 class="panel-title">AGENT_PUBLICATION</h4></a>
+                            <a data-toggle="collapse" href="#collapse1"><h4 class="panel-title">AGENT PUBLICATION</h4></a>
                         </div>
                         <div id="collapse1" class="panel-collapse collapse in">
                             <div class="panel-body form-horizontal <?= ($RefId==9 ? 'myForm': '');?>" >
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="form-group">
+                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Publication Notes:</label>
+                                        <div class="col-sm-9 col-lg-8 col-xs-12">
+                                            <?= ($RefId==9 ? '<input type="text" name="PublicationNotes" class="form-control input-sm" >' : '<div class="form-control input-sm">'.$parentData['PublicationNotes'].'</div>' );?>
+                                        </div>
+                                    </div>
+                                </div>
                                 <div class="col-lg-6 col-md-6 col-sm-12">
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
@@ -233,7 +241,7 @@
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a data-toggle="collapse" href="#collapse4"><h4 class="panel-title">AGENT_REFINEMENT</h4></a>
+                            <a data-toggle="collapse" href="#collapse4"><h4 class="panel-title">AGENT REFINEMENT</h4></a>
                         </div>
                         <div id="collapse4" class="panel-collapse collapse in">
                             <div class="panel-body form-horizontal <?= ($RefId==10 ? 'myForm': '');?>" >
@@ -265,7 +273,7 @@
                 <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
-                            <a data-toggle="collapse" href="#collapse1"><h4 class="panel-title">AGENT_REWORK</h4></a>
+                            <a data-toggle="collapse" href="#collapse1"><h4 class="panel-title">AGENT REWORK</h4></a>
                         </div>
                         <div id="collapse1" class="panel-collapse collapse in">
                             <div class="panel-body form-horizontal <?= ($RefId==11 ? 'myForm': '');?>">

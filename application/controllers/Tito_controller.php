@@ -529,18 +529,11 @@ class Tito_controller extends CI_Controller {
 								@ReConfigNotes =''";
 							$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 						    $data = json_decode($APIResult, true);
-						   	if (array_key_exists('error', $data)) { 
-						   		$returnData = array(
-									'error' => true,
-									'message' => "TO2 : ".$data['error']
-								);
-			      				echo json_encode($returnData);
-			      				die();
-						   	}
+
 				        }
 				    }
 
-				    $APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $status);
+				    $APIResult = $this->base_model->TaskEnd($AllocationRefId, $status,  $this->input->post('Remark'));
 					$data = json_decode($APIResult, true);
 					if (array_key_exists('error', $data)) { 
 						$returnData = array(
@@ -716,7 +709,7 @@ class Tito_controller extends CI_Controller {
     				@Client ='',
     				@Access='',
     				@Priority='',
-			    	@Status = '5',
+			    	@Status = '4',
 					@ParentID = ".$ParentID.",						
 					@SourceID ='',
 					@SourceName ='',
@@ -741,6 +734,48 @@ class Tito_controller extends CI_Controller {
       				die();
       			}
 
+				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' =>"TO1D :".$data['error']
+					);
+      				echo json_encode($returnData);
+      			}
+      			else{
+      				$returnData = array(
+						'error' => false,
+						'message' => 'Saved'
+					);
+      				echo json_encode($returnData);
+      			}
+			}
+			else if($processId=='5'){
+				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+					@Type ='',
+					@Region ='',
+					@Country ='',
+    				@Client ='',
+    				@Access='',
+    				@Priority='',
+			    	@Status = '5',
+					@ParentID = ".$ParentID.",						
+					@SourceID ='',
+					@SourceName ='',
+					@SourceURL ='',						
+					@DateFormat ='',
+					@StoryFrequency ='',
+					@CrawlPatterns ='',
+					@Difficulty ='',
+					@ConfigNotes ='',
+					@ExclusionNotes ='',							
+					@PublicationNotes ='".$this->input->post('PublicationNotes')."',	
+					@AgentID ='',					
+					@ReConfigNotes =''";
+				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				$data = json_decode($APIResult, true);
+				
 				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
