@@ -9,15 +9,17 @@
                 <th style="white-space: nowrap;">Parent/Child</th>
                 <th style="white-space: nowrap;">Agent Name</th>
                 <th style="white-space: nowrap;">Priority</th>
-                <th style="white-space: nowrap;">Process</th>
+                <th style="white-space: nowrap;">Current Process</th>
                 <th style="white-space: nowrap;">Status</th>
-                <th style="white-space: nowrap;">Configuration Completion Date</th>
-                <th style="white-space: nowrap;">Reconfiguration Completion Date</th>
-                <th style="white-space: nowrap;">Publication Date</th>
+                <th style="white-space: nowrap;">Content Analysis Completion Date</th>
+                <th style="white-space: nowrap;">Agent Development Completion Date</th>
+                <th style="white-space: nowrap;">Agent Publication Completion Date</th>
+                <th style="white-space: nowrap;">Agent Refinement Completion Date</th>
+                <th style="white-space: nowrap;">Agent Rework Completion Date</th>
                 <th style="white-space: nowrap;">Remarks</th>
-                <th style="white-space: nowrap;">Configuration Month</th>
-                <th style="white-space: nowrap;">Reconfiguration Month</th>
-                <th style="white-space: nowrap;">Publication Month</th>
+                <!-- <th style="white-space: nowrap;">Configuration Month</th> -->
+                <!-- <th style="white-space: nowrap;">Reconfiguration Month</th> -->
+                <!-- <th style="white-space: nowrap;">Publication Month</th> -->
             </tr>
         </thead>
         <tbody>
@@ -33,18 +35,17 @@
                             echo '<td>'.$ml['SourceRequestDate'].'</td>';
                             echo '<td>'.$ml['SourceName'].'</td>';
                             echo '<td>'.$ml['SourceUrl'].'</td>';
-                            echo '<td>'.$ml['IsParent'].'</td>';
+                            echo '<td>'.($ml['IsParent']=='1' ? 'Parent' : 'Child').'</td>';
                             echo '<td>'.$ml['AgentName'].'</td>';
                             echo '<td>'.$ml['Priority'].'</td>';
                             echo '<td>'.str_replace("_", " ", $ml['ProcessCode']).'</td>';
                             echo '<td>'.$ml['StatusString'].'</td>';
-                            echo '<td>---</td>';
-                            echo '<td>---</td>';
+                            echo '<td>'.$ml['CONTENT_ANALYSIS_DATE'].'</td>';
+                            echo '<td>'.$ml['AGENT_DEVELOPMENT_DATE'].'</td>';
                             echo '<td>'.$ml['AGENT_PUBLICATION_DATE'].'</td>';
-                            echo '<td>'.$ml['Remark'].'</td>';
-                            echo '<td>---</td>';
-                            echo '<td>---</td>';
-                            echo '<td>---</td>';
+                            echo '<td>'.$ml['AGENT_REFINEMENT_DATE'].'</td>';
+                            echo '<td>'.$ml['AGENT_REWORK_DATE'].'</td>';
+                            echo '<td>---</td>'; //REMARK
                         echo'</tr>';
                     }
                 }
