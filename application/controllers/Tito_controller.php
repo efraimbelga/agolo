@@ -128,8 +128,6 @@ class Tito_controller extends CI_Controller {
 	    // 	print_r($data);
 	    // echo"</pre>";
 
-	   
-
 	    if (array_key_exists('error', $data)) { die($data['error']); }
 	    if(sizeof($data) > 0){
 			foreach ($data as $row) {
@@ -313,7 +311,7 @@ class Tito_controller extends CI_Controller {
 			@Client = '".$this->input->post('Client')."',
 			@Access = '".$this->input->post('Access')."',
 			@Priority ='".$this->input->post('Priority')."',
-			@Status = '0',
+			@ProcessID = 0,
 			@SourceID = '".$SourceID."',
 			@ParentID = ".$ParentID.",
 			@DateFormat ='',
@@ -410,7 +408,7 @@ class Tito_controller extends CI_Controller {
 				@Client = '".$this->input->post('Client')."',
 				@Access = '".$this->input->post('Access')."',
 				@Priority ='".$this->input->post('Priority')."',
-				@Status = '0',
+				@ProcessID = 0,
 				@SourceID = '".$SourceID."',
 				@ParentID = ".$ParentID.",						
 				@DateFormat ='',
@@ -513,7 +511,7 @@ class Tito_controller extends CI_Controller {
 	    						@Client ='',
 	    						@Access='',
 	    						@Priority='',
-				    	   		@Status = '2',
+				    	   		@ProcessID = 1,
 								@ParentID = 0,						
 								@SourceID ='".$SourceID."',
 								@SourceName ='".$row['name']."',
@@ -532,6 +530,30 @@ class Tito_controller extends CI_Controller {
 
 				        }
 				    }
+					$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+					if (array_key_exists('error', $data)) { 
+						$returnData = array(
+							'error' => true,
+							'message' => "TO1A :".$data['error']
+						);
+			      		echo json_encode($returnData);
+						die(); 
+					}
+
+					$sql="EXEC USP_AGLDE_SOURCECONFIGURATION @SourceParentID = ".$ParentID.",
+						@NewSourceID = ".$NewSourceID.",
+						@FinishDate = '".date('Y-m-d H:i:s')."',
+						@Remark = '".$this->input->post('Remark')."',
+						@ProcessID = 1";
+					$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+					if (array_key_exists('error', $data)) { 
+						$returnData = array(
+							'error' => true,
+							'message' => "TO1A :".$data['error']
+						);
+			      		echo json_encode($returnData);
+						die(); 
+					}
 
 				    $APIResult = $this->base_model->TaskEnd($AllocationRefId, $status,  $this->input->post('Remark'));
 					$data = json_decode($APIResult, true);
@@ -608,7 +630,7 @@ class Tito_controller extends CI_Controller {
 	    			@Client ='',
 	    			@Access='',
 	    			@Priority='',
-					@Status = '3',
+					@ProcessID = 2,
 					@ParentID = ".$ParentID.",						
 					@SourceID ='',
 					@SourceName ='',
@@ -634,6 +656,21 @@ class Tito_controller extends CI_Controller {
       				die(); 
 				}
 
+				$sql="EXEC USP_AGLDE_SOURCECONFIGURATION @SourceParentID = ".$ParentID.",
+					@NewSourceID = ".$NewSourceID.",
+					@FinishDate = '".date('Y-m-d H:i:s')."',
+					@Remark = '".$this->input->post('Remark')."',
+					@ProcessID = 2";
+				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' => "TO1A :".$data['error']
+					);
+			    	echo json_encode($returnData);
+					die(); 
+				}
+
 				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
@@ -651,38 +688,22 @@ class Tito_controller extends CI_Controller {
       				echo json_encode($returnData);
       			}
 			}
-			else if($processId=='3'){
-				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
-					@Type ='',
-					@Region ='',
-					@Country ='',
-    				@Client ='',
-    				@Access='',
-    				@Priority='',
-			    	@Status = '4',
-					@ParentID = ".$ParentID.",						
-					@SourceID ='',
-					@SourceName ='',
-					@SourceURL ='',						
-					@DateFormat ='',
-					@StoryFrequency ='',
-					@CrawlPatterns ='',
-					@Difficulty ='',
-					@ConfigNotes ='',
-					@ExclusionNotes ='',							
-					@PublicationNotes ='".$this->input->post('PublicationNotes')."',
-					@AgentID ='',						
-					@ReConfigNotes =''";
+			else if($processId=='6'){ //AGENT REWORK				
+
+				$sql="EXEC USP_AGLDE_SOURCECONFIGURATION @SourceParentID = ".$ParentID.",
+					@NewSourceID = ".$NewSourceID.",
+					@FinishDate = '".date('Y-m-d H:i:s')."',
+					@Remark = '".$this->input->post('Remark')."',
+					@ProcessID = 6";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
-				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
 					$returnData = array(
 						'error' => true,
-						'message' => "TO5 : ".$data['error']
+						'message' => "TO1A :".$data['error']
 					);
-      				echo json_encode($returnData);
-      				die();
-      			}
+			    	echo json_encode($returnData);
+					die(); 
+				}
 
 				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 				$data = json_decode($APIResult, true);
@@ -701,7 +722,7 @@ class Tito_controller extends CI_Controller {
       				echo json_encode($returnData);
       			}
 			}
-			else if($processId=='4'){
+			else if($processId=='4'){ //AGENT REFINEMENT
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
 					@Type ='',
 					@Region ='',
@@ -709,7 +730,7 @@ class Tito_controller extends CI_Controller {
     				@Client ='',
     				@Access='',
     				@Priority='',
-			    	@Status = '4',
+			    	@ProcessID = 4,
 					@ParentID = ".$ParentID.",						
 					@SourceID ='',
 					@SourceName ='',
@@ -734,6 +755,21 @@ class Tito_controller extends CI_Controller {
       				die();
       			}
 
+				$sql="EXEC USP_AGLDE_SOURCECONFIGURATION @SourceParentID = ".$ParentID.",
+					@NewSourceID = ".$NewSourceID.",
+					@FinishDate = '".date('Y-m-d H:i:s')."',
+					@Remark = '".$this->input->post('Remark')."',
+					@ProcessID = 4";
+				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' => "TO1A :".$data['error']
+					);
+			    	echo json_encode($returnData);
+					die(); 
+				}
+
 				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
@@ -751,7 +787,7 @@ class Tito_controller extends CI_Controller {
       				echo json_encode($returnData);
       			}
 			}
-			else if($processId=='5'){
+			else if($processId=='5'){ //AGENT PUBLICATION
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
 					@Type ='',
 					@Region ='',
@@ -759,7 +795,7 @@ class Tito_controller extends CI_Controller {
     				@Client ='',
     				@Access='',
     				@Priority='',
-			    	@Status = '5',
+			    	@ProcessID = 5,
 					@ParentID = ".$ParentID.",						
 					@SourceID ='',
 					@SourceName ='',
@@ -776,6 +812,22 @@ class Tito_controller extends CI_Controller {
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
 				
+
+				$sql="EXEC USP_AGLDE_SOURCECONFIGURATION @SourceParentID = ".$ParentID.",
+					@NewSourceID = ".$NewSourceID.",
+					@FinishDate = '".date('Y-m-d H:i:s')."',
+					@Remark = '".$this->input->post('Remark')."',
+					@ProcessID = 5";
+				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' => "TO1A :".$data['error']
+					);
+			    	echo json_encode($returnData);
+					die(); 
+				}
+
 				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
