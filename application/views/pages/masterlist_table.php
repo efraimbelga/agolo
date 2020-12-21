@@ -40,8 +40,8 @@
                             echo '<td>'.$ml['StatusString'].'</td>';
                             echo '<td>---</td>';
                             echo '<td>---</td>';
-                            echo '<td>---</td>';
-                            echo '<td>---</td>';
+                            echo '<td>'.$ml['AGENT_PUBLICATION_DATE'].'</td>';
+                            echo '<td>'.$ml['Remark'].'</td>';
                             echo '<td>---</td>';
                             echo '<td>---</td>';
                             echo '<td>---</td>';
