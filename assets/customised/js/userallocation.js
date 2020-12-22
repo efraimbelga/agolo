@@ -34,16 +34,21 @@ $(function(){
 	})
 
 	$(document).on('click', '.sourceTR', function(){
-		$(this).toggleClass('selected');
-		var s = $('.selected').length
-		if(s > 0){
-			$('.allocate-btn').prop('disabled', false)
-			$('.clear-btn').prop('disabled', false)
-			
+		if($(this).hasClasss('active')){
+			alert('Agent is Active. Please deactivate first');
 		}else{
-			$('.allocate-btn').prop('disabled', true)
-			$('.clear-btn').prop('disabled', true)
+			$(this).toggleClass('selected');
+			var s = $('.selected').length
+			if(s > 0){
+				$('.allocate-btn').prop('disabled', false)
+				$('.clear-btn').prop('disabled', false)
+				
+			}else{
+				$('.allocate-btn').prop('disabled', true)
+				$('.clear-btn').prop('disabled', true)
+			}
 		}
+		
 	})
 
 	$(document).on('click', '.allocate-btn', function(){

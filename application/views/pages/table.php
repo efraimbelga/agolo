@@ -1,16 +1,13 @@
 <table class="table table-condensed table-bordered" id="allocationTable">
     <thead>
         <tr>
-            <!-- <th>RefId</th> -->
             <th>BatchName</th>
             <th>Source URL</th>
-            <!-- <th>Reference ID</th> -->
             <th>Source Name</th>
             <th>Heirarchy</th>                       
             <th>Source Username</th>
             <th>Source Password</th>
-            <th>Claimed By</th>
-            <!-- <th>Status</th> -->
+            <th>Claimed Date</th>
         </tr>
     </thead>
     <tbody>
@@ -20,10 +17,9 @@
             // echo"</pre>";
             if(sizeof($data) > 0){
                 foreach ($data as $row) {
-                    echo'<tr class="sourceTR">';
+                    echo'<tr class="sourceTR '.($row['AgentState']=='1' : 'active' : 'inactive').'" >';
                         echo'<td>'.$row['BatchName'].'</td>';
                         echo'<td>'.$row['SourceUrl'].'</td>';
-                        // echo'<td>'.$row['ReferenceID'].'</td>';
                         echo'<td>'.$row['SourceName'].'</td>';
                         
                         echo'<td>'.($row['IsParent']=='1' ? 'Parent': 'Section').'</td>';

@@ -29,18 +29,31 @@ class Published_controller extends CI_Controller {
     }
 
     public function load_published_list(){
-    	$sql="SELECT ps.*, u.UserId, u.LoginName as [UserName], bi.BatchName, ba.RefId, bi.JobId, bi.BatchId FROM wms_view_JobsBatchInfoProjectSpecificInfo ps 
-			INNER JOIN wms_JobsBatchInfo bi ON ps.PS_BatchId = bi.BatchId 
-			INNER JOIN wms_JobsBatchAllocation ba on bi.LastAllocationRefId = ba.RefId 
-			INNER JOIN NM_Users u ON ba.UserId = u.UserId 
-			WHERE bi.StatusId = 7 AND bi.ProcessId in (4,5,6)
-			ORDER BY ba.RefId ASC;";
+    	$sql="EXEC USP_AGLDE_AGENTPUBLISHED;";
 		$APIResult = $this->base_model->GetDatabaseDataset($sql);
 	    $data = json_decode($APIResult, true);
 	    $postdata = array(
 	    	'data' => $data[0]
 	    );
 	    $this->load->view('pages/published_table', $postdata);
+    }
+
+    public function insert_AgentStateHistory(){
+    	$ParentID  = $this->input->post('ParentID');
+    	$AgentID = $this->input->post('AgentID');
+    	$state = $this->input->post('state');
+
+    	$sql="EXEC USP_AGLDE_INSERT_AgentStateHistory @ParentID = ".$ParentID.",
+			@AgentID = '".$AgentID."',
+			@AgentState =  '".$state."',
+			@AgentStateDate = '".date('Y-m-d H:i:s')."',
+			@UserId = '".$this->session->userdata('userName')."' ";
+		// die($sql);
+		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+		$data = json_decode($APIResult, true);
+		if (array_key_exists('error', $data)) { die("1 : ".$data['error']); }
+		extract($data);
+		echo $result;
     }
     
 }

@@ -167,97 +167,34 @@ $(function(){
 	$(document).on('submit', '#titoForm', function(e){
 		e.preventDefault();
 		var form = $(this);
-		var formData = form.serialize();
-		$.ajax({
-		    url: domain + 'Tito_controller/task_out_source',
-		    type: 'POST',
-		    data: formData,
-		    beforeSend: function(){
-		       	$('#loadingModal').modal();
-		    },
-		    success: function(data, textStatus, jqXHR)
-		    {
-		    	$('#loadingModal').modal('hide');
-		    	console.log(data)
-		    	var obj = JSON.parse(data);
-		    	$('.titoformModal .errorMsg').text(obj.message)
-		    	if(obj.error== false){
-		    		// view_source_request(processId)
-		    		setTimeout(function(){ $('#titoModal').modal('hide'); }, 500);
+		if(confirm("Are you sure you want to complete this task?")) {
+			var formData = form.serialize();
+			$.ajax({
+			    url: domain + 'Tito_controller/task_out_source',
+			    type: 'POST',
+			    data: formData,
+			    beforeSend: function(){
+			       	$('#loadingModal').modal();
+			    },
+			    success: function(data, textStatus, jqXHR)
+			    {
+			    	$('#loadingModal').modal('hide');
+			    	console.log(data)
+			    	var obj = JSON.parse(data);
+			    	$('.titoformModal .errorMsg').text(obj.message)
+			    	if(obj.error== false){
+			    		// view_source_request(processId)
+			    		setTimeout(function(){ $('#titoModal').modal('hide'); }, 500);
 
-		    	}
-		    },
-		    error: function (jqXHR, textStatus, errorThrown)
-		    {
-		    	$('#loadingModal').modal('hide');
-		    	$('.titoformModal .errorMsg').text(jqXHR.responseText)
-		    }
-		});
-
-	})
-
-	$(document).on('click', '.taskdone-btn', function(){
-		var x=0;
-		var status = $(this).attr('data-value');
-		var processId = $('#titoModal #processId').val();
-			
-
-		var formData = new FormData();	
-		formData.append('status', status)	
-		formData.append('ParentID', $('#titoModal #ParentID').val())
-		formData.append('AllocationRefId', $('#titoModal #AllocationRefId').val())		
-		formData.append('ReferenceID', $('#titoModal #ReferenceID').val())
-		formData.append('NewSourceID', $('#titoModal #NewSourceID').val())
-		formData.append('SourceURL', $('#titoModal #SourceURL').text())
-		formData.append('SourceName', $('#titoModal #SourceName').text())
-		formData.append('SourceID', $('#titoModal #SourceID').text())
-
-		$('.myForm .form-control').each(function(){
-			var el = $(this);
-			var value = el.text();
-			var key = el.attr('data-key');
-			if($(this).hasClass('Difficulty')){
-				value = el.val();
-			}
-			
-			formData.append(key, value);
-			if($(this).hasClass('notesTxt')){
-
-			}else{
-				if(value==''){
-					x++;
-					el.addClass('errorinput');
-					el.focus();
-				}
-			}
-		})
-
-		if(processId != '1'){
-			if(status=='Done'){
-				var Remark = $('.myForm .Remarks').text();
-				if(Remark==''){
-					x++;
-					$('.myForm .Remarks').addClass('errorinput');
-				}
-				formData.append('Remark', Remark)
-
-				if(processId =='2'){
-					var AgentID = $('#titoModal #AgentID').text();
-					if(AgentID==''){
-						x++;
-						$('#titoModal #AgentID').addClass('errorinput');
-					}
-					formData.append('AgentID', $('#titoModal #AgentID').text())
-				}				
-			}
-			
-		}
-		// console.log(processId)
-
-		if(x<= 0){
-			
+			    	}
+			    },
+			    error: function (jqXHR, textStatus, errorThrown)
+			    {
+			    	$('#loadingModal').modal('hide');
+			    	$('.titoformModal .errorMsg').text(jqXHR.responseText)
+			    }
+			});
 		}
 	})
-
 })
 
