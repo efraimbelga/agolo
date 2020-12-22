@@ -41,8 +41,17 @@ $(function(){
 	$(document).on('click', '.taskout-btn', function(){
 		$('.errorDiv').html('')
 		var status = $(this).attr('data-value');
-		if (confirm("Are you sure you want to complete this task?")) {
-			var x = 0;
+		if(status=='Done'){
+			if (confirm("Are you sure you want to complete this task?")) {
+				task_out_source(status)
+			}
+		}else{
+			task_out_source(status)
+		}
+	})
+
+	function task_out_source(status){
+		var x = 0;
 			var error = false;
 			var errorDiv = "";
 			
@@ -56,15 +65,6 @@ $(function(){
 			formData.append('SourceURL', $('.CONTENT_ANALYSIS #SourceURL').val())
 			formData.append('SourceName', $('.CONTENT_ANALYSIS #SourceName').val())
 			formData.append('processId', '1')
-			
-
-			// $('.contentanalysisTbl .form-control').each(function(){
-			// 	if($(this).val()==''){
-			// 		$(this).addClass('errorinput')
-			// 		error=true;
-			// 		errorDiv="Please complete all required fields";
-			// 	}
-			// })
 
 			$('.subsection').each(function(){
 				var id = $(this).find('.ParentID').val()
@@ -125,8 +125,7 @@ $(function(){
 				    }
 				});
 			}
-		}
-	})
+	}
 
 	$(document).on('focusout', '.SourceURL', function(){
 		var url = $(this).val();
