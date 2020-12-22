@@ -11,28 +11,8 @@
         <!-- <div class="box-header">
             <h3 class="box-title">Source Request View</h3>
         </div> -->
-        <div class="box-body srboxbody table-responsive">
-            <table class="table table-condensed table-bordered" id="srTable">
-                <thead>
-                    <tr>
-                        <th></th>
-                        <th>Source Name</th>
-                        <th>Source URL</th>
-                        <th>Agent Name</th>
-                        <th>Heirarchy</th>
-                        <!-- <th>Status</th> -->
-                        <th>Parent ID</th>
-                        <th>Batch Name</th>
-                        <th>Reference ID</th>
-                        
-                    </tr>
-                </thead>
-                <tbody></tbody>
-            </table>
+        <div class="box-body table-responsive tableHolder" >
         </div>
-        <!-- <div class="box-footer text-right">
-            <button class="btn btn-info allocate-btn btn-flat" disabled>Allocate</button>
-            <button class="btn btn-warning clear-btn btn-flat" disabled>Clear</button>
-        </div> -->
     </div>
 </section>
+<script type="text/javascript" src="<?= base_url('assets/customised/js/published.js');?>"></script>

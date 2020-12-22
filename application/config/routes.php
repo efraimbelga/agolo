@@ -18,7 +18,7 @@ $route['masterlist'] = 'Masterlist_controller/masterlist';
 $route['allocation'] = 'Allocation_controller/allocation';
 
 
-$route['published'] = 'Basecontroller/published';
+$route['published'] = 'Published_controller/published';
 
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;

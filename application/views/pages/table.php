@@ -21,7 +21,6 @@
             if(sizeof($data) > 0){
                 foreach ($data as $row) {
                     echo'<tr class="sourceTR">';
-                        // echo'<td>'.$row['RefId'].'</td>';
                         echo'<td>'.$row['BatchName'].'</td>';
                         echo'<td>'.$row['SourceUrl'].'</td>';
                         // echo'<td>'.$row['ReferenceID'].'</td>';
@@ -30,8 +29,7 @@
                         echo'<td>'.($row['IsParent']=='1' ? 'Parent': 'Section').'</td>';
                         echo'<td>'.$row['SourceUserName'].'</td>';
                         echo'<td>'.$row['SourcePassword'].'</td>';
-                        echo'<td>'.$row['SourceRequestDate'].'</td>';
-                       // echo'<td>'.$row['StatusString'].'</td>';                     
+                        echo'<td>'.$row['SourceRequestDate'].'</td>';                     
                     echo'</tr>';
                 }
             }

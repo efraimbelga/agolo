@@ -40,91 +40,91 @@ $(function(){
 
 	$(document).on('click', '.taskout-btn', function(){
 		$('.errorDiv').html('')
-
-		var x = 0;
-		var error = false;
-		var errorDiv = "";
 		var status = $(this).attr('data-value');
-		var formData = new FormData();
+		if (confirm("Are you sure you want to complete this task?")) {
+			var x = 0;
+			var error = false;
+			var errorDiv = "";
+			
+			var formData = new FormData();
 
-		formData.append('Status', status)		
-		formData.append('ParentID', $('.CONTENT_ANALYSIS #ParentID').val())
-		formData.append('AllocationRefId', $('.CONTENT_ANALYSIS #AllocationRefId').val())
-		formData.append('ReferenceID', $('.CONTENT_ANALYSIS #ReferenceID').val())
-		formData.append('NewSourceID', $('.CONTENT_ANALYSIS #NewSourceID').val())
-		formData.append('SourceURL', $('.CONTENT_ANALYSIS #SourceURL').val())
-		formData.append('SourceName', $('.CONTENT_ANALYSIS #SourceName').val())
-		formData.append('processId', '1')
-		
+			formData.append('Status', status)		
+			formData.append('ParentID', $('.CONTENT_ANALYSIS #ParentID').val())
+			formData.append('AllocationRefId', $('.CONTENT_ANALYSIS #AllocationRefId').val())
+			formData.append('ReferenceID', $('.CONTENT_ANALYSIS #ReferenceID').val())
+			formData.append('NewSourceID', $('.CONTENT_ANALYSIS #NewSourceID').val())
+			formData.append('SourceURL', $('.CONTENT_ANALYSIS #SourceURL').val())
+			formData.append('SourceName', $('.CONTENT_ANALYSIS #SourceName').val())
+			formData.append('processId', '1')
+			
 
-		// $('.contentanalysisTbl .form-control').each(function(){
-		// 	if($(this).val()==''){
-		// 		$(this).addClass('errorinput')
-		// 		error=true;
-		// 		errorDiv="Please complete all required fields";
-		// 	}
-		// })
+			// $('.contentanalysisTbl .form-control').each(function(){
+			// 	if($(this).val()==''){
+			// 		$(this).addClass('errorinput')
+			// 		error=true;
+			// 		errorDiv="Please complete all required fields";
+			// 	}
+			// })
 
-		$('.subsection').each(function(){
-			var id = $(this).find('.ParentID').val()
-			if(id=='0'){
+			$('.subsection').each(function(){
+				var id = $(this).find('.ParentID').val()
+				if(id=='0'){
+					error=true;
+					errorDiv="Please save or delete newly added subsection";
+				}
+			})
+
+			if(status=='Pending'){
+				formData.append('Remark', '')
+				x=0;
+			}else if(status=='Done'){
+				if( $('#Remark').text() ==''){
+					$('#Remark').addClass('errorinput')
+					error=true;
+					errorDiv="Please add remark";
+				}
+				else{
+					formData.append('Remark', $('#Remark').text())
+				}
+			}else if($( ".edited" ).length) {
+				$(".edited").addClass('errorinput')
 				error=true;
-				errorDiv="Please save or delete newly added subsection";
+				errorDiv="Please save all the changes made";
 			}
-		})
 
-		if(status=='Pending'){
-			formData.append('Remark', '')
-			x=0;
-		}else if(status=='Done'){
-			if( $('#Remark').text() ==''){
-				$('#Remark').addClass('errorinput')
-				error=true;
-				errorDiv="Please add remark";
+			if(error){
+				alert(errorDiv)
+			}else{
+				$.ajax({
+				    url: domain + 'Tito_controller/task_out_source',
+				    type: 'POST',
+				    data: formData,
+				    contentType: false,
+				    processData: false,
+				    beforeSend: function(){
+				       	$('#loadingModal').modal();
+				    },
+				    success: function(data, textStatus, jqXHR)
+				    {
+				    	$('#loadingModal').modal('hide');
+				    	// console.log(data)
+				    	var obj = JSON.parse(data);
+				    	if(obj.error== false){
+				    		alert('Saved');
+				    		window.opener.CloseChildWindows();
+				        	window.opener.view_source_request(1)
+				    	}else{
+				    		$('.errorDiv').html('<p class="errorMsg">'+obj.message+'</p>')
+				    	}
+				    },
+				    error: function (jqXHR, textStatus, errorThrown)
+				    {
+				    	$('#loadingModal').modal('hide');
+				    	$('.errorDiv').html(jqXHR.responseText)
+				 		
+				    }
+				});
 			}
-			else{
-				formData.append('Remark', $('#Remark').text())
-			}
-		}else if($( ".edited" ).length) {
-			$(".edited").addClass('errorinput')
-			error=true;
-			errorDiv="Please save all the changes made";
-		}
-
-		if(error){
-			alert(errorDiv)
-		}else{
-			console.log(error)
-			console.log(status)
-			$.ajax({
-			    url: domain + 'Tito_controller/task_out_source',
-			    type: 'POST',
-			    data: formData,
-			    contentType: false,
-			    processData: false,
-			    beforeSend: function(){
-			       	$('#loadingModal').modal();
-			    },
-			    success: function(data, textStatus, jqXHR)
-			    {
-			    	$('#loadingModal').modal('hide');
-			    	// console.log(data)
-			    	var obj = JSON.parse(data);
-			    	if(obj.error== false){
-			    		alert('Saved');
-			    		window.opener.CloseChildWindows();
-			        	window.opener.view_source_request(1)
-			    	}else{
-			    		$('.errorDiv').html('<p class="errorMsg">'+obj.message+'</p>')
-			    	}
-			    },
-			    error: function (jqXHR, textStatus, errorThrown)
-			    {
-			    	$('#loadingModal').modal('hide');
-			    	$('.errorDiv').html(jqXHR.responseText)
-			 		
-			    }
-			});
 		}
 	})
 
