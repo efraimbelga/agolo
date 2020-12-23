@@ -16,6 +16,9 @@ $(function(){
 	    });
 	}
 
+	var cState = '';
+	
+
 	$(document).on('change', '.agentState-opt', function(){
 		var state = $(this).val();
 		if(state != ''){
@@ -35,9 +38,18 @@ $(function(){
 				});
  
 			}
+			else{
+				$(this).val(cState)
+			}
 		}
-		// else{
-		// 	return false;
-		// }
+		else{
+			$(this).val(cState)
+		}
+		
+	})
+
+	$(document).on('focus', '.agentState-opt', function(){
+		cState = $(this).val();
+		console.log(cState)
 	})
 })

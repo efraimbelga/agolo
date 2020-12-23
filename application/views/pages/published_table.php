@@ -16,7 +16,7 @@
             if(sizeof($data) > 0){
                 foreach ($data as $row) {
                     echo'<tr data-pid="'.$row['pID'].'" data-aid="'.$row['aID'].'" class="'.($row['AgentState']=='1' ? 'active' : ($row['AgentState']=='0' ? 'inactive' : 'new')).'">';
-                        echo'<td>';
+                        echo'<td style="padding:0px;">';
                             echo '<select class="form-control input-sm agentState-opt">';
                                 echo'<option value=""></option>';
                                 echo'<option '.($row['AgentState']== '1' ? 'selected' : '').' value="1">Active</option>';

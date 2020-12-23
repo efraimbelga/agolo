@@ -114,14 +114,7 @@ class Allocation_controller extends CI_Controller {
 		$sql="SELECT TOP (1) [UserId] FROM [WMS_AGLDE].[dbo].[NM_Users] WHERE [LoginName] = '".$userName."'";
 		$APIResult = $this->base_model->GetDatabaseDataset($sql);
 		$data = json_decode($APIResult, true);
-		if (array_key_exists('error', $data)) { 
-			$returnData = array(
-				'error' => true,
-				'message' =>"AB1: ".$data['error']
-			);
-			echo json_encode($returnData);
-			die(); 
-		}
+		
 		$userid = $data[0][0]['UserId'];
 
 
@@ -143,6 +136,8 @@ class Allocation_controller extends CI_Controller {
 		}
 		$BatchIds = $data[0];
 		foreach ($BatchIds as $row) {
+
+
 			$sql="EXEC usp_wms_Allocate_BatchToUser @batchid =".$row['BatchId'].", @userid=".$userid;
 			// echo $sql;
 			$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
