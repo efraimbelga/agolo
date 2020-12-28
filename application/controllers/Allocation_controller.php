@@ -104,6 +104,15 @@ class Allocation_controller extends CI_Controller {
 	    $this->load->view('pages/table', $postdata);
 	}
 
+	public function searchForId($id, $array) {
+	   foreach ($array as $key => $val) {
+	       if ($val['BatchName'] === $id) {
+	           return $key;
+	       }
+	   }
+	   return null;
+	}
+
 	public function allocate_batch(){
 		$returnData = array();
 		  	
@@ -119,11 +128,11 @@ class Allocation_controller extends CI_Controller {
 
 
 		$BatchNames='';
-		foreach ($batches as $batchid){
-			$BatchNames .= "'".$batchid."',";
+		foreach ($batches as $batch){
+			$BatchNames .= "'".$batch['BatchName']."',";
 		}
 		$BatchNames = rtrim($BatchNames, ',');
-		$sql="SELECT BatchId FROM wms_jobsbatchinfo WHERE BatchName IN (".$BatchNames.") AND ProcessId='".$processId."' AND StatusId in(1,6);";
+		$sql="SELECT BatchId, BatchName FROM wms_jobsbatchinfo WHERE BatchName IN (".$BatchNames.") AND ProcessId='".$processId."' AND StatusId in(1,6);";
 		$APIResult = $this->base_model->GetDatabaseDataset($sql);
 		$data = json_decode($APIResult, true);
 		if (array_key_exists('error', $data)) { 
@@ -136,7 +145,14 @@ class Allocation_controller extends CI_Controller {
 		}
 		$BatchIds = $data[0];
 		foreach ($BatchIds as $row) {
-
+			$e = $this->searchForId($row['BatchName'], $batches);
+			
+			$sql="EXEC USP_AGLDE_INSERT_AgentStateHistory @ParentID = ".$batches[$e]['ParentId'].",
+			@AgentID = '".$batches[$e]['AgentId']."',
+			@AgentState =  '0',
+			@AgentStateDate = '".date('Y-m-d H:i:s')."',
+			@UserId = '".$this->session->userdata('userName')."' ";
+			$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 
 			$sql="EXEC usp_wms_Allocate_BatchToUser @batchid =".$row['BatchId'].", @userid=".$userid;
 			// echo $sql;

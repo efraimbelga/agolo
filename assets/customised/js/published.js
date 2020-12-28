@@ -28,6 +28,7 @@ $(function(){
 				
 				var jqxhr = $.post( domain + 'Published_controller/insert_AgentStateHistory', {ParentID:ParentID, AgentID:AgentID, state:state}, function(result) {
 				  	if(result=='' || result=='succss'){
+				  		console.log(result)
 				  		load_published_list()
 				  	}else{
 				  		alert(result)
@@ -50,6 +51,5 @@ $(function(){
 
 	$(document).on('focus', '.agentState-opt', function(){
 		cState = $(this).val();
-		console.log(cState)
 	})
 })

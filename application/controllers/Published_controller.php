@@ -52,6 +52,11 @@ class Published_controller extends CI_Controller {
 		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 		$data = json_decode($APIResult, true);
 		if (array_key_exists('error', $data)) { die("1 : ".$data['error']); }
+		else{
+			$status = ($state=='1' ? 'activate' : 'deactivate');
+			$a3result = $this->base_model->A3_API($AgentID, $status);
+			// die($a3result);
+		}
 		extract($data);
 		echo $result;
     }

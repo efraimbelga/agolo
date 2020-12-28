@@ -190,9 +190,20 @@ class Base_model extends CI_Model {
                 'content' => $json
             )
         ));
-
         // Send the request
         $response = @file_get_contents('https://sources-management.crawlers.agolo.com/api/v1/sources', FALSE, $context);
+        return $response;
+    }
+
+    public function A3_API($agentID, $state){
+        $context = stream_context_create(array(
+            'http' => array(
+                'method' => 'POST',
+                'header' => "Content-Type: application/json"
+            )
+        ));
+        // Send the request
+        $response = @file_get_contents('https://sources-management.crawlers.agolo.com/api/v1/agents/'.$agentID.'/'.$state, FALSE, $context);
         return $response;
     }
 

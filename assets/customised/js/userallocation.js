@@ -34,7 +34,7 @@ $(function(){
 	})
 
 	$(document).on('click', '.sourceTR', function(){
-		if($(this).hasClasss('active')){
+		if($(this).hasClass('active')){
 			alert('Agent is Active. Please deactivate first');
 		}else{
 			$(this).toggleClass('selected');
@@ -56,8 +56,14 @@ $(function(){
 		var processId = $('.taskSelect').val();
 
 		$("tr.sourceTR.selected").each(function(){
-			var value = $(this).children('td:first').text();
-	    	batchArray.push(value);
+			var BatchName = $(this).children('td:first').text();
+			var AgentId = $(this).attr('data-aid');
+			var ParentId = $(this).attr('data-pid')
+	    	batchArray.push({
+	            'BatchName'	: BatchName, 
+	            'AgentId'	:  AgentId,
+	            'ParentId'	: ParentId
+	        });
 		});
 
 		if(batchArray.length > 0){

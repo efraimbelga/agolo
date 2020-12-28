@@ -17,11 +17,10 @@
             // echo"</pre>";
             if(sizeof($data) > 0){
                 foreach ($data as $row) {
-                    echo'<tr class="sourceTR '.($row['AgentState']=='1' : 'active' : 'inactive').'">';
+                    echo'<tr class="sourceTR '.($row['AgentState']=='1' ? 'active' : 'inactive').'" data-aid="'.$row['AgentId'].'" data-pid="'.$row['ParentID'].'">';
                         echo'<td>'.$row['BatchName'].'</td>';
                         echo'<td>'.$row['SourceUrl'].'</td>';
-                        echo'<td>'.$row['SourceName'].'</td>';
-                        
+                        echo'<td>'.$row['SourceName'].'</td>';                        
                         echo'<td>'.($row['IsParent']=='1' ? 'Parent': 'Section').'</td>';
                         echo'<td>'.$row['SourceUserName'].'</td>';
                         echo'<td>'.$row['SourcePassword'].'</td>';
