@@ -6,7 +6,7 @@
             <input form="<?= $formID;?>" type="text" name="SourceURL" class="form-control input-sm SourceURL" required>
         </td>
         <td>
-            <input form="<?= $formID;?>" type="text" name="SourceName" class="form-control input-sm SourceName">
+            <input form="<?= $formID;?>" type="text" name="SourceName" class="form-control input-sm SourceName" required>
         </td>
         <td>
             <input form="<?= $formID;?>" type="text" name="Type" class="form-control input-sm Type">
