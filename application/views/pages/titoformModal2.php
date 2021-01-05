@@ -12,7 +12,7 @@
             <input type="hidden" name="NewSourceID" value="<?= $parentData['NewSourceID'];?>">
             <input type="hidden" name="SourceID" value="<?= $parentData['SourceID'];?>">
             <input type="hidden" name="AllocationRefId" value="<?= $AllocationRefId;?>">
-            <input type="hidden" name="SourceURL" value="<?= $parentData['NSRSourceURL'];?>">
+            <input type="hidden" name="SourceURL" value="<?= $parentData['SourceURL'];?>">
             <input type="hidden" name="SourceName" value="<?= $parentData['SourceName'];?>">            
             <input type="hidden" name="Status" value="Done">
             <div class="panel-group">
@@ -27,7 +27,7 @@
                                         <div class="form-group ">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source URL:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <div class="form-control input-sm"><?= $parentData['NSRSourceURL'];?></div>
+                                                <div class="form-control input-sm"><?= $parentData['SourceURL'];?></div>
                                             </div>
                                         </div>
                                     </div>
