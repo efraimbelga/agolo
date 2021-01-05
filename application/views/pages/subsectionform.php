@@ -31,7 +31,7 @@
             <input form="<?= $formID;?>" type="text" name="Access" class="form-control input-sm Access" >
         </td>
         <td>
-            <select form="<?= $formID;?>" class="form-control input-sm Priority" name="Priority" id="Priority" required>
+            <select form="<?= $formID;?>" class="form-control input-sm Priority" name="Priority" required>
                 <option value=""> </option>
                 <option value="High">High</option>
                 <option value="Medium">Medium</option>

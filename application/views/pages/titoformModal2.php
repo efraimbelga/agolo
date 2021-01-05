@@ -23,85 +23,90 @@
                         <div id="content_analysis" class="panel-collapse collapse in form-horizontal">
                             <div class="panel-body">
                                 <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group ">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source URL:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm"><?= $parentData['NSRSourceURL'];?></div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group ">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source URL:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <div class="form-control input-sm"><?= $parentData['NSRSourceURL'];?></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source Name:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm"><?= $parentData['SourceName'];?></div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source ID:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <div class="form-control input-sm"><?= $parentData['SourceID'];?></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source ID:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm"><?= $parentData['SourceID'];?></div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Region:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <div class="form-control input-sm"><?= $parentData['Region'];?></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Type:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm"><?= $parentData['Type'];?></div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Client:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <div class="form-control input-sm"><?= $parentData['Client'];?></div>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Region:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm"><?= $parentData['Region'];?></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Country:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm"><?= $parentData['Country'];?></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Client:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm"><?= $parentData['Client'];?></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Access:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm"><?= $parentData['Access'];?></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Priority:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm"><?= $parentData['Priority'];?></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <div class="form-control input-sm"><?= searchForRemark('CONTENT_ANALYSIS', $remarkData);?></div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Priority:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <div class="form-control input-sm"><?= $parentData['Priority'];?></div>
+                                            </div>
                                         </div>
                                     </div>
                                 </div> 
+                                
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Source Name:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <div class="form-control input-sm"><?= $parentData['SourceName'];?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Type:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <div class="form-control input-sm"><?= $parentData['Type'];?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Country:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <div class="form-control input-sm"><?= $parentData['Country'];?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Access:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <div class="form-control input-sm"><?= $parentData['Access'];?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <div class="form-control input-sm"><?= searchForRemark('CONTENT_ANALYSIS', $remarkData);?></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -117,81 +122,81 @@
                         <div id="agent_development" class="panel-collapse collapse in">
                             <div class="panel-body form-horizontal" >
                                 <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group ">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Date Format:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==8 ? '<input type="text" name="DateFormat" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['DateFormat'].'</div>' );?>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group ">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Date Format:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <?= ($RefId==8 ? '<input type="text" name="DateFormat" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['DateFormat'].'</div>' );?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Story Frequency :</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==8 ? '<input type="text" name="StoryFrequency" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['StoryFrequency'].'</div>' );?>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Crawl Patterns:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <?= ($RefId==8 ? '<input type="text" name="CrawlPatterns" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['CrawlPatterns'].'</div>' );?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Crawl Patterns:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==8 ? '<input type="text" name="CrawlPatterns" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['CrawlPatterns'].'</div>' );?>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Configuration Notes:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <?= ($RefId==8 ? '<input type="text" name="ConfigNotes" class="form-control input-sm">' : '<div class="form-control input-sm">'.$parentData['ConfigNotes'].'</div>' );?>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Difficulty:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?php
-                                                if($RefId==8){
-                                                    echo '<select name="Difficulty" class="form-control input-sm" required>';
-                                                    echo '    <option value=""></option>';
-                                                    echo '    <option value="Average">Average</option>';
-                                                    echo '    <option value="Difficult">Difficult</option>';
-                                                    echo '</select>';
-                                                }else{
-                                                    echo '<div class="form-control input-sm">'.$parentData['Difficulty'].'</div>';
-                                                }
-                                            ?>                                            
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Configuration Notes:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==8 ? '<input type="text" name="ConfigNotes" class="form-control input-sm">' : '<div class="form-control input-sm">'.$parentData['ConfigNotes'].'</div>' );?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-12">
-                                    <div class="form-group">
-                                        <label class="control-label col-sm-3 col-lg-4 col-xs-12">Exclusion Notes:</label>
-                                        <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==8 ? '<input type="text" name="ExclusionNotes" class="form-control input-sm">' : '<div class="form-control input-sm">'.$parentData['ExclusionNotes'].'</div>' );?>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-lg-12">
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <div class="form-group ">
-                                                <label class="control-label col-sm-3 col-lg-4 col-xs-12">Agent ID:</label>
-                                                <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                    <?= ($RefId==8 ? '<input type="text" name="AgentID" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['AgentID'].'</div>' );?>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group ">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Agent ID:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <?= ($RefId==8 ? '<input type="text" name="AgentID" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['AgentID'].'</div>' );?>
 
-                                                </div>
                                             </div>
                                         </div>
-                                        <div class="col-lg-6 col-md-6 col-sm-12">
-                                            <div class="form-group">
-                                                <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
-                                                <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                    <?= ($RefId==8 ? '<input type="text" name="Remark" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.searchForRemark('AGENT_DEVELOPMENT', $remarkData).'</div>' );?>
-                                                </div>
+                                    </div>
+                                </div>
+                                <div class="col-lg-6 col-md-6 col-sm-12">
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Story Frequency :</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <?= ($RefId==8 ? '<input type="text" name="StoryFrequency" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['StoryFrequency'].'</div>' );?>
                                             </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Difficulty:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <?php
+                                                    if($RefId==8){
+                                                        echo '<select name="Difficulty" class="form-control input-sm" required>';
+                                                        echo '    <option value=""></option>';
+                                                        echo '    <option value="Average">Average</option>';
+                                                        echo '    <option value="Difficult">Difficult</option>';
+                                                        echo '</select>';
+                                                    }else{
+                                                        echo '<div class="form-control input-sm">'.$parentData['Difficulty'].'</div>';
+                                                    }
+                                                ?>                                            
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Exclusion Notes:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <?= ($RefId==8 ? '<input type="text" name="ExclusionNotes" class="form-control input-sm">' : '<div class="form-control input-sm">'.$parentData['ExclusionNotes'].'</div>' );?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <?= ($RefId==8 ? '<input type="text" name="Remark" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.searchForRemark('AGENT_DEVELOPMENT', $remarkData).'</div>' );?>
+                                                </div>
                                         </div>
                                     </div>
                                 </div>

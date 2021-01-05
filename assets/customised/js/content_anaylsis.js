@@ -42,9 +42,14 @@ $(function(){
 		$('.errorDiv').html('')
 		var status = $(this).attr('data-value');
 		if(status=='Done'){
-			if (confirm("Are you sure you want to complete this task?")) {
-				task_out_source(status)
+			if ($(".edited")[0]){
+			    alert('Please save all the changes made')
+			} else if($('#SourceName').val()=='' || $('#Priority').val()==''){
+			    alert('Please complete all required fields')
 			}
+			else if (confirm("Are you sure you want to complete this task?")) {
+				task_out_source(status)
+			}			
 		}else{
 			task_out_source(status)
 		}
