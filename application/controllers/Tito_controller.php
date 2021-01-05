@@ -504,30 +504,31 @@ class Tito_controller extends CI_Controller {
 				    	$sources = $data['sources'];
 				        foreach ($sources as $row) {
 				    	    $SourceID = $row['id'];
-				    	    $sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
-				    	    	@Type ='',
-								@Region ='',
-								@Country ='',
-	    						@Client ='',
-	    						@Access='',
-	    						@Priority='',
-				    	   		@ProcessID = 1,
-								@ParentID = 0,						
-								@SourceID ='".$SourceID."',
-								@SourceName ='".$row['name']."',
-								@SourceURL ='".$row['url']."',						
-								@DateFormat ='',
-								@StoryFrequency ='',
-								@CrawlPatterns ='',
-								@Difficulty ='',
-								@ConfigNotes ='',
-								@ExclusionNotes ='',							
-								@PublicationNotes ='',	
-								@AgentID ='',					
-								@ReConfigNotes =''";
-							$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
-						    $data = json_decode($APIResult, true);
-
+				    	    if($SourceID != ''){
+				    	    	$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+					    	    	@Type ='',
+									@Region ='',
+									@Country ='',
+		    						@Client ='',
+		    						@Access='',
+		    						@Priority='',
+					    	   		@ProcessID = 1,
+									@ParentID = 0,						
+									@SourceID ='".$SourceID."',
+									@SourceName ='".$row['name']."',
+									@SourceURL ='".$row['url']."',						
+									@DateFormat ='',
+									@StoryFrequency ='',
+									@CrawlPatterns ='',
+									@Difficulty ='',
+									@ConfigNotes ='',
+									@ExclusionNotes ='',							
+									@PublicationNotes ='',	
+									@AgentID ='',					
+									@ReConfigNotes =''";
+								$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+							    $data = json_decode($APIResult, true);
+				    	    }
 				        }
 				    }
 					$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
@@ -585,19 +586,18 @@ class Tito_controller extends CI_Controller {
 				}
 			}
 			else if($processId=='2'){
-				//d8bfa0e3-53f0-4d75-b329-9b2f6f628bbe
 				$AgentID = $this->input->post('AgentID');
-				$sql="SELECT TOP (1) [RecID] ,[AgentID] ,[AgentName] FROM [dbo].[AgentDetails] WHERE [AgentID] = '".$AgentID."';";
-				$APIResult = $this->base_model->GetDatabaseDataset($sql);
-				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { 
-					$returnData = array(
-						'error' => true,
-						'message' => "TOS1 : ".$data['error']
-					);
-      				echo json_encode($returnData);
-      				die();
-				}
+				// $sql="SELECT TOP (1) [RecID] ,[AgentID] ,[AgentName] FROM [dbo].[AgentDetails] WHERE [AgentID] = '".$AgentID."';";
+				// $APIResult = $this->base_model->GetDatabaseDataset($sql);
+				// $data = json_decode($APIResult, true);
+				// if (array_key_exists('error', $data)) { 
+					// $returnData = array(
+						// 'error' => true,
+						// 'message' => "TOS1 : ".$data['error']
+					// );
+					// echo json_encode($returnData);
+					// die();
+				// }
 				$rawdata = $data[0];
 				if(sizeof($data[0]) <= 0){
 					$returnData = array(
