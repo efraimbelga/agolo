@@ -598,15 +598,15 @@ class Tito_controller extends CI_Controller {
 					// echo json_encode($returnData);
 					// die();
 				// }
-				$rawdata = $data[0];
-				if(sizeof($data[0]) <= 0){
-					$returnData = array(
-						'error' => true,
-						'message' => "Invalid AgentID entry. The AgentID does not exist in the AgentDetails list"
-					);
-      				echo json_encode($returnData);
-      				die();
-				}
+				// $rawdata = $data[0];
+				// if(sizeof($data[0]) <= 0){
+					// $returnData = array(
+						// 'error' => true,
+						// 'message' => "Invalid AgentID entry. The AgentID does not exist in the AgentDetails list"
+					// );
+					// echo json_encode($returnData);
+					// die();
+				// }
 				
 				$json = '{ "agentId": "'.$AgentID.'" }';
 				// echo 'https://sources-management.crawlers.agolo.com/api/v1/sources/'.$this->input->post('SourceID');
