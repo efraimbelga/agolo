@@ -318,12 +318,13 @@
 
 <?php
     function searchForRemark($ProcessCode, $array) {
-       foreach ($array as $key => $val) {
-           if ($val['ProcessCode'] === $ProcessCode) {
-               return $array[$key]['Remarks'];
-           }
-       }
-       return null;
+        $array = array_reverse($array);
+        foreach ($array as $key => $val) {
+            if ($val['ProcessCode'] === $ProcessCode) {
+                return $array[$key]['Remarks'];
+            }
+        }
+        return null;
     }
 
 ?>
