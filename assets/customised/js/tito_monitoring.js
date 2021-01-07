@@ -167,34 +167,45 @@ $(function(){
 	$(document).on('submit', '#titoForm', function(e){
 		e.preventDefault();
 		var form = $(this);
-		if(confirm("Are you sure you want to complete this task?")) {
-			var formData = form.serialize();
-			$.ajax({
-			    url: domain + 'Tito_controller/task_out_source',
-			    type: 'POST',
-			    data: formData,
-			    beforeSend: function(){
-			       	$('#loadingModal').modal();
-			    },
-			    success: function(data, textStatus, jqXHR)
-			    {
-			    	$('#loadingModal').modal('hide');
-			    	console.log(data)
-			    	var obj = JSON.parse(data);
-			    	$('.titoformModal .errorMsg').text(obj.message)
-			    	if(obj.error== false){
-			    		// view_source_request(processId)
-			    		setTimeout(function(){ $('#titoModal').modal('hide'); }, 500);
-
-			    	}
-			    },
-			    error: function (jqXHR, textStatus, errorThrown)
-			    {
-			    	$('#loadingModal').modal('hide');
-			    	$('.titoformModal .errorMsg').text(jqXHR.responseText)
-			    }
-			});
+		var noerror = true
+		if($('#AgentID').length ){
+			var agentID = $('#AgentID').val().replace(/\s/g,'')
+			if(agentID.length != 36){
+				noerror = false
+				alert('Agent ID is invalid')
+			}
 		}
+
+		if(noerror){
+			if(confirm("Are you sure you want to complete this task?")) {
+				var formData = form.serialize();
+				$.ajax({
+				    url: domain + 'Tito_controller/task_out_source',
+				    type: 'POST',
+				    data: formData,
+				    beforeSend: function(){
+				       	$('#loadingModal').modal();
+				    },
+				    success: function(data, textStatus, jqXHR)
+				    {
+				    	$('#loadingModal').modal('hide');
+				    	console.log(data)
+				    	var obj = JSON.parse(data);
+				    	$('.titoformModal .errorMsg').text(obj.message)
+				    	if(obj.error== false){
+				    		// view_source_request(processId)
+				    		setTimeout(function(){ $('#titoModal').modal('hide'); }, 500);
+
+				    	}
+				    },
+				    error: function (jqXHR, textStatus, errorThrown)
+				    {
+				    	$('#loadingModal').modal('hide');
+				    	$('.titoformModal .errorMsg').text(jqXHR.responseText)
+				    }
+				});
+			}
+		}		
 	})
 })
 

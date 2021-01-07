@@ -5,17 +5,17 @@
             <h4 class="modal-title"><?= str_replace("_", " ", $process); ?></h4>
         </div>
         <form id="titoForm">
-        <div class="modal-body">
-            <input type="hidden" name="ParentID" value="<?= $parentData['ParentID'];?>">
-            <input type="hidden" name="processId" value="<?= $processId;?>">
-            <input type="hidden" name="ReferenceID" value="<?= $ReferenceID;?>">
-            <input type="hidden" name="NewSourceID" value="<?= $parentData['NewSourceID'];?>">
-            <input type="hidden" name="SourceID" value="<?= $parentData['SourceID'];?>">
-            <input type="hidden" name="AllocationRefId" value="<?= $AllocationRefId;?>">
-            <input type="hidden" name="SourceURL" value="<?= $parentData['SourceURL'];?>">
-            <input type="hidden" name="SourceName" value="<?= $parentData['SourceName'];?>">            
-            <input type="hidden" name="Status" value="Done">
-            <div class="panel-group">
+            <div class="modal-body">
+                <input type="hidden" name="ParentID" value="<?= $parentData['ParentID'];?>">
+                <input type="hidden" name="processId" value="<?= $processId;?>">
+                <input type="hidden" name="ReferenceID" value="<?= $ReferenceID;?>">
+                <input type="hidden" name="NewSourceID" value="<?= $parentData['NewSourceID'];?>">
+                <input type="hidden" name="SourceID" value="<?= $parentData['SourceID'];?>">
+                <input type="hidden" name="AllocationRefId" value="<?= $AllocationRefId;?>">
+                <input type="hidden" name="SourceURL" value="<?= $parentData['SourceURL'];?>">
+                <input type="hidden" name="SourceName" value="<?= $parentData['SourceName'];?>">            
+                <input type="hidden" name="Status" value="Done">
+                <div class="panel-group">
                     <div class="panel panel-default">
                         <div class="panel-heading">
                             <a data-toggle="collapse" href="#content_analysis"><h4 class="panel-title">CONTENT ANALYSIS</h4></a>
@@ -148,9 +148,21 @@
                                     </div>
                                     <div class="col-lg-12" style="padding: 0px;">
                                         <div class="form-group ">
+                                            <label class="control-label col-sm-3 col-lg-4 col-xs-12">Agent Name:</label>
+                                            <div class="col-sm-9 col-lg-8 col-xs-12">
+                                                <?= ($RefId==8 ? '<div class="input-group">
+    <span class="input-group-addon">Agolo_</span>
+    <input id="AgentName" type="text" class="form-control" name="AgentName" style="border-left:none; padding-left:0px;" required>
+  </div>' : '<div class="form-control input-sm">'.$parentData['AgentName'].'</div>' );?>
+
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="col-lg-12" style="padding: 0px;">
+                                        <div class="form-group ">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Agent ID:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <?= ($RefId==8 ? '<input type="text" name="AgentID" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['AgentID'].'</div>' );?>
+                                                <?= ($RefId==8 ? '<input type="text" name="AgentID" id="AgentID" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['AgentID'].'</div>' );?>
 
                                             </div>
                                         </div>
@@ -328,3 +340,14 @@
     }
 
 ?>
+
+<style type="text/css">
+    .input-group .input-group-addon {
+        border-radius: 0;
+        border-right:none; 
+        background-color: #fff;
+        height: 25px;
+        padding: 3px 4px;
+        font-size: 13px;
+    }
+</style>
