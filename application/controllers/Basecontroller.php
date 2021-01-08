@@ -53,12 +53,15 @@ class Basecontroller extends CI_Controller {
             ];
 
             $this->session->set_userdata($sessionData);
+            $this->base_model->SessionLogout();
             echo 'ok';
         }
 	}
 
 	public function signout(){
+		
 		$APIResult = $this->base_model->SessionLogout();
+
 		$sessionData = [
                 'userkey',
                 // 'UserId',
@@ -80,6 +83,19 @@ class Basecontroller extends CI_Controller {
 	public function newsource()
 	{
 		if($this->session->userdata('userkey')){
+			// $APIResult = $this->base_model->SessionLogin(1);
+			// $data = json_decode($APIResult, true);
+			// if (array_key_exists('error', $data)) { 
+				// $error = true;
+				// $errorMsg  = "CA1: ".$data['error'];
+			// }
+
+			// $APIResult = $this->base_model->GetSessionInfo();
+			// $data = json_decode($APIResult, true);
+			// echo"<pre>";
+			// print_r($data);
+			// echo"</pre>";
+			// die();
 			$APIResult = $this->base_model->GetSessionInfo();
 			$data = json_decode($APIResult, true);
 			if (array_key_exists('error', $data)) {

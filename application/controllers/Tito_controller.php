@@ -251,14 +251,14 @@ class Tito_controller extends CI_Controller {
 				if (array_key_exists('error', $data)) { 
 					$error = true;
 					$errorMsg  = "CA1: ".$data['error'];
-				}
-
-				$APIResult=$this->base_model->TaskStart($AllocationRefId);
-				$data = json_decode($APIResult, true);
-				if (array_key_exists('error', $data)) { 
-					$error = true;
-					$errorMsg  = "CA2: ".$data['error'];
-				}
+				}else{
+					$APIResult=$this->base_model->TaskStart($AllocationRefId);
+					$data = json_decode($APIResult, true);
+					if (array_key_exists('error', $data)) { 
+						$error = true;
+						$errorMsg  = "CA2: ".$data['error'];
+					}
+				}						
 			}
 
 			$sql="SELECT TOP(1) * FROM [dbo].[VIEW_AGLDE_SOURCEMOREDETAILS]  WHERE [ParentID] = ".$ParentID;
@@ -881,12 +881,13 @@ class Tito_controller extends CI_Controller {
 
 
 	public function get_url(){
-		// $APIResult = $this->base_model->GetSessionInfo();
-		// $data = json_decode($APIResult, true);
-		// if (array_key_exists('error', $data)) {
-		// 	die($data['error']);
-		// }
-
+		$APIResult = $this->base_model->GetSessionInfo();
+		$data = json_decode($APIResult, true);
+		if (array_key_exists('error', $data)) {
+			
+		}else{
+			$APIResult = $this->base_model->SessionLogout();
+		}
 
 		$ParentID = $this->input->post('ParentID');
 		$sql="SELECT TOP (1) [NSRSourceURL] FROM [dbo].[VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
