@@ -97,7 +97,7 @@
                                         <input form="parentdataForm" type="hidden" name="ParentID" class="ParentID" id="ParentID" value="<?= $ParentID;?>" required >
                                         <input form="parentdataForm" type="text" name="SourceURL" id="SourceURL" class="form-control input-sm noedited SourceURL" value="<?= $NSRSourceURL;?>" required readonly>
                                     </td>
-                                    <td><input form="parentdataForm" type="text" name="SourceName" class="form-control input-sm SourceName" id="SourceName" value="<?= $SourceName;?>" required>
+                                    <td><input form="parentdataForm" type="text" name="SourceName" class="form-control input-sm SourceName" id="SourceName" value="<?= $SourceName;?>" required autocomplete="off">
                                     </td>
                                     <td>
                                         <input form="parentdataForm" type="text" name="Type" class="form-control input-sm Type" value="<?= $Type;?>">

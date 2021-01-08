@@ -126,7 +126,7 @@
                                         <div class="form-group ">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Date Format:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <?= ($RefId==8 ? '<input type="text" name="DateFormat" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['DateFormat'].'</div>' );?>
+                                                <?= ($RefId==8 ? '<input type="text" autocomplete="off" name="DateFormat" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['DateFormat'].'</div>' );?>
                                             </div>
                                         </div>
                                     </div>
@@ -134,7 +134,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Crawl Patterns:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <?= ($RefId==8 ? '<input type="text" name="CrawlPatterns" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['CrawlPatterns'].'</div>' );?>
+                                                <?= ($RefId==8 ? '<input type="text" autocomplete="off" name="CrawlPatterns" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['CrawlPatterns'].'</div>' );?>
                                             </div>
                                         </div>
                                     </div>
@@ -142,7 +142,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Configuration Notes:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <?= ($RefId==8 ? '<input type="text" name="ConfigNotes" class="form-control input-sm">' : '<div class="form-control input-sm">'.$parentData['ConfigNotes'].'</div>' );?>
+                                                <?= ($RefId==8 ? '<input type="text" autocomplete="off" name="ConfigNotes" class="form-control input-sm">' : '<div class="form-control input-sm">'.$parentData['ConfigNotes'].'</div>' );?>
                                             </div>
                                         </div>
                                     </div>
@@ -150,10 +150,7 @@
                                         <div class="form-group ">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Agent Name:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <?= ($RefId==8 ? '<div class="input-group">
-    <span class="input-group-addon">Agolo_</span>
-    <input id="AgentName" type="text" class="form-control" name="AgentName" style="border-left:none; padding-left:0px;" required>
-  </div>' : '<div class="form-control input-sm">'.$parentData['AgentName'].'</div>' );?>
+                                                <?= ($RefId==8 ? '<input type="text" autocomplete="off" class="form-control input-sm" name="AgentName" id="AgentName" required>' : '<div class="form-control input-sm">'.$parentData['AgentName'].'</div>' );?>
 
                                             </div>
                                         </div>
@@ -162,7 +159,7 @@
                                         <div class="form-group ">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Agent ID:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <?= ($RefId==8 ? '<input type="text" name="AgentID" id="AgentID" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['AgentID'].'</div>' );?>
+                                                <?= ($RefId==8 ? '<input type="text" autocomplete="off" name="AgentID" id="AgentID" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['AgentID'].'</div>' );?>
 
                                             </div>
                                         </div>
@@ -173,7 +170,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Story Frequency :</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <?= ($RefId==8 ? '<input type="text" name="StoryFrequency" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['StoryFrequency'].'</div>' );?>
+                                                <?= ($RefId==8 ? '<input type="text" autocomplete="off" name="StoryFrequency" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.$parentData['StoryFrequency'].'</div>' );?>
                                             </div>
                                         </div>
                                     </div>
@@ -199,7 +196,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Exclusion Notes:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <?= ($RefId==8 ? '<input type="text" name="ExclusionNotes" class="form-control input-sm">' : '<div class="form-control input-sm">'.$parentData['ExclusionNotes'].'</div>' );?>
+                                                <?= ($RefId==8 ? '<input type="text" autocomplete="off" name="ExclusionNotes" class="form-control input-sm">' : '<div class="form-control input-sm">'.$parentData['ExclusionNotes'].'</div>' );?>
                                             </div>
                                         </div>
                                     </div>
@@ -207,7 +204,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <?= ($RefId==8 ? '<input type="text" name="Remark" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.searchForRemark('AGENT_DEVELOPMENT', $remarkData).'</div>' );?>
+                                                <?= ($RefId==8 ? '<input type="text" autocomplete="off" name="Remark" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.searchForRemark('AGENT_DEVELOPMENT', $remarkData).'</div>' );?>
                                                 </div>
                                         </div>
                                     </div>
@@ -232,7 +229,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Publication Notes:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==9 ? '<input type="text" name="PublicationNotes" class="form-control input-sm" >' : '<div class="form-control input-sm">'.$parentData['PublicationNotes'].'</div>' );?>
+                                            <?= ($RefId==9 ? '<input type="text" autocomplete="off" name="PublicationNotes" class="form-control input-sm" >' : '<div class="form-control input-sm">'.$parentData['PublicationNotes'].'</div>' );?>
                                         </div>
                                     </div>
                                 </div>
@@ -240,7 +237,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==9 ? '<input type="text" name="Remark" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.searchForRemark('AGENT_PUBLICATION', $remarkData).'</div>' );?>
+                                            <?= ($RefId==9 ? '<input type="text" autocomplete="off" name="Remark" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.searchForRemark('AGENT_PUBLICATION', $remarkData).'</div>' );?>
                                         </div>
                                     </div>
                                 </div> 
@@ -266,7 +263,7 @@
                                     <div class="form-group ">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Reconfiguration Notes:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==10 ? '<input type="text" name="ReConfigNotes" class="form-control input-sm">' : '<div class="form-control input-sm">'.$parentData['ReConfigNotes'].'</div>' );?>
+                                            <?= ($RefId==10 ? '<input type="text" autocomplete="off" name="ReConfigNotes" class="form-control input-sm">' : '<div class="form-control input-sm">'.$parentData['ReConfigNotes'].'</div>' );?>
                                         </div>
                                     </div>
                                 </div>
@@ -274,7 +271,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==10 ? '<input type="text" name="Remark" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.searchForRemark('AGENT_REFINEMENT', $remarkData).'</div>' );?>
+                                            <?= ($RefId==10 ? '<input type="text" autocomplete="off" name="Remark" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.searchForRemark('AGENT_REFINEMENT', $remarkData).'</div>' );?>
                                         </div>
                                     </div>
                                 </div> 
@@ -298,7 +295,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==11 ? '<input type="text" name="Remark" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.searchForRemark('AGENT_REWORK', $remarkData).'</div>' );?>
+                                            <?= ($RefId==11 ? '<input type="text" autocomplete="off" name="Remark" class="form-control input-sm" required>' : '<div class="form-control input-sm">'.searchForRemark('AGENT_REWORK', $remarkData).'</div>' );?>
                                         </div>
                                     </div>
                                 </div> 

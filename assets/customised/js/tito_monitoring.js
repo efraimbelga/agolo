@@ -93,18 +93,22 @@ $(function(){
 			        data: {ParentID:ParentID},
 			        success: function(data, textStatus, jqXHR)
 			        {
-			        	if(contentanalysiswindow){
-			        		contentanalysiswindow.close()
-			        	}else if(urlwindow){
-			        		urlwindow.close()
+			        	if(data=='error'){
+			        		window.location.href= domain + "signout";
+			        	}else{
+			        		if(contentanalysiswindow){
+				        		contentanalysiswindow.close()
+				        	}else if(urlwindow){
+				        		urlwindow.close()
+				        	}
+				        	tr.removeClass('Allocated')
+				        	tr.addClass('Ongoing')
+				        	
+				        	contentanalysiswindow = window.open(domain+"content_analysis?ParentID="+ParentID+"&AllocationRefId="+AllocationRefId+"&status="+status, "contentanalysiswindow", "width="+w+", height="+h+", left=0, top=0"); 
+				        	h = h+50;
+				        	urlwindow = window.open(data, "urlwindow", "width="+w+", height="+h2+", left=0, top="+h+"");
+				        	timer = setInterval(checkChild, 500)
 			        	}
-			        	tr.removeClass('Allocated')
-			        	tr.addClass('Ongoing')
-			        	
-			        	contentanalysiswindow = window.open(domain+"content_analysis?ParentID="+ParentID+"&AllocationRefId="+AllocationRefId+"&status="+status, "contentanalysiswindow", "width="+w+", height="+h+", left=0, top=0"); 
-			        	h = h+50;
-			        	urlwindow = window.open(data, "urlwindow", "width="+w+", height="+h2+", left=0, top="+h+"");
-			        	timer = setInterval(checkChild, 500)
 			        },
 			        error: function (jqXHR, textStatus, errorThrown)
 			        {
@@ -172,7 +176,15 @@ $(function(){
 			var agentID = $('#AgentID').val().replace(/\s/g,'')
 			if(agentID.length != 36){
 				noerror = false
-				alert('Agent ID is invalid')
+				alert('Agent ID is invalid!')
+			}
+		}
+		if( $('#AgentName').length ){
+			var agentName = $('#AgentName').val().toLowerCase();
+			agentName = agentName.substring(0, 6);
+			if(agentName != 'agolo_'){
+				noerror = false
+				alert('Agent name invalid!')
 			}
 		}
 
@@ -208,4 +220,3 @@ $(function(){
 		}		
 	})
 })
-

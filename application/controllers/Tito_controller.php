@@ -639,7 +639,7 @@ class Tito_controller extends CI_Controller {
 					@ExclusionNotes ='".$this->input->post('ExclusionNotes')."',							
 					@PublicationNotes ='',	
 					@AgentID = '".$AgentID."',
-					@AgentName = 'Agolo_".$this->input->post('AgentName')."',				
+					@AgentName = '".$this->input->post('AgentName')."',				
 					@ReConfigNotes =''";
 				// die($sql);
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
@@ -881,6 +881,13 @@ class Tito_controller extends CI_Controller {
 
 
 	public function get_url(){
+		// $APIResult = $this->base_model->GetSessionInfo();
+		// $data = json_decode($APIResult, true);
+		// if (array_key_exists('error', $data)) {
+		// 	die($data['error']);
+		// }
+
+
 		$ParentID = $this->input->post('ParentID');
 		$sql="SELECT TOP (1) [NSRSourceURL] FROM [dbo].[VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
 		$APIResult = $this->base_model->GetDatabaseDataset($sql);
