@@ -34,8 +34,7 @@ class Tito_controller extends CI_Controller {
 
 	public function allocate_source(){
 		$APIResult = $this->base_model->GetSessionInfo();
-		$data = json_decode($APIResult, true);
-		
+		$data = json_decode($APIResult, true);		
 		if (array_key_exists('error', $data)) {
 			if($data['error'] == 'No active session!'){
 				// die('here '. $processId);
@@ -762,6 +761,7 @@ class Tito_controller extends CI_Controller {
 					@Remark = '".$this->input->post('Remark')[2]."',
 					@ProcessID = 4";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
 					$returnData = array(
 						'error' => true,
@@ -812,7 +812,6 @@ class Tito_controller extends CI_Controller {
 					@ReConfigNotes =''";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
-				
 
 				$sql="EXEC USP_AGLDE_SOURCECONFIGURATION @SourceParentID = ".$ParentID.",
 					@NewSourceID = ".$NewSourceID.",
@@ -820,6 +819,7 @@ class Tito_controller extends CI_Controller {
 					@Remark = '".$this->input->post('Remark')."',
 					@ProcessID = 5";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
 					$returnData = array(
 						'error' => true,
