@@ -55,12 +55,17 @@ class Published_controller extends CI_Controller {
 		else{
 			$status = ($state=='1' ? 'activate' : 'deactivate');
 			$a3result = $this->base_model->A3_API($AgentID, $status);
-			// die($a3result);
+			// $a3result = json_decode($APIResult, true);
+			if($a3result === FALSE) { 
+				die($a3result);
+			}
 		}
 		extract($data);
 		echo $result;
     }
     
 }
+
+
 
 

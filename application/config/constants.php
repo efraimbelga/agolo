@@ -84,11 +84,11 @@ defined('EXIT_DATABASE')       	OR define('EXIT_DATABASE', 8); // database error
 defined('EXIT__AUTO_MIN')      	OR define('EXIT__AUTO_MIN', 9); // lowest automatically-assigned error code
 defined('EXIT__AUTO_MAX')      	OR define('EXIT__AUTO_MAX', 125); // highest automatically-assigned error code
 
-defined('WMS_URL')       	OR define('WMS_URL', 'https://52.220.114.60/WMS.Services/WMS.Services.asmx/');
-defined('APIKEY')        	OR define('APIKEY', 'Thequickbrownfoxjumpsoverthelazyd0g');
+defined('WMS_URL')       		OR define('WMS_URL', 'https://52.220.114.60/WMS.Services/WMS.Services.asmx/');
+defined('APIKEY')        		OR define('APIKEY', 'Thequickbrownfoxjumpsoverthelazyd0g');
 // defined('CONFIG')        	OR define('CONFIG', '019'); //LIVE
-defined('CONFIG')        	OR define('CONFIG', '019Test');
-defined('STREAM_CONTEXT')	OR define('STREAM_CONTEXT', array(
+defined('CONFIG')        		OR define('CONFIG', '019Test');
+defined('STREAM_CONTEXT')		OR define('STREAM_CONTEXT', array(
 		'ssl' => array(
 			'verify_peer' => false, 
 			'verify_peer_name' => false, 
@@ -99,4 +99,6 @@ defined('STREAM_CONTEXT')	OR define('STREAM_CONTEXT', array(
 	));
 defined('REGIONS')        	OR define('REGIONS', array('Australia and Oceania', 'Caribbean', 'Central & South Asia', 'Central America', 'Eastern Europe', 'Middle East', 'North America', 'Northeastern Asia', 'Northern Africa', 'Northern Europe', 'South America', 'Southeastern Asia', 'Southern Africa', 'Southern Europe', 'Western Europe'));
 
-
+defined('API_SOURCE')        	OR define('API_SOURCE', 'https://sources-management.crawlers.agolo.com/api/v1');
+defined('API_USER')        		OR define('API_USER', 'innodata-user');
+defined('API_PWD')        		OR define('API_PWD', 'U_9NEJy2S57D#_46');

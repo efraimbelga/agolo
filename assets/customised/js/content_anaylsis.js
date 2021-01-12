@@ -112,7 +112,7 @@ $(function(){
 				    success: function(data, textStatus, jqXHR)
 				    {
 				    	$('#loadingModal').modal('hide');
-				    	// console.log(data)
+				    	console.log(data)
 				    	var obj = JSON.parse(data);
 				    	if(obj.error== false){
 				    		alert('Saved');

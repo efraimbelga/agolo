@@ -482,24 +482,27 @@ class Tito_controller extends CI_Controller {
 					$json .= $sections.']';
 				}
 				$json .= '}] }';
-				// echo $json;
-				
+				// echo $json;				
+				// die();
+
 				$APIResult = $this->base_model->A1_API($json);
 				if($APIResult === FALSE) { 
-					// $APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
-					// $data = json_decode($APIResult, true);
-					// if (array_key_exists('error', $data)) { die("TO1C :".$data['error']); }
-
 					$error = error_get_last();
 					$returnData = array(
 						'error' => true,
 						'message' => 'HTTP request failed. Please save as <b>Pending</b>'
 					);
+					$data = json_decode($APIResult, true);
+					print_r($APIResult);
       				echo json_encode($returnData);
       				die();
 				}
 				else{
 					$data = json_decode($APIResult, true);
+					// echo"<prep>";
+					// print_r($APIResult);
+					// echo"</prep>";
+					// die();
 				    if (array_key_exists('sources', $data)){
 				    	$sources = $data['sources'];
 				        foreach ($sources as $row) {

@@ -167,44 +167,82 @@ class Base_model extends CI_Model {
         return $result;
     }
 
-    public function A2_API($json, $SourceID){        
-        $context = stream_context_create(array(
-            'http' => array(
-                'method' => 'PUT',
-                'header' => "Content-Type: application/json",
-                'content' => $json
-            )
-        ));
+    public function A2_API($json, $SourceID){
+        $url = API_SOURCE.'/sources/'.$SourceID;
+        $curl = curl_init($url);
+        curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($curl, CURLOPT_CUSTOMREQUEST, 'PUT');
+        curl_setopt($curl, CURLOPT_POSTFIELDS,  $json);
+        curl_setopt($curl, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        curl_setopt($curl, CURLOPT_USERPWD, API_USER.":".API_PWD);
+        curl_setopt($curl, CURLOPT_HTTPHEADER, [ 'Content-Type: application/json']);
+        $response = curl_exec($curl);
+        curl_close($curl);
+        return $response . PHP_EOL;
 
-        // Send the request
-        $response = @file_get_contents('https://sources-management.crawlers.agolo.com/api/v1/sources/'.$SourceID, FALSE, $context);
-        return $response;
+        // $context = stream_context_create(array(
+        //     'http' => array(
+        //         'method' => 'PUT',
+        //         'header' => "Content-Type: application/json",
+        //         'content' => $json
+        //     )
+        // ));
+        // $response = @file_get_contents(API_SOURCE.'/sources/'.$SourceID, FALSE, $context);
+        // return $response;
     }
 
-    public function A1_API($json){
-        
-        $context = stream_context_create(array(
-            'http' => array(
-                'method' => 'POST',
-                'header' => "Content-Type: application/json",
-                'content' => $json
-            )
-        ));
-        // Send the request
-        $response = @file_get_contents('https://sources-management.crawlers.agolo.com/api/v1/sources', FALSE, $context);
-        return $response;
+    public function A1_API($json){              
+        $ch = curl_init();
+        $url = API_SOURCE.'/sources';
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_USERPWD, API_USER.":".API_PWD);
+        curl_setopt($ch, CURLOPT_POSTFIELDS,  $json);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);   
+        $result=curl_exec ($ch);
+        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+        curl_close ($ch);
+        return $result . PHP_EOL;
+
+        // $context = stream_context_create(array(
+        //     'http' => array(
+        //         'method' => 'POST',
+        //         'header' => "Content-Type: application/json",
+        //         'content' => $json
+        //     )
+        // ));
+        // // Send the request
+        // $response = @file_get_contents(API_SOURCE.', FALSE, $context);
+        // return $response;
     }
 
     public function A3_API($agentID, $state){
-        $context = stream_context_create(array(
-            'http' => array(
-                'method' => 'POST',
-                'header' => "Content-Type: application/json"
-            )
-        ));
-        // Send the request
-        $response = @file_get_contents('https://sources-management.crawlers.agolo.com/api/v1/agents/'.$agentID.'/'.$state, FALSE, $context);
-        return $response;
+        $ch = curl_init();
+        $url = API_SOURCE.'/agents/'.$agentID.'/'.$state;
+
+        curl_setopt($ch, CURLOPT_URL, $url);
+        curl_setopt($ch, CURLOPT_TIMEOUT, 30); //timeout after 30 seconds
+        curl_setopt($ch, CURLOPT_RETURNTRANSFER,1);
+        curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_ANY);
+        curl_setopt($ch, CURLOPT_POST, true);
+        curl_setopt($ch, CURLOPT_USERPWD, API_USER.":".API_PWD);
+        curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);   
+        $result=curl_exec ($ch);
+        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+        curl_close ($ch);
+        return $result . PHP_EOL;
+
+        // $context = stream_context_create(array(
+        //     'http' => array(
+        //         'method' => 'POST',
+        //         'header' => "Content-Type: application/json"
+        //     )
+        // ));
+        // $response = @file_get_contents(API_SOURCE.'/agents/'.$agentID.'/'.$state, FALSE, $context);
+        // return $response;
     }
 
     // public function subsectionSource($ReferenceID, $sourceURL, $SourceName, $SourceID){
@@ -215,7 +253,7 @@ class Base_model extends CI_Model {
     //             'content' => '{ "referenceId": "'.$ReferenceID.'", "sections":[{ "name": "'.$SourceName.'","url": "'.$sourceURL.'" }] }'
     //         )
     //     ));
-    //     $response = file_get_contents('https://sources-management.crawlers.agolo.com/api/v1/sources/'.$SourceID.'/sections', FALSE, $context);
+    //     $response = file_get_contents(API_SOURCE./'.$SourceID.'/sections', FALSE, $context);
     //     return $response;
     // }
 
