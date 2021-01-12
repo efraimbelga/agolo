@@ -10,6 +10,7 @@
                 <th style="white-space: nowrap;">Agent Name</th>
                 <th style="white-space: nowrap;">Priority</th>
                 <th style="white-space: nowrap;">Current Process</th>
+                <th style="white-space: nowrap;">Configured By</th>
                 <th style="white-space: nowrap;">Status</th>
                 <th style="white-space: nowrap;">Content Analysis Completion Date</th>
                 <th style="white-space: nowrap;">Agent Development Completion Date</th>
@@ -39,6 +40,7 @@
                             echo '<td>'.$ml['AgentName'].'</td>';
                             echo '<td>'.$ml['Priority'].'</td>';
                             echo '<td>'.str_replace("_", " ", $ml['ProcessCode']).'</td>';
+                            echo '<td>'.strtoupper($ml['ClaimedBy']).'</td>';
                             echo '<td>'.$ml['StatusString'].'</td>';
                             echo '<td>'.$ml['CONTENT_ANALYSIS_DATE'].'</td>';
                             echo '<td>'.$ml['AGENT_DEVELOPMENT_DATE'].'</td>';

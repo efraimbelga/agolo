@@ -107,12 +107,13 @@ class Masterlist_controller extends CI_Controller {
 			$object->getActiveSheet()->setCellValueByColumnAndRow(5, $row, 'Agent Name');
 			$object->getActiveSheet()->setCellValueByColumnAndRow(6, $row, 'Priority');
 			$object->getActiveSheet()->setCellValueByColumnAndRow(7, $row, 'Current Process');
-			$object->getActiveSheet()->setCellValueByColumnAndRow(8, $row, 'Status');
-			$object->getActiveSheet()->setCellValueByColumnAndRow(9, $row, 'Content Analysis Completion Date');
-			$object->getActiveSheet()->setCellValueByColumnAndRow(10, $row, 'Agent Development Completion Date');
-			$object->getActiveSheet()->setCellValueByColumnAndRow(11, $row, 'Agent Publication Completion Date');
-			$object->getActiveSheet()->setCellValueByColumnAndRow(12, $row, 'Agent Refinement Completion Date');
-			$object->getActiveSheet()->setCellValueByColumnAndRow(13, $row, 'Agent Rework Completion Date');
+			$object->getActiveSheet()->setCellValueByColumnAndRow(8, $row, 'Configured By');
+			$object->getActiveSheet()->setCellValueByColumnAndRow(9, $row, 'Status');
+			$object->getActiveSheet()->setCellValueByColumnAndRow(10, $row, 'Content Analysis Completion Date');
+			$object->getActiveSheet()->setCellValueByColumnAndRow(11, $row, 'Agent Development Completion Date');
+			$object->getActiveSheet()->setCellValueByColumnAndRow(12, $row, 'Agent Publication Completion Date');
+			$object->getActiveSheet()->setCellValueByColumnAndRow(13, $row, 'Agent Refinement Completion Date');
+			$object->getActiveSheet()->setCellValueByColumnAndRow(14, $row, 'Agent Rework Completion Date');
 			foreach ($masterlistData as $ml) {
 				$row++;
 				$object->getActiveSheet()->setCellValueByColumnAndRow(0, $row, $ml['PS_BatchId']);
@@ -123,12 +124,13 @@ class Masterlist_controller extends CI_Controller {
                 $object->getActiveSheet()->setCellValueByColumnAndRow(5, $row, $ml['AgentName']);
                 $object->getActiveSheet()->setCellValueByColumnAndRow(6, $row, $ml['Priority']);
                 $object->getActiveSheet()->setCellValueByColumnAndRow(7, $row, str_replace("_", " ", $ml['ProcessCode']));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $row, $ml['StatusString']);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $row, $ml['CONTENT_ANALYSIS_DATE']);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(10, $row, $ml['AGENT_DEVELOPMENT_DATE']);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(11, $row, $ml['AGENT_PUBLICATION_DATE']);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(12, $row, $ml['AGENT_REFINEMENT_DATE']);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(13, $row, $ml['AGENT_REWORK_DATE']);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $row, strtoupper($ml['ClaimedBy']));
+                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $row, $ml['StatusString']);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(10, $row, $ml['CONTENT_ANALYSIS_DATE']);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(11, $row, $ml['AGENT_DEVELOPMENT_DATE']);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(12, $row, $ml['AGENT_PUBLICATION_DATE']);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(13, $row, $ml['AGENT_REFINEMENT_DATE']);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(14, $row, $ml['AGENT_REWORK_DATE']);
 			}
 			$object_writer =  PHPExcel_IOFactory::createWriter($object, 'Excel5');
 			header('Content-Type: application/vmd.ms-excel');

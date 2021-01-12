@@ -484,7 +484,6 @@ class Tito_controller extends CI_Controller {
 				$json .= '}] }';
 				// echo $json;				
 				// die();
-
 				$APIResult = $this->base_model->A1_API($json);
 				if($APIResult === FALSE) { 
 					$error = error_get_last();
@@ -499,10 +498,8 @@ class Tito_controller extends CI_Controller {
 				}
 				else{
 					$data = json_decode($APIResult, true);
-					// echo"<prep>";
-					// print_r($APIResult);
-					// echo"</prep>";
-					// die();
+					print_r($APIResult);
+					die();
 				    if (array_key_exists('sources', $data)){
 				    	$sources = $data['sources'];
 				        foreach ($sources as $row) {
@@ -689,23 +686,24 @@ class Tito_controller extends CI_Controller {
       			}
 			}
 			else if($processId=='6'){ //AGENT REWORK				
-
+				// print_r($_POST);
+				// die();
 				$sql="EXEC USP_AGLDE_SOURCECONFIGURATION @SourceParentID = ".$ParentID.",
 					@NewSourceID = ".$NewSourceID.",
 					@FinishDate = '".date('Y-m-d H:i:s')."',
-					@Remark = '".$this->input->post('Remark')."',
+					@Remark = '".$this->input->post('Remark')[2]."',
 					@ProcessID = 6";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
-				if (array_key_exists('error', $data)) { 
+				if (array_key_exists('error', $APIResult)) { 
 					$returnData = array(
 						'error' => true,
-						'message' => "TO1A :".$data['error']
+						'message' => "TO1A :".$APIResult['error']
 					);
 			    	echo json_encode($returnData);
 					die(); 
 				}
 
-				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
+				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark')[2]);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
 					$returnData = array(
@@ -723,6 +721,9 @@ class Tito_controller extends CI_Controller {
       			}
 			}
 			else if($processId=='4'){ //AGENT REFINEMENT
+				// print_r($_POST);
+				// echo $this->input->post('Remark')[2];
+				// die();
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
 					@Type ='',
 					@Region ='',
@@ -758,7 +759,7 @@ class Tito_controller extends CI_Controller {
 				$sql="EXEC USP_AGLDE_SOURCECONFIGURATION @SourceParentID = ".$ParentID.",
 					@NewSourceID = ".$NewSourceID.",
 					@FinishDate = '".date('Y-m-d H:i:s')."',
-					@Remark = '".$this->input->post('Remark')."',
+					@Remark = '".$this->input->post('Remark')[2]."',
 					@ProcessID = 4";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				if (array_key_exists('error', $data)) { 
@@ -770,7 +771,7 @@ class Tito_controller extends CI_Controller {
 					die(); 
 				}
 
-				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark'));
+				$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status, $this->input->post('Remark')[2]);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
 					$returnData = array(
