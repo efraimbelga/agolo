@@ -7,7 +7,7 @@
 </section>
 <section class="content">
     <div class="box">
-        <div class="box-body srboxbody">
+        <div class="box-body srboxbody" style="height: auto;">
             <div class="col-lg-12">
                 <table class="optionsTable">
                     <tr>
@@ -37,4 +37,9 @@
 </section>
 <div id="titoModal" class="modal fade" role="dialog">
 </div>
+<style type="text/css">
+    tr.sourceTR.active {
+        color: green;
+    }
+</style>
 <script type="text/javascript" src="<?= base_url('assets/customised/js/userallocation.js');?>"></script>

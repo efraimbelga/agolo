@@ -14,6 +14,7 @@ $route['tito_monitoring/6/(:any)'] = 'Tito_controller/agent_rework/$1';
 $route['content_analysis'] = 'Tito_controller/content_analysis';
 $route['masterlist'] = 'Masterlist_controller/masterlist';
 $route['masterlist/download'] = 'Masterlist_controller/masterlist_download';
+$route['register/(:any)'] = 'Register_controller/register/$1';
 
 
 $route['allocation'] = 'Allocation_controller/allocation';

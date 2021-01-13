@@ -480,25 +480,21 @@ class Tito_controller extends CI_Controller {
 					$sections = rtrim($sections, ',');
 					$json .= $sections.']';
 				}
-				$json .= '}] }';
-				// echo $json;				
-				// die();
+				$json .= '}] }';			
+				// die($json);
 				$APIResult = $this->base_model->A1_API($json);
-				if($APIResult === FALSE) { 
-					$error = error_get_last();
+				// print_r($APIResult);
+				// die();
+				if($APIResult === FALSE) {
 					$returnData = array(
 						'error' => true,
-						'message' => 'HTTP request failed. Please save as <b>Pending</b>'
+						'message' => 'Could not get response. Please try again later'
 					);
-					$data = json_decode($APIResult, true);
-					print_r($APIResult);
       				echo json_encode($returnData);
       				die();
 				}
 				else{
 					$data = json_decode($APIResult, true);
-					print_r($APIResult);
-					die();
 				    if (array_key_exists('sources', $data)){
 				    	$sources = $data['sources'];
 				        foreach ($sources as $row) {
@@ -685,8 +681,41 @@ class Tito_controller extends CI_Controller {
       			}
 			}
 			else if($processId=='6'){ //AGENT REWORK				
-				// print_r($_POST);
-				// die();
+				print_r($_POST);
+				die();
+
+				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+					@Type ='',
+					@Region ='',
+					@Country ='',
+    				@Client ='',
+    				@Access='',
+    				@Priority='',
+			    	@ProcessID = 6,
+					@ParentID = ".$ParentID.",						
+					@SourceID = '',
+					@SourceName = '',
+					@SourceURL = '',						
+					@DateFormat = '".$this->input->post('DateFormat')."',
+					@StoryFrequency = '".$this->input->post('StoryFrequency')."',
+					@CrawlPatterns = '".$this->input->post('CrawlPatterns')."',
+					@Difficulty = '".$this->input->post('Difficulty')."',
+					@ConfigNotes = '".$this->input->post('ConfigNotes')."',
+					@ExclusionNotes = '".$this->input->post('ExclusionNotes')."',							
+					@PublicationNotes = '".$this->input->post('PublicationNotes')."',	
+					@AgentID ='', @AgentName = '".$this->input->post('AgentName')."',	
+					@ReConfigNotes = ''";
+				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { 
+					$returnData = array(
+						'error' => true,
+						'message' => "TO6 : ".$data['error']
+					);
+      				echo json_encode($returnData);
+      				die();
+      			}
+
 				$sql="EXEC USP_AGLDE_SOURCECONFIGURATION @SourceParentID = ".$ParentID.",
 					@NewSourceID = ".$NewSourceID.",
 					@FinishDate = '".date('Y-m-d H:i:s')."',
@@ -732,18 +761,18 @@ class Tito_controller extends CI_Controller {
     				@Priority='',
 			    	@ProcessID = 4,
 					@ParentID = ".$ParentID.",						
-					@SourceID ='',
-					@SourceName ='',
-					@SourceURL ='',						
-					@DateFormat ='',
-					@StoryFrequency ='',
-					@CrawlPatterns ='',
-					@Difficulty ='',
-					@ConfigNotes ='',
-					@ExclusionNotes ='',							
-					@PublicationNotes ='',	
-					@AgentID ='', @AgentName = '',			
-					@ReConfigNotes ='".$this->input->post('ReConfigNotes')."'";
+					@SourceID = '',
+					@SourceName = '',
+					@SourceURL = '',						
+					@DateFormat = '".$this->input->post('DateFormat')."',
+					@StoryFrequency = '".$this->input->post('StoryFrequency')."',
+					@CrawlPatterns = '".$this->input->post('CrawlPatterns')."',
+					@Difficulty = '".$this->input->post('Difficulty')."',
+					@ConfigNotes = '".$this->input->post('ConfigNotes')."',
+					@ExclusionNotes = '".$this->input->post('ExclusionNotes')."',							
+					@PublicationNotes = '".$this->input->post('PublicationNotes')."',	
+					@AgentID ='', @AgentName = '".$this->input->post('AgentName')."',	
+					@ReConfigNotes = '".$this->input->post('ReConfigNotes')."'";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 

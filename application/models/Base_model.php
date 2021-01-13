@@ -202,10 +202,10 @@ class Base_model extends CI_Model {
         curl_setopt($ch, CURLOPT_USERPWD, API_USER.":".API_PWD);
         curl_setopt($ch, CURLOPT_POSTFIELDS,  $json);
         curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);   
-        $result=curl_exec ($ch);
-        $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
+        $result = curl_exec ($ch);
+        // $status_code = curl_getinfo($ch, CURLINFO_HTTP_CODE);   //get status code
         curl_close ($ch);
-        return $result . PHP_EOL;
+        return $result;
 
         // $context = stream_context_create(array(
         //     'http' => array(

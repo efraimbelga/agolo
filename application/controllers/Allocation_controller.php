@@ -82,11 +82,11 @@ class Allocation_controller extends CI_Controller {
 		$sql="SELECT ps.*, u.UserId, u.LoginName as [UserName], bi.BatchName, ba.RefId, bi.JobId, bi.BatchId,ah.AgentState, ah.AgentStateDate, ah.UserId as AHUserId
 		FROM wms_view_JobsBatchInfoProjectSpecificInfo ps
 		INNER JOIN wms_JobsBatchInfo bi ON ps.PS_BatchId = bi.BatchId
-		INNER JOIN wms_JobsBatchAllocation ba on bi.LastAllocationRefId = ba.RefId
-		INNER JOIN NM_Users u ON ba.UserId = u.UserId
+		LEFT JOIN wms_JobsBatchAllocation ba on bi.LastAllocationRefId = ba.RefId
+		LEFT JOIN NM_Users u ON ba.UserId = u.UserId
 		LEFT JOIN (select ParentId, max([ID]) as maxId from AGLDE_AgentStateHistory group by ParentId) mx on ps.ParentId=mx.ParentId
 		LEFT JOIN AGLDE_AgentStateHistory ah on mx.maxId=ah.ID
-		WHERE bi.StatusId = 7 AND bi.ProcessId = ".$ProcessId."and batchname not in(select batchname from wms_jobsbatchinfo where processid in(4,6) and statusid<>1)
+		WHERE bi.StatusId in (6,7) AND bi.ProcessId = ".$ProcessId."and batchname not in(select batchname from wms_jobsbatchinfo where processid in(4,6) and statusid<>1)
 			ORDER BY ba.RefId ASC;";
 		// echo $sql;
 		// die();

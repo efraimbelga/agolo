@@ -15,6 +15,26 @@
         </div>
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
+            <li class="treeview">
+                <a href="#">
+                    <i class="fa fa-plus-square" aria-hidden="true"></i> <span>Register</span>
+                    <span class="pull-right-container">
+                        <i class="fa fa-angle-left pull-right"></i>
+                    </span>
+                </a>
+                <ul class="treeview-menu">
+                    <li class="">
+                        <a href="<?= base_url('register/pre_published');?>"><i class="fa fa-circle-o"></i>
+                        <span> Pre-Published Source</span>
+                        </a>
+                    </li>
+                    <li class="">
+                        <a href="<?= base_url('register/new_source');?>"><i class="fa fa-circle-o"></i>
+                        <span> New Source Request</span>
+                        </a>
+                    </li>
+                </ul>
+            </li>
             <li class="<?= ($segment1=='home' ? 'active' : '');?>"><a href="<?= base_url('home');?>"><i class="fa fa-circle-o"></i> <span>New Source Request</span></a></li>
             <li><a href="<?= base_url('allocation');?>"><i class="fa fa-user-plus" aria-hidden="true"></i> <span>User Allocation</span></a></li>
             <li class="treeview <?= ($segment1=='tito_monitoring' ? 'active' : '');?>">
