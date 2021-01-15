@@ -102,7 +102,8 @@
                                         <div class="form-group">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <div class="form-control input-sm"><?= searchForRemark('CONTENT_ANALYSIS', $remarkData);?></div>
+                                                <!-- <div class="form-control input-sm"><?= searchForRemark('CONTENT_ANALYSIS', $remarkData);?></div> -->
+                                                <div class="form-control input-sm"><?= $parentData['CONTENT_ANALYSIS_Remark'];?></div>
                                             </div>
                                         </div>
                                     </div>
@@ -204,7 +205,7 @@
                                         <div class="form-group">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <?= ($RefId==8 || $RefId==10 || $RefId==11 ? '<input type="text" autocomplete="off" name="'.($RefId==8 ? 'Remark' : 'Remark[]').'" class="form-control input-sm" required value="'.searchForRemark('AGENT_DEVELOPMENT', $remarkData).'">' : '<div class="form-control input-sm">'.searchForRemark('AGENT_DEVELOPMENT', $remarkData).'</div>' );?>
+                                                <?= ($RefId==8 || $RefId==10 || $RefId==11 ? '<input type="text" autocomplete="off" name="'.($RefId==8 ? 'Remark' : 'Remark[]').'" class="form-control input-sm" required value="'.$parentData['AGENT_DEVELOPMENT_Remark'].'">' : '<div class="form-control input-sm">'.$parentData['AGENT_DEVELOPMENT_Remark'].'</div>' );?>
                                                 </div>
                                         </div>
                                     </div>
@@ -237,7 +238,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==9 || $RefId==10 || $RefId==11 ? '<input type="text" autocomplete="off" name="'.($RefId==8 ? 'Remark' : 'Remark[]').'" class="form-control input-sm" required value="'.searchForRemark('AGENT_PUBLICATION', $remarkData).'">' : '<div class="form-control input-sm">'.searchForRemark('AGENT_PUBLICATION', $remarkData).'</div>' );?>
+                                            <?= ($RefId==9 || $RefId==10 || $RefId==11 ? '<input type="text" autocomplete="off" name="'.($RefId==9 ? 'Remark' : 'Remark[]').'" class="form-control input-sm" required value="'.$parentData['AGENT_PUBLICATION_Remark'].'">' : '<div class="form-control input-sm">'.$parentData['AGENT_PUBLICATION_Remark'].'</div>' );?>
                                         </div>
                                     </div>
                                 </div> 
@@ -271,7 +272,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==10 ? '<input type="text" autocomplete="off" name="Remark[]" class="form-control input-sm" required value="'.searchForRemark('AGENT_REFINEMENT', $remarkData).'">' : '<div class="form-control input-sm">'.searchForRemark('AGENT_REFINEMENT', $remarkData).'</div>' );?>
+                                            <?= ($RefId==10 ? '<input type="text" autocomplete="off" name="Remark[]" class="form-control input-sm" required value="'.$parentData['AGENT_REFINEMENT_Remark'].'">' : '<div class="form-control input-sm">'.$parentData['AGENT_REFINEMENT_Remark'].'</div>' );?>
                                         </div>
                                     </div>
                                 </div> 
@@ -295,7 +296,7 @@
                                     <div class="form-group">
                                         <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
                                         <div class="col-sm-9 col-lg-8 col-xs-12">
-                                            <?= ($RefId==11 ? '<input type="text" autocomplete="off" name="Remark[]" class="form-control input-sm" required value="'.searchForRemark('AGENT_REWORK', $remarkData).'">' : '<div class="form-control input-sm">'.searchForRemark('AGENT_REWORK', $remarkData).'</div>' );?>
+                                            <?= ($RefId==11 ? '<input type="text" autocomplete="off" name="Remark[]" class="form-control input-sm" required value="'.$parentData['AGENT_REWORK_Remark'].'">' : '<div class="form-control input-sm">'.$parentData['AGENT_REWORK_Remark'].'</div>' );?>
                                         </div>
                                     </div>
                                 </div> 

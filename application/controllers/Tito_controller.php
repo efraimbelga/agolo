@@ -211,9 +211,9 @@ class Tito_controller extends CI_Controller {
 			$APIResult = $this->base_model->GetDatabaseDataset($sql);
 			$RefIdData = json_decode($APIResult, true);
 
-			$sql="EXEC USP_AGLDE_SOURCEDETAILS_REMARKS @ParentID = ".$ParentID;
-			$APIResult = $this->base_model->GetDatabaseDataset($sql);
-			$remarkData = json_decode($APIResult, true);
+			// $sql="EXEC USP_AGLDE_SOURCEDETAILS_REMARKS @ParentID = ".$ParentID;
+			// $APIResult = $this->base_model->GetDatabaseDataset($sql);
+			// $remarkData = json_decode($APIResult, true);
 			
 			$data = array(
 				'AllocationRefId'	=> $AllocationRefId,
@@ -222,7 +222,7 @@ class Tito_controller extends CI_Controller {
 				'processId' 		=> $processId,
 				'ReferenceID' 		=> $ReferenceID,
 				'RefId'				=> $RefIdData[0][0]['RefId'],
-				'remarkData'		=> $remarkData[0],
+				// 'remarkData'		=> $remarkData[0],
 			);	
 
 			$this->load->view('pages/titoformModal2', $data);
@@ -540,7 +540,9 @@ class Tito_controller extends CI_Controller {
 						@NewSourceID = ".$NewSourceID.",
 						@FinishDate = '".date('Y-m-d H:i:s')."',
 						@Remark = '".$this->input->post('Remark')."',
-						@ProcessID = 1";
+						@ProcessID = 1,
+						@ADRemark = '',
+						@APRemark = ''";
 					$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 					if (array_key_exists('error', $data)) { 
 						$returnData = array(
@@ -652,7 +654,9 @@ class Tito_controller extends CI_Controller {
 					@NewSourceID = ".$NewSourceID.",
 					@FinishDate = '".date('Y-m-d H:i:s')."',
 					@Remark = '".$this->input->post('Remark')."',
-					@ProcessID = 2";
+					@ProcessID = 2,
+					@ADRemark = '',
+					@APRemark = ''";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				if (array_key_exists('error', $data)) { 
 					$returnData = array(
@@ -681,9 +685,8 @@ class Tito_controller extends CI_Controller {
       			}
 			}
 			else if($processId=='6'){ //AGENT REWORK				
-				print_r($_POST);
-				die();
-
+				// print_r($_POST);
+				// die();
 				$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
 					@Type ='',
 					@Region ='',
@@ -720,7 +723,9 @@ class Tito_controller extends CI_Controller {
 					@NewSourceID = ".$NewSourceID.",
 					@FinishDate = '".date('Y-m-d H:i:s')."',
 					@Remark = '".$this->input->post('Remark')[2]."',
-					@ProcessID = 6";
+					@ProcessID = 6,
+					@ADRemark = '".$this->input->post('Remark')[0]."',
+					@APRemark = '".$this->input->post('Remark')[1]."'";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				if (array_key_exists('error', $APIResult)) { 
 					$returnData = array(
@@ -788,7 +793,9 @@ class Tito_controller extends CI_Controller {
 					@NewSourceID = ".$NewSourceID.",
 					@FinishDate = '".date('Y-m-d H:i:s')."',
 					@Remark = '".$this->input->post('Remark')[2]."',
-					@ProcessID = 4";
+					@ProcessID = 4,
+					@ADRemark = '".$this->input->post('Remark')[0]."',
+					@APRemark = '".$this->input->post('Remark')[1]."'";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
@@ -846,7 +853,9 @@ class Tito_controller extends CI_Controller {
 					@NewSourceID = ".$NewSourceID.",
 					@FinishDate = '".date('Y-m-d H:i:s')."',
 					@Remark = '".$this->input->post('Remark')."',
-					@ProcessID = 5";
+					@ProcessID = 5,
+					@ADRemark = '',
+					@APRemark = ''";
 				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { 
