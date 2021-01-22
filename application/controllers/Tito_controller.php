@@ -471,6 +471,7 @@ class Tito_controller extends CI_Controller {
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { die("2. ".$data['error']); }
 				$result = $data[0];
+
 				if(sizeof($result)>0){
 					$json .= ',"sections": [ ';
 					$sections='';
@@ -483,7 +484,8 @@ class Tito_controller extends CI_Controller {
 				$json .= '}] }';			
 				// die($json);
 				$APIResult = $this->base_model->A1_API($json);
-				// print_r($APIResult);
+				$data = json_decode($APIResult, true);
+				// print_r($data);
 				// die();
 				if($APIResult === FALSE) {
 					$returnData = array(
@@ -493,49 +495,46 @@ class Tito_controller extends CI_Controller {
       				echo json_encode($returnData);
       				die();
 				}
-				else{
-					$data = json_decode($APIResult, true);
-				    if (array_key_exists('sources', $data)){
-				    	$sources = $data['sources'];
-				        foreach ($sources as $row) {
-				    	    $SourceID = $row['id'];
-				    	    if($SourceID != ''){
-				    	    	$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
-					    	    	@Type ='',
-									@Region ='',
-									@Country ='',
-		    						@Client ='',
-		    						@Access='',
-		    						@Priority='',
-					    	   		@ProcessID = 1,
-									@ParentID = 0,						
-									@SourceID ='".$SourceID."',
-									@SourceName ='".$row['name']."',
-									@SourceURL ='".$row['url']."',						
-									@DateFormat ='',
-									@StoryFrequency ='',
-									@CrawlPatterns ='',
-									@Difficulty ='',
-									@ConfigNotes ='',
-									@ExclusionNotes ='',							
-									@PublicationNotes ='',	
-									@AgentID ='', @AgentName = '',
-									@ReConfigNotes =''";
-								$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
-							    $data = json_decode($APIResult, true);
-				    	    }
-				        }
-				    }
-					$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
-					if (array_key_exists('error', $data)) { 
-						$returnData = array(
-							'error' => true,
-							'message' => "TO1A :".$data['error']
-						);
-			      		echo json_encode($returnData);
-						die(); 
-					}
-
+				elseif(array_key_exists('timestamp', $data)) {
+					$returnData = array(
+						'error' => true,
+						'message' => '500 internal server error'
+					);
+      				echo json_encode($returnData);
+      				die();
+				}
+				elseif(array_key_exists('sources', $data)){
+				    $sources = $data['sources'];
+				    foreach ($sources as $row) {
+				    	$SourceID = $row['id'];
+				    	if($SourceID != ''){
+				    		$sql="EXEC USP_AGLDE_SOURCEDETAILS_UPDATE
+					        	@Type ='',
+								@Region ='',
+								@Country ='',
+		    					@Client ='',
+		    					@Access='',
+		    					@Priority='',
+					       		@ProcessID = 1,
+								@ParentID = 0,						
+								@SourceID ='".$SourceID."',
+								@SourceName ='".$row['name']."',
+								@SourceURL ='".$row['url']."',						
+								@DateFormat ='',
+								@StoryFrequency ='',
+								@CrawlPatterns ='',
+								@Difficulty ='',
+								@ConfigNotes ='',
+								@ExclusionNotes ='',							
+								@PublicationNotes ='',	
+								@AgentID ='', @AgentName = '',
+								@ReConfigNotes =''";
+							// echo $sql;
+							$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+						    $data = json_decode($APIResult, true);
+				    	}
+				   	}
+				   	// die();
 					$sql="EXEC USP_AGLDE_SOURCECONFIGURATION @SourceParentID = ".$ParentID.",
 						@NewSourceID = ".$NewSourceID.",
 						@FinishDate = '".date('Y-m-d H:i:s')."',
@@ -552,7 +551,6 @@ class Tito_controller extends CI_Controller {
 			      		echo json_encode($returnData);
 						die(); 
 					}
-
 				    $APIResult = $this->base_model->TaskEnd($AllocationRefId, $status,  $this->input->post('Remark'));
 					$data = json_decode($APIResult, true);
 					if (array_key_exists('error', $data)) { 
