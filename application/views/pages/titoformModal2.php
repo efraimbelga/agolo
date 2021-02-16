@@ -102,7 +102,6 @@
                                         <div class="form-group">
                                             <label class="control-label col-sm-3 col-lg-4 col-xs-12">Remark:</label>
                                             <div class="col-sm-9 col-lg-8 col-xs-12">
-                                                <!-- <div class="form-control input-sm"><?= searchForRemark('CONTENT_ANALYSIS', $remarkData);?></div> -->
                                                 <div class="form-control input-sm"><?= $parentData['CONTENT_ANALYSIS_Remark'];?></div>
                                             </div>
                                         </div>

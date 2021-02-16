@@ -107,8 +107,8 @@ class Masterlist_controller extends CI_Controller {
 			$object->getActiveSheet()->setCellValueByColumnAndRow(5, $row, 'Agent Name');
 			$object->getActiveSheet()->setCellValueByColumnAndRow(6, $row, 'Priority');
 			$object->getActiveSheet()->setCellValueByColumnAndRow(7, $row, 'Current Process');
-			$object->getActiveSheet()->setCellValueByColumnAndRow(8, $row, 'Configured By');
-			$object->getActiveSheet()->setCellValueByColumnAndRow(9, $row, 'Status');
+			$object->getActiveSheet()->setCellValueByColumnAndRow(8, $row, 'Status');
+			$object->getActiveSheet()->setCellValueByColumnAndRow(9, $row, 'Configured By');			
 			$object->getActiveSheet()->setCellValueByColumnAndRow(10, $row, 'Content Analysis Completion Date');
 			$object->getActiveSheet()->setCellValueByColumnAndRow(11, $row, 'Agent Development Completion Date');
 			$object->getActiveSheet()->setCellValueByColumnAndRow(12, $row, 'Agent Publication Completion Date');
@@ -123,9 +123,9 @@ class Masterlist_controller extends CI_Controller {
                 $object->getActiveSheet()->setCellValueByColumnAndRow(4, $row, ($ml['IsParent']=='1' ? 'Parent' : 'Child'));
                 $object->getActiveSheet()->setCellValueByColumnAndRow(5, $row, $ml['AgentName']);
                 $object->getActiveSheet()->setCellValueByColumnAndRow(6, $row, $ml['Priority']);
-                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $row, str_replace("_", " ", $ml['ProcessCode']));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $row, strtoupper($ml['ClaimedBy']));
-                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $row, $ml['StatusString']);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(7, $row, str_replace("_", " ", $ml['ProcessCode']));                
+                $object->getActiveSheet()->setCellValueByColumnAndRow(8, $row, $ml['StatusString']);
+                $object->getActiveSheet()->setCellValueByColumnAndRow(9, $row, strtoupper($ml['ClaimedBy']));
                 $object->getActiveSheet()->setCellValueByColumnAndRow(10, $row, $ml['CONTENT_ANALYSIS_DATE']);
                 $object->getActiveSheet()->setCellValueByColumnAndRow(11, $row, $ml['AGENT_DEVELOPMENT_DATE']);
                 $object->getActiveSheet()->setCellValueByColumnAndRow(12, $row, $ml['AGENT_PUBLICATION_DATE']);
