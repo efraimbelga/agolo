@@ -18,6 +18,7 @@ $route['register/(:any)'] = 'Register_controller/register/$1';
 
 
 $route['allocation'] = 'Allocation_controller/allocation';
+$route['downloadtemplate/(:any)'] = 'Register_controller/downloadtemplate/$1';
 
 
 $route['published'] = 'Published_controller/published';

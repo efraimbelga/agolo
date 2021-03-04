@@ -19,6 +19,28 @@ $(function(){
             contentType: false,
             processData: false
   		});
-
 	})
+
+
+  $('#manualregform').submit(function(e){
+    e.preventDefault();
+    var formData = new FormData( $(this)[0] );
+      $.ajax({
+          url: domain+'Register_controller/upload_manualregform',
+          type: 'POST',
+            data: formData,
+            beforeSend: function() {
+              $('.errorMsg').text('')
+              $('#loadingModal').modal();
+        },
+            success:function(data){
+                $('#loadingModal').modal('hide');
+                $('#inputfile').val('')
+                $('.errorMsg').text(data)
+            },
+            cache: false,
+            contentType: false,
+            processData: false
+      });
+  })
 })

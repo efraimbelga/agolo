@@ -158,8 +158,6 @@ class Tito_controller extends CI_Controller {
 
 	public function delete_section(){
 		$ParentID = $this->input->post('ParentID');
-		// $sql="DELETE FROM [dbo].[AGLDE_SourceDetails] WHERE [ParentID] = ".$ParentID;
-		// echo $result = $this->base_model->executequery($sql);
 		$sql="EXEC USP_AGLDE_SOURCEDETAILS_DELETE @ParentID = ".$ParentID;
 		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
 		$data = json_decode($APIResult, true);
@@ -171,9 +169,6 @@ class Tito_controller extends CI_Controller {
 
 	public function view_tito_form()
 	{
-		// print_r($_POST);
-		// die();
-
 		$processId = $this->session->userdata('processId');
 		// die($processId);
 		$ReferenceID = $this->input->post('ReferenceID');
@@ -204,17 +199,12 @@ class Tito_controller extends CI_Controller {
 		}else{
 			$sql="SELECT TOP(1) * FROM [VIEW_AGLDE_SOURCEMOREDETAILS] WHERE [ParentID] = ".$ParentID;
 			$APIResult = $this->base_model->GetDatabaseDataset($sql);
-			$parentData = json_decode($APIResult, true);
-			
+			$parentData = json_decode($APIResult, true);			
 
 			$sql="select TOP(1) wp.RefId from wms_Processes p inner join wms_WorkFlowProcesses wp on p.processid=wp.ProcessId where wp.workflowid=1 AND p.ProcessId=".$processId;
 			$APIResult = $this->base_model->GetDatabaseDataset($sql);
 			$RefIdData = json_decode($APIResult, true);
 
-			// $sql="EXEC USP_AGLDE_SOURCEDETAILS_REMARKS @ParentID = ".$ParentID;
-			// $APIResult = $this->base_model->GetDatabaseDataset($sql);
-			// $remarkData = json_decode($APIResult, true);
-			
 			$data = array(
 				'AllocationRefId'	=> $AllocationRefId,
 				'process' 			=> $this->getprocessname($processId),
@@ -237,8 +227,7 @@ class Tito_controller extends CI_Controller {
 		$this->load->view('pages/subsectionform', $data);
 	}
 
-	public function content_analysis(){
-	
+	public function content_analysis(){	
 		if(isset($_GET['ParentID']) && $_GET['ParentID'] !='' && isset($_GET['AllocationRefId']) && $_GET['AllocationRefId'] != ''){
 			$ParentID = $_GET['ParentID'];
 			$AllocationRefId = $_GET['AllocationRefId'];
@@ -300,49 +289,96 @@ class Tito_controller extends CI_Controller {
 		$SourceID = '';
 		$sourceType = $this->input->post('sourceType');
 		$ParentID = $this->input->post('ParentID');
+		$newparent = $this->input->post('newparent');
 		if($sourceType=='Parent'){
-			$sql = "EXEC USP_AGLDE_SOURCEDETAILS_UPDATE 
-			@SourceURL = '".$this->input->post('SourceURL')."',
-			@SourceName = '".$this->input->post('SourceName')."',
-			@Type = '".$this->input->post('Type')."',
-			@Region = '".$this->input->post('Region')."',
-			@Country = '".$this->input->post('Country')."',
-			@Client = '".$this->input->post('Client')."',
-			@Access = '".$this->input->post('Access')."',
-			@Priority ='".$this->input->post('Priority')."',
-			@ProcessID = 0,
-			@SourceID = '".$SourceID."',
-			@ParentID = ".$ParentID.",
-			@DateFormat ='',
-			@StoryFrequency ='',
-			@CrawlPatterns ='',
-			@Difficulty ='',
-			@ConfigNotes ='',
-			@ExclusionNotes ='',							
-			@PublicationNotes ='',		
-			@AgentID ='', @AgentName = '',			
-			@ReConfigNotes =''";
-      		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
-			$data = json_decode($APIResult, true);
-			if (array_key_exists('error', $data)) {
-				$returnData = array(
-					'error' => true,
-					'message' =>"SCA1: ".$data['error']
-				);
-			    echo json_encode($returnData);
-				die(); 
-			}
+			if($newparent=='1'){
+				$sql="EXEC USP_AGLDE_SOURCEDETAILS_INSERT_NEWPARENT
+				
+				@SourceName = '".$this->input->post('SourceName')."',
+				@SourceURL = '".$this->input->post('SourceURL')."',
+				@Type = '".$this->input->post('Type')."',
+				@Region = '".$this->input->post('Region')."',
+				@Country = '".$this->input->post('Country')."',
+				@Client = '".$this->input->post('Client')."',
+				@Access = '".$this->input->post('Access')."',
+				@Priority = '".$this->input->post('Priority')."'";
 
-			extract($data);
-			$returnData = array(
-				'error' => false,
-				'message' => $result
-			);
-			echo json_encode($returnData);
+				$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { die("1 : ".$data['error']); }
+				extract($data);
+
+				if($result == '' || $result == 'success'){
+					$sql="SELECT TOP (1) [ProcessId] FROM [WMS_AGLDE].[dbo].[wms_Processes] WHERE [ProcessCode] = '".$ProcessCode."' ";
+					$APIResult = $this->base_model->GetDatabaseDataset($sql);
+					$data = json_decode($APIResult, true);
+					$res = $data[0][0];
+					$processid = $res['ProcessId'];
+
+					$sql = "SELECT A.ParentID FROM dbo.AGLDE_SourceDetails 
+					AS A INNER JOIN dbo.AGLDE_NewSourceRequest AS B 
+					ON A.NewSourceID = B.ID WHERE B.IsClaimed IS NOT NULL 
+					AND B.ClaimedDate = '".$ClaimedDate."' AND B.ClaimedBy='".$ClaimedBy."' AND B.ID IN (".$source.") ";
+					$APIResult = $this->base_model->GetDatabaseDataset($sql);
+					$data = json_decode($APIResult, true);
+					if (array_key_exists('error', $data)) { die("2 : ".$data['error']); }
+
+					$data = $data[0];
+
+
+					if(sizeof($data) > 0){
+						foreach ($data as $row) {
+							$sql= "EXEC USP_AGLDE_REGISTERJOB @ParentId=".$row['ParentID'].", @processid=".$processid.", @userName=".$this->session->userdata('userName');
+							$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+							$data1 = json_decode($APIResult, true);
+							if (array_key_exists('error', $data1)) { die("3 : ".$data1['error']); }						
+						}
+					}
+				}
+			}else{
+				$sql = "EXEC USP_AGLDE_SOURCEDETAILS_UPDATE 
+				@SourceURL = '".$this->input->post('SourceURL')."',
+				@SourceName = '".$this->input->post('SourceName')."',
+				@Type = '".$this->input->post('Type')."',
+				@Region = '".$this->input->post('Region')."',
+				@Country = '".$this->input->post('Country')."',
+				@Client = '".$this->input->post('Client')."',
+				@Access = '".$this->input->post('Access')."',
+				@Priority ='".$this->input->post('Priority')."',
+				@ProcessID = 0,
+				@SourceID = '".$SourceID."',
+				@ParentID = ".$ParentID.",
+				@DateFormat ='',
+				@StoryFrequency ='',
+				@CrawlPatterns ='',
+				@Difficulty ='',
+				@ConfigNotes ='',
+				@ExclusionNotes ='',							
+				@PublicationNotes ='',		
+				@AgentID ='', @AgentName = '',			
+				@ReConfigNotes =''";
+	      		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) {
+					$returnData = array(
+						'error' => true,
+						'message' =>"SCA1: ".$data['error']
+					);
+				    echo json_encode($returnData);
+					die(); 
+				}
+
+				extract($data);
+				$returnData = array(
+					'error' => false,
+					'message' => $result
+				);
+				echo json_encode($returnData);
+			}
+			
 		}elseif($sourceType=='Section'){
 			if($ParentID=='0'){
 				// print_r($_POST);
-
 				$sql = "EXEC USP_AGLDE_SOURCEDETAILS_INSERT_SUBSECTION 
 				@SourceURL = '".$this->input->post('SourceURL')."',
 				@SourceName = '".$this->input->post('SourceName')."',
@@ -364,8 +400,7 @@ class Tito_controller extends CI_Controller {
 						'message' => "SCA2: ".$data['error']
 					);
 				    echo json_encode($returnData);
-					die(); 
-
+					die();
 				}
 				
 				$sql="SELECT TOP(1) [ParentID] FROM [AGLDE_SourceDetails] WHERE 
@@ -497,8 +532,9 @@ class Tito_controller extends CI_Controller {
 				}
 				elseif(array_key_exists('timestamp', $data)) {
 					$returnData = array(
-						'error' => true,
-						'message' => '500 internal server error'
+						'error' 	=> true,
+						// 'message' => '500 internal server error'
+						'message' 	=> $data['message']
 					);
       				echo json_encode($returnData);
       				die();
@@ -648,7 +684,8 @@ class Tito_controller extends CI_Controller {
       				die(); 
 				}
 
-				$sql="EXEC USP_AGLDE_SOURCECONFIGURATION @SourceParentID = ".$ParentID.",
+				$sql="EXEC USP_AGLDE_SOURCECONFIGURATION 
+					@SourceParentID = ".$ParentID.",
 					@NewSourceID = ".$NewSourceID.",
 					@FinishDate = '".date('Y-m-d H:i:s')."',
 					@Remark = '".$this->input->post('Remark')."',

@@ -75,7 +75,10 @@
                     <input type="hidden" name="AllocationRefId" id="AllocationRefId" value="<?= $AllocationRefId;?>" required>
                     <input type="hidden" name="NewSourceID" id="NewSourceID" value="<?= $NewSourceID;?>" required>
                     <input type="hidden" name="SectionParentID" id="SectionParentID" value="<?= $ParentID;?>" required >
-
+                   <!--  <label class="checkbox-inline">
+                        <input type="checkbox" value="1" id="subsectionOpt"> Sub-section
+                    </label>
+                    <input type="hidden" name="newparent" id="newparent" value="0" required > -->
                     <table class="table table-condensed table-bordered contentanalysisTbl" id="psourceTbl">
                         <thead>
                             <tr>
@@ -100,10 +103,10 @@
                                     <td><input form="parentdataForm" type="text" name="SourceName" class="form-control input-sm SourceName" id="SourceName" value="<?= $SourceName;?>" required autocomplete="off">
                                     </td>
                                     <td>
-                                        <input form="parentdataForm" type="text" name="Type" class="form-control input-sm Type" value="<?= $Type;?>">
+                                        <input form="parentdataForm" type="text" name="Type" class="form-control input-sm Type" id="Type" value="<?= $Type;?>">
                                     </td>
                                     <td>
-                                        <select form="parentdataForm" name="Region" class="form-control input-sm Region">
+                                        <select form="parentdataForm" name="Region" class="form-control input-sm Region" id="Region">
                                             <option value=""></option>
                                             <?php
                                             foreach ($regions as $region) {
@@ -113,16 +116,16 @@
                                         </select>
                                     </td>
                                     <td>
-                                        <input form="parentdataForm" type="text" name="Country" class="form-control input-sm Country" value="<?= $Country;?>">
+                                        <input form="parentdataForm" type="text" name="Country" id="Country" class="form-control input-sm Country" value="<?= $Country;?>">
                                     </td>
                                     <td>
-                                        <input form="parentdataForm" type="text" name="Client" class="form-control input-sm Client" value="<?= $Client;?>">
+                                        <input form="parentdataForm" type="text" name="Client" id="Client" class="form-control input-sm Client" value="<?= $Client;?>">
                                     </td>
                                     <td>
-                                        <input form="parentdataForm" type="text" name="Access" class="form-control input-sm Access" value="<?= $Access;?>">
+                                        <input form="parentdataForm" type="text" name="Access" id="Access" class="form-control input-sm Access" value="<?= $Access;?>">
                                     </td>
                                     <td>
-                                        <select form="parentdataForm" class="form-control input-sm Priority" name="Priority" id="Priority" required>
+                                        <select form="parentdataForm" name="Priority" id="Priority" class="form-control input-sm Priority" required>
                                             <option value=""> </option>
                                             <option <?= ($Priority=='High' ? 'selected' : ''); ?> value="High">High</option>
                                             <option <?= ($Priority=='Medium' ? 'selected' : ''); ?> value="Medium">Medium</option>
@@ -153,48 +156,47 @@
                             ?>
                                 <tr class="subsection">
                                     <td style="display: none;"><form class="subsectionFrom" id="FORM<?= $row['ParentID'];?>"></form></td>                                    
-                                        <td>
-                                            <input form="FORM<?= $row['ParentID'];?>" type="hidden" class="ParentID" name="ParentID" value="<?= $row['ParentID'];?>" required >
-                                            <input form="FORM<?= $row['ParentID'];?>" type="text" name="SourceURL" class="form-control input-sm SourceURL" value="<?= $row['SourceURL'];?>" required >
-                                        </td>
-                                        <td>
-                                            <input form="FORM<?= $row['ParentID'];?>" type="text" name="SourceName" class="form-control input-sm" value="<?= $row['SourceName'];?>" >
-                                        </td>
-                                        <td>
-                                            <input form="FORM<?= $row['ParentID'];?>" type="text" name="Type" class="form-control input-sm" value="<?= $row['Type'];?>" >
-                                        </td>
-                                        <td>
-                                            <select form="FORM<?= $row['ParentID'];?>" name="Region" class="form-control input-sm">
-                                                <option value=""></option>
-                                                <?php
-                                                foreach ($regions as $region) {
-                                                    echo'<option '.($row['Region']==$region ? 'selected' : '').' value="'.$region.'">'.$region.'</option>';
-                                                }
-                                                ?>
-                                            </select>
-                                        </td>
-                                        <td>
-                                            <input form="FORM<?= $row['ParentID'];?>" type="text" name="Country" class="form-control input-sm" value="<?= $row['Country'];?>" >
-                                        </td>
-                                        <td>
-                                            <input form="FORM<?= $row['ParentID'];?>" type="text" name="Client" class="form-control input-sm" value="<?= $row['Client'];?>" >
-                                        </td>
-                                        <td>
-                                            <input form="FORM<?= $row['ParentID'];?>" type="text" name="Access" class="form-control input-sm" value="<?= $row['Access'];?>" >
-                                        </td>
-                                        <td>
-                                            <select form="FORM<?= $row['ParentID'];?>" class="form-control input-sm" name="Priority" required>
-                                                <option value=""> </option>
-                                                <option <?= ($row['Priority']=='High' ? 'selected' : ''); ?> value="High">High</option>
-                                                <option <?= ($row['Priority']=='Medium' ? 'selected' : ''); ?> value="Medium">Medium</option>
-                                                <option <?= ($row['Priority']=='Low' ? 'selected' : ''); ?> value="Low">Low</option>
-                                            </select>
-                                        </td>
-                                        <td class="text-left">
-                                            <button type="submit" form="FORM<?= $row['ParentID'];?>" class="btn btn-xs btn-success"><i class="fa fa-check-square" aria-hidden="true"></i></button>
-                                            <button type="button" class="clearsection-btn btn btn-xs btn-danger"><i class="fa fa fa-trash-o" aria-hidden="true"></i></button>
-                                        </td> 
-                                                         
+                                    <td>
+                                        <input form="FORM<?= $row['ParentID'];?>" type="hidden" class="ParentID" name="ParentID" value="<?= $row['ParentID'];?>" required >
+                                        <input form="FORM<?= $row['ParentID'];?>" type="text" name="SourceURL" class="form-control input-sm SourceURL" value="<?= $row['SourceURL'];?>" required >
+                                    </td>
+                                    <td>
+                                        <input form="FORM<?= $row['ParentID'];?>" type="text" name="SourceName" class="form-control input-sm" value="<?= $row['SourceName'];?>" >
+                                    </td>
+                                    <td>
+                                        <input form="FORM<?= $row['ParentID'];?>" type="text" name="Type" class="form-control input-sm" value="<?= $row['Type'];?>" >
+                                    </td>
+                                    <td>
+                                        <select form="FORM<?= $row['ParentID'];?>" name="Region" class="form-control input-sm">
+                                            <option value=""></option>
+                                            <?php
+                                            foreach ($regions as $region) {
+                                                echo'<option '.($row['Region']==$region ? 'selected' : '').' value="'.$region.'">'.$region.'</option>';
+                                            }
+                                            ?>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <input form="FORM<?= $row['ParentID'];?>" type="text" name="Country" class="form-control input-sm" value="<?= $row['Country'];?>" >
+                                    </td>
+                                    <td>
+                                        <input form="FORM<?= $row['ParentID'];?>" type="text" name="Client" class="form-control input-sm" value="<?= $row['Client'];?>" >
+                                    </td>
+                                    <td>
+                                        <input form="FORM<?= $row['ParentID'];?>" type="text" name="Access" class="form-control input-sm" value="<?= $row['Access'];?>" >
+                                    </td>
+                                    <td>
+                                        <select form="FORM<?= $row['ParentID'];?>" class="form-control input-sm" name="Priority" required>
+                                            <option value=""> </option>
+                                            <option <?= ($row['Priority']=='High' ? 'selected' : ''); ?> value="High">High</option>
+                                            <option <?= ($row['Priority']=='Medium' ? 'selected' : ''); ?> value="Medium">Medium</option>
+                                            <option <?= ($row['Priority']=='Low' ? 'selected' : ''); ?> value="Low">Low</option>
+                                        </select>
+                                    </td>
+                                    <td class="text-left">
+                                        <button type="submit" form="FORM<?= $row['ParentID'];?>" class="btn btn-xs btn-success"><i class="fa fa-check-square" aria-hidden="true"></i></button>
+                                        <button type="button" class="clearsection-btn btn btn-xs btn-danger"><i class="fa fa fa-trash-o" aria-hidden="true"></i></button>
+                                    </td>                                                         
                                 </tr>
                             <?php
                                 }
@@ -206,6 +208,10 @@
                         <div class="col-lg-2">
                             Remarks:
                             <div class="form-control input-sm Remark noedited" data-key="Remark" id="Remark" contenteditable="true"></div>
+                            <!-- <label class="checkbox-inline">
+                                <input type="checkbox" value="1" id="gotoAgentDevelopment" checked> Proceed parent to Agent Development
+                            </label> -->
+                            <br>
                             <br>
                         </div>
                     </div>

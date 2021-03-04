@@ -1,6 +1,6 @@
 <section class="content-header">
     <h1>
-        Register <small>Pre-Published Source</small>
+        Register <small>Manual Registration</small>
     </h1>
     <ol class="breadcrumb">
         <li><a href="#"><i class="fa fa-dashboard"></i> Home</a></li>
@@ -9,15 +9,16 @@
 <section class="content">
     <div class="box">
         <div class="box-body">
+
             <div class="col-lg-6">
-                <form id="prebulishedform">
+                <form id="manualregform">
                     <div class="form-group">
-                     <p><b>Instructions:</b></p>
+                      <p><b>Instructions:</b></p>
                       <p>1. Use excel with .xlsx extension only.</p>
                       <p>2. Use the following template:</p>
-                      <img src="<?= base_url('assets/images/PRE PUBLISHED.png');?>">
+                      <img src="<?= base_url('assets/images/manual reg header.png');?>">
                       <br>
-                      <a href="<?= base_url('downloadtemplate/prepublished');?>" target="_blank">Download template</a>
+                      <a href="<?= base_url('downloadtemplate/manual');?>" target="_blank">Download template</a>
                       <br><br>
                       <label for="usr">Upload file:</label>
                       <div class="input-group">

@@ -1,5 +1,46 @@
 $(function(){
-	
+	$(document).on('change', '#subsectionOpt', function() {
+        if(this.checked) {
+            $('.errorDiv').html('')
+			$.post(domain + 'Tito_controller/subsectionform', function(result){
+				$('.subsectiontr').removeClass('displayNone');
+				$('#psourceTbl').append(result)
+				
+				var SourceURL =  $('#SourceURL').val();
+				var SourceName = $('#SourceName').val();
+				var Type = $('#Type').val();
+				var Region = $('#Region').val();
+				var Country = $('#Country').val();
+				var Client = $('#Client').val();
+				var Access = $('#Access').val();
+				var Priority = $('#Priority').val();
+
+				setTimeout(function(){ 
+					$('.SourceURL').val(SourceURL)
+					$('.SourceURL').val(SourceURL);
+					$('.SourceName').val(SourceName);
+					$('.Type').val(Type);
+					$('.Region').val(Region);
+					$('.Country').val(Country);
+					$('.Client').val(Client);
+					$('.Access').val(Access);
+					$('.Priority').val(Priority);
+					$("#SourceURL").attr("readonly", false); 
+					$('#newparent').val('1');
+					
+				}, 200);
+				
+			})
+
+        }else{
+        	$("#SourceURL").attr("readonly", true); 
+        	$('#psourceTbl .subsection').remove();
+        	$('#psourceTbl .subsectiontr').addClass('displayNone');   
+        	$('#newparent').val('0');     	
+        }
+             
+    });
+
 	$(document).on('click', '.clearsection-btn', function(e){
 		e.preventDefault();
 		var ParentID = $(this).closest('tr').find('.ParentID').val()
@@ -70,6 +111,11 @@ $(function(){
 			formData.append('SourceURL', $('.CONTENT_ANALYSIS #SourceURL').val())
 			formData.append('SourceName', $('.CONTENT_ANALYSIS #SourceName').val())
 			formData.append('processId', '1')
+
+			// var gotodev = ( $('#gotoAgentDevelopment').is(":checked") ) ? '1' :'0';
+			// formData.append('gotodev', gotodev);
+
+			// $('.check_class').val();
 
 			$('.subsection').each(function(){
 				var id = $(this).find('.ParentID').val()
@@ -159,10 +205,12 @@ $(function(){
 		var form = $(this);
 		var tr = $(this).closest('tr')
 		var formData = form.serialize()+'&sourceType=Parent';
+
 		save_content_analysis(formData, tr)
 	});
 
 	function save_content_analysis(formData, tr){
+		// console.log(formData)
 		$.ajax({
 		    url: domain + 'Tito_controller/save_content_analysis',
 		    type: 'POST',

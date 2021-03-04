@@ -15,7 +15,7 @@
         </div>
         <ul class="sidebar-menu" data-widget="tree">
             <li class="header">MAIN NAVIGATION</li>
-            <li class="treeview">
+            <li class="treeview <?= ($segment1=='register' ? 'active' : '');?>">
                 <a href="#">
                     <i class="fa fa-plus-square" aria-hidden="true"></i> <span>Register</span>
                     <span class="pull-right-container">
@@ -23,14 +23,14 @@
                     </span>
                 </a>
                 <ul class="treeview-menu">
-                    <li class="">
+                    <li class="<?= ($segment2=='pre_published' ? 'active' : '');?>">
                         <a href="<?= base_url('register/pre_published');?>"><i class="fa fa-circle-o"></i>
                         <span> Pre-Published Source</span>
                         </a>
                     </li>
-                    <li class="">
-                        <a href="<?= base_url('register/new_source');?>"><i class="fa fa-circle-o"></i>
-                        <span> New Source Request</span>
+                    <li class="<?= ($segment2=='reg_manual' ? 'active' : '');?>">
+                        <a href="<?= base_url('register/reg_manual');?>"><i class="fa fa-circle-o"></i>
+                        <span> Manual Registration</span>
                         </a>
                     </li>
                 </ul>

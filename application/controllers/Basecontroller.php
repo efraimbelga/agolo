@@ -199,7 +199,10 @@ class Basecontroller extends CI_Controller {
 				$res = $data[0][0];
 				$processid = $res['ProcessId'];
 
-				$sql = "SELECT A.ParentID FROM dbo.AGLDE_SourceDetails AS A INNER JOIN dbo.AGLDE_NewSourceRequest AS B ON A.NewSourceID = B.ID WHERE B.IsClaimed IS NOT NULL AND B.ClaimedDate = '".$ClaimedDate."' AND B.ClaimedBy='".$ClaimedBy."' AND B.ID IN (".$source.") ";
+				$sql = "SELECT A.ParentID FROM dbo.AGLDE_SourceDetails 
+				AS A INNER JOIN dbo.AGLDE_NewSourceRequest AS B 
+				ON A.NewSourceID = B.ID WHERE B.IsClaimed IS NOT NULL 
+				AND B.ClaimedDate = '".$ClaimedDate."' AND B.ClaimedBy='".$ClaimedBy."' AND B.ID IN (".$source.") ";
 				$APIResult = $this->base_model->GetDatabaseDataset($sql);
 				$data = json_decode($APIResult, true);
 				if (array_key_exists('error', $data)) { die("2 : ".$data['error']); }
