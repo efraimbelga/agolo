@@ -165,7 +165,8 @@ class Register_controller extends CI_Controller {
 						    	$sql="EXEC USP_AGLDE_REGISTER_MANUAL 
 						    		@ReferenceID='".$ReferenceID."', 
 						    		@SourceURL='".$SourceURL."', 
-						    		@ClaimedDate='".date('Y-m-d H:i:s')."' ";
+						    		@ClaimedDate='".date('Y-m-d H:i:s')."',
+						    		@IsClaimed=1 ";
 						    	$APIResult = $this->base_model->GetDatabaseDataset($sql);
 						    	$data = json_decode($APIResult, true);
 						    	$NewSourceID = $data[0][0]['ID'];

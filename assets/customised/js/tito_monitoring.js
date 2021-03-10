@@ -56,17 +56,96 @@ $(function(){
 		})
 	});
 
-	$(document).on('click', '.sourceTR', function(){
-		var tr = $(this);
+	// $(document).on('click', '.sourceTR', function(){
+	// 	console.log('dfdfdf')
+	// 	var tr = $(this);
+	// 	var error = false;
+	// 	var status = $(this).attr('data-status');
+	// 	var ParentID = $(this).attr('data-parentid');
+	// 	var ReferenceID = $(this).attr('data-ReferenceID');
+	// 	var AllocationRefId = $(this).attr('data-AllocationRefId');
+	// 	var status = $(this).attr('data-status')
+	// 	var processname = $('#processidTxtx').val();
+
+	// 	if($(this).hasClass("Ongoing")){
+
+	// 	}else{
+	// 		if ($(".Ongoing")[0]){
+	// 		   error = true;
+	// 		}
+	// 	}
+
+	// 	if(error ==  false){
+	// 		$('.sourceTR').removeClass('selected');	
+	// 		$(this).toggleClass('selected');			
+	// 		if(processname=='CONTENT_ANALYSIS'){
+	// 			var w = window.screen.availWidth ;
+	// 	        var h = window.screen.availHeight / 3;
+	// 	        var h2 = window.screen.availHeight / 2;
+	// 	        h2 = h2 + 50;
+		        
+
+	// 			$.ajax({
+	// 		        // url: domain + 'Tito_controller/view_tito_form',
+	// 		        url: domain + 'Tito_controller/get_url',
+	// 		        type: 'POST',
+	// 		        data: {ParentID:ParentID},
+	// 		        success: function(data, textStatus, jqXHR)
+	// 		        {
+	// 		        	if(data=='error'){
+	// 		        		window.location.href= domain + "signout";
+	// 		        	}else{
+	// 		        		if(contentanalysiswindow){
+	// 			        		contentanalysiswindow.close()
+	// 			        	}else if(urlwindow){
+	// 			        		urlwindow.close()
+	// 			        	}
+	// 			        	tr.removeClass('Allocated')
+	// 			        	tr.addClass('Ongoing')
+				        	
+	// 			        	contentanalysiswindow = window.open(domain+"content_analysis?ParentID="+ParentID+"&AllocationRefId="+AllocationRefId+"&status="+status, "contentanalysiswindow", "width="+w+", height="+h+", left=0, top=0"); 
+	// 			        	h = h+50;
+	// 			        	urlwindow = window.open(data, "urlwindow", "width="+w+", height="+h2+", left=0, top="+h+"");
+	// 			        	timer = setInterval(checkChild, 500)
+	// 		        	}
+	// 		        },
+	// 		        error: function (jqXHR, textStatus, errorThrown)
+	// 		        {
+	// 		     		console.log(jqXHR.responseText)
+	// 		        }
+	// 		    });
+	// 		}else{
+	// 			$.ajax({
+	// 		        url: domain + 'Tito_controller/view_tito_form',
+	// 		        type: 'POST',
+	// 		        data: {ParentID:ParentID, status:status, AllocationRefId:AllocationRefId, ReferenceID:ReferenceID},
+	// 		        success: function(data, textStatus, jqXHR)
+	// 		        {
+	// 		        	$('#titoModal').html(data);
+	// 		        	$('#titoModal').modal({backdrop: 'static', keyboard: false});
+	// 		        },
+	// 		        error: function (jqXHR, textStatus, errorThrown)
+	// 		        {
+	// 		     		console.log(jqXHR.responseText)
+	// 		        }
+	// 		    });
+	// 		}			
+	// 	}else{
+	// 		alert('Ongoing TITO detected')
+	// 	}
+	// })
+
+	$(document).on('click', '.tito-btn', function(){
+		var tr = $(this).closest('tr');
 		var error = false;
-		var status = $(this).attr('data-status');
-		var ParentID = $(this).attr('data-parentid');
+		var status = $(this).closest('tr').attr('data-status');
+		var ParentID = $(this).closest('tr').attr('data-parentid');
 		var ReferenceID = $(this).attr('data-ReferenceID');
-		var AllocationRefId = $(this).attr('data-AllocationRefId');
-		var status = $(this).attr('data-status')
+		var AllocationRefId = $(this).closest('tr').attr('data-AllocationRefId');
+		var status = $(this).closest('tr').attr('data-status')
 		var processname = $('#processidTxtx').val();
 
-		if($(this).hasClass("Ongoing")){
+		if($(this).closest('tr').hasClass("Ongoing")){
 
 		}else{
 			if ($(".Ongoing")[0]){
@@ -76,9 +155,7 @@ $(function(){
 
 		if(error ==  false){
 			$('.sourceTR').removeClass('selected');	
-			$(this).toggleClass('selected');	
-
-			
+			$(this).toggleClass('selected');			
 			if(processname=='CONTENT_ANALYSIS'){
 				var w = window.screen.availWidth ;
 		        var h = window.screen.availHeight / 3;
@@ -130,12 +207,50 @@ $(function(){
 			     		console.log(jqXHR.responseText)
 			        }
 			    });
-			}
-
-			
+			}			
 		}else{
 			alert('Ongoing TITO detected')
 		}
+	})
+
+	$(document).on('click', '.addparent-btn', function(){
+		var ParentID = $(this).closest('tr').attr('data-parentid');
+		var ReferenceID = $(this).closest('tr').find('td:nth-child(3)').text();
+		var sourceURL = $(this).closest('tr').find('td:nth-child(2)').text();
+
+		$.post(domain + 'Tito_controller/addparent_modal', {ParentID:ParentID, ReferenceID:ReferenceID, sourceURL:sourceURL}, function(result){
+			$('#titoModal').html(result);
+			$('#titoModal').modal();
+		})
+	})
+
+	$(document).on('submit', '#addparentForm', function(e){
+		e.preventDefault()
+		var form = $(this);
+		var formData = form.serialize();
+		$.ajax({
+		    url: domain + 'Tito_controller/save_parent',
+		    type: 'POST',
+		    data: formData,
+		    beforeSend: function(){
+		       	$('#loadingModal').modal();
+		    },
+		    success: function(data, textStatus, jqXHR)
+		    {
+		    	console.log(data)
+		    	$('#loadingModal').modal('hide');
+		    	$('.titoModal .errorMsg').text(data)
+		    	if(data=='saved'){
+		    		view_source_request(processId)
+		    		setTimeout(function(){ $('#titoModal').modal('hide'); }, 500);
+		    	}
+		    },
+		    error: function (jqXHR, textStatus, errorThrown)
+		    {
+		    	$('#loadingModal').modal('hide');
+		    	$('.titoformModal .errorMsg').text(jqXHR.responseText)
+		    }
+		});
 	})
 
 	$('#titoModal').on('hidden.bs.modal', function () {

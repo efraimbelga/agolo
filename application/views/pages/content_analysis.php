@@ -75,10 +75,10 @@
                     <input type="hidden" name="AllocationRefId" id="AllocationRefId" value="<?= $AllocationRefId;?>" required>
                     <input type="hidden" name="NewSourceID" id="NewSourceID" value="<?= $NewSourceID;?>" required>
                     <input type="hidden" name="SectionParentID" id="SectionParentID" value="<?= $ParentID;?>" required >
-                   <!--  <label class="checkbox-inline">
+                    <!-- <label class="checkbox-inline">
                         <input type="checkbox" value="1" id="subsectionOpt"> Sub-section
-                    </label>
-                    <input type="hidden" name="newparent" id="newparent" value="0" required > -->
+                    </label> -->
+                    <!-- <input type="hidden" name="newparent" id="newparent" value="0" required > -->
                     <table class="table table-condensed table-bordered contentanalysisTbl" id="psourceTbl">
                         <thead>
                             <tr>
@@ -208,9 +208,9 @@
                         <div class="col-lg-2">
                             Remarks:
                             <div class="form-control input-sm Remark noedited" data-key="Remark" id="Remark" contenteditable="true"></div>
-                            <!-- <label class="checkbox-inline">
+                            <label class="checkbox-inline">
                                 <input type="checkbox" value="1" id="gotoAgentDevelopment" checked> Proceed parent to Agent Development
-                            </label> -->
+                            </label>
                             <br>
                             <br>
                         </div>

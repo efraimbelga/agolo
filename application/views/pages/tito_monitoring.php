@@ -6,8 +6,7 @@
     </ol>
 </section>
 <section class="content">
-    <div class="box">
-        
+    <div class="box">        
         <input type="hidden" id="processidTxtx" value="<?= $process; ?>">
         <div class="box-body srboxbody table-responsive">
             <?php
@@ -18,6 +17,7 @@
             <table class="table table-condensed table-bordered" id="srTable">
                 <thead>
                     <tr>
+                        <th><i class="fa fa-cog" aria-hidden="true"></i></th>
                         <th>Source URL</th>
                         <?php
                             if($process=='CONTENT_ANALYSIS'){

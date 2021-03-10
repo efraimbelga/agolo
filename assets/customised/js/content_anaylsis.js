@@ -1,36 +1,48 @@
 $(function(){
 	$(document).on('change', '#subsectionOpt', function() {
         if(this.checked) {
-            $('.errorDiv').html('')
-			$.post(domain + 'Tito_controller/subsectionform', function(result){
-				$('.subsectiontr').removeClass('displayNone');
-				$('#psourceTbl').append(result)
-				
-				var SourceURL =  $('#SourceURL').val();
-				var SourceName = $('#SourceName').val();
-				var Type = $('#Type').val();
-				var Region = $('#Region').val();
-				var Country = $('#Country').val();
-				var Client = $('#Client').val();
-				var Access = $('#Access').val();
-				var Priority = $('#Priority').val();
+        	window.location.href=domain+'/newparent';
 
-				setTimeout(function(){ 
-					$('.SourceURL').val(SourceURL)
-					$('.SourceURL').val(SourceURL);
-					$('.SourceName').val(SourceName);
-					$('.Type').val(Type);
-					$('.Region').val(Region);
-					$('.Country').val(Country);
-					$('.Client').val(Client);
-					$('.Access').val(Access);
-					$('.Priority').val(Priority);
-					$("#SourceURL").attr("readonly", false); 
-					$('#newparent').val('1');
+        	// window.opener.CloseChildWindows();
+			// window.opener.view_source_request(1)
+
+			
+   //          $('.errorDiv').html('')
+			// $.post(domain + 'Tito_controller/subsectionform', function(result){
+			// 	$('.subsectiontr').removeClass('displayNone');
+			// 	$('#psourceTbl').append(result)
+			// 	$('#SourceURL').removeClass('noedited')
+			// 	$('#SourceURL').addClass('edited')
+			// 	$('#SourceName').removeClass('noedited')
+			// 	$('#SourceName').addClass('edited')
+			// 	$('#Priority').removeClass('noedited')
+			// 	$('#Priority').addClass('edited')
+
+			// 	var SourceURL =  $('#SourceURL').val();
+			// 	var SourceName = $('#SourceName').val();
+			// 	var Type = $('#Type').val();
+			// 	var Region = $('#Region').val();
+			// 	var Country = $('#Country').val();
+			// 	var Client = $('#Client').val();
+			// 	var Access = $('#Access').val();
+			// 	var Priority = $('#Priority').val();
+
+			// 	setTimeout(function(){ 
+			// 		$('.SourceURL').val(SourceURL)
+			// 		$('.SourceURL').val(SourceURL);
+			// 		$('.SourceName').val(SourceName);
+			// 		$('.Type').val(Type);
+			// 		$('.Region').val(Region);
+			// 		$('.Country').val(Country);
+			// 		$('.Client').val(Client);
+			// 		$('.Access').val(Access);
+			// 		$('.Priority').val(Priority);
+			// 		$("#SourceURL").attr("readonly", false); 
+			// 		$('#newparent').val('1');
 					
-				}, 200);
+			// 	}, 200);
 				
-			})
+			// })
 
         }else{
         	$("#SourceURL").attr("readonly", true); 
@@ -83,7 +95,9 @@ $(function(){
 		$('.errorDiv').html('')
 		var status = $(this).attr('data-value');
 		if(status=='Done'){
-			if ($(".edited")[0]){
+			console.log($(".edited")[0])
+
+			if ( $(".edited")[0] ){
 			    alert('Please save all the changes made')
 			} else if($('#SourceName').val()=='' || $('#Priority').val()==''){
 			    alert('Please complete all required fields')
@@ -112,8 +126,8 @@ $(function(){
 			formData.append('SourceName', $('.CONTENT_ANALYSIS #SourceName').val())
 			formData.append('processId', '1')
 
-			// var gotodev = ( $('#gotoAgentDevelopment').is(":checked") ) ? '1' :'0';
-			// formData.append('gotodev', gotodev);
+			var gotodev = ( $('#gotoAgentDevelopment').is(":checked") ) ? '1' :'0';
+			formData.append('gotodev', gotodev);
 
 			// $('.check_class').val();
 
@@ -206,7 +220,7 @@ $(function(){
 		var tr = $(this).closest('tr')
 		var formData = form.serialize()+'&sourceType=Parent';
 
-		save_content_analysis(formData, tr)
+		save_content_analysis(formData, tr);
 	});
 
 	function save_content_analysis(formData, tr){

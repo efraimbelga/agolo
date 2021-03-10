@@ -126,12 +126,25 @@ class Tito_controller extends CI_Controller {
 	    // echo"<pre>";
 	    // 	print_r($data);
 	    // echo"</pre>";
-
 	    if (array_key_exists('error', $data)) { die($data['error']); }
 	    if(sizeof($data) > 0){
 			foreach ($data as $row) {
 				if($processId==$row['ProcessId']){
+					// data-status="'.$row['StatusString'].'"
 					echo'<tr class="sourceTR '.$row['StatusString'].'" data-ParentID="'.$row['ParentID'].'" data-AllocationRefId="'.$row['AllocationRefId'].'" data-ReferenceID="'.$row['ReferenceID'].'" data-status="'.$row['StatusString'].'">';
+						echo'<td>';
+							if($row['StatusString']=='Ongoing'){
+								echo'<button class="btn btn-xs btn-warning tito-btn">Task-In</button> ';
+							}
+							elseif($row['StatusString']=='Pending'){
+								echo'<button class="btn btn-xs btn-success tito-btn">Task-In</button> ';
+							}else{
+								echo'<button class="btn btn-xs btn-success tito-btn">Task-In</button> ';
+								if($processId == 1){
+									echo'<button class="btn btn-xs btn-info addparent-btn">Add Parent</button> ';
+								}								
+							}							
+						echo'</td>';
 						echo'<td>'.$row['SourceUrl'].'</td>';
 						if($processId==1){
 							echo'<td>'.$row['ReferenceID'].'</td>';
@@ -154,6 +167,83 @@ class Tito_controller extends CI_Controller {
 		}
 
 		$this->base_model->SessionLogout();	
+	}
+
+	public function addparent_modal()
+	{
+		$data = array(
+			'ParentID' => $this->input->post('ParentID'),
+			'ReferenceID' => $this->input->post('ReferenceID'),
+			'sourceURL' => $this->input->post('sourceURL')
+		);
+		$this->load->view('pages/addparent_modal', $data);
+	}
+
+	public function save_parent(){
+		$ParentID = $this->input->post('ParentID');
+		$ReferenceID = $this->input->post('referenceID');
+		$SourceURL = $this->input->post('NEWsourceURL');
+		$SourceURLP = $this->input->post('sourceURL');
+		$ClaimedDate = date('Y-m-d H:i:s').".000";
+
+		$sql="EXEC USP_AGLDE_REGISTER_MANUAL
+		@ReferenceID = '".$ReferenceID."',
+		@SourceURL = '".$SourceURL."',
+		@ClaimedDate = '".$ClaimedDate."' ";
+
+		$APIResult = $this->base_model->GetDatabaseDataset($sql);
+		$data = json_decode($APIResult, true);
+		$source = $data[0][0]['ID'];
+
+		
+		$ClaimedBy = $this->session->userdata('userName');
+		$ProcessCode = 'CONTENT_ANALYSIS';
+
+		$sql="EXEC USP_AGLDE_NEWSOURCEREQUEST_UPDATE @ClaimedBy='".$ClaimedBy."', @ClaimedDate='".$ClaimedDate."', @Id='".$source."'";
+
+		$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+		$data = json_decode($APIResult, true);
+		if (array_key_exists('error', $data)) { die("1 : ".$data['error']); }
+
+		extract($data);
+        if($result == '' || $result == 'success'){
+			$sql="EXEC USP_AGLDE_SOURCEDETAILS_INSERT @ClaimedBy='".$ClaimedBy."', @ClaimedDate='".$ClaimedDate."', @Id='".$source."'";
+			$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+			$data = json_decode($APIResult, true);
+			if (array_key_exists('error', $data)) { die("1 : ".$data['error']); }
+
+			extract($data);
+			if($result == '' || $result == 'success'){				
+				$sql = "SELECT A.*, B.SourceURL as SourceURLP FROM dbo.AGLDE_SourceDetails 
+				AS A INNER JOIN dbo.AGLDE_NewSourceRequest AS B 
+				ON A.NewSourceID = B.ID WHERE B.IsClaimed IS NOT NULL 
+				AND B.ClaimedBy='".$ClaimedBy."' AND B.ID IN (".$source.") ";	
+				// die($sql);		
+				$APIResult = $this->base_model->GetDatabaseDataset($sql);
+				$data = json_decode($APIResult, true);
+				if (array_key_exists('error', $data)) { die("2 : ".$data['error']); }
+				$data = $data[0];
+				if(sizeof($data) > 0){
+					foreach ($data as $row) {						
+						$sql="EXEC USP_AGLDE_PARENT_TO_SECTION 
+						@SectionParentID = ".$row['ParentID']." ,
+						@ParentID = ".$ParentID.",
+						@SourceURL = '".$SourceURL."',
+						@ReferenceID ='".$ReferenceID."',
+						@SourceURLP = '".$SourceURLP."';";
+						
+						// die($sql);
+						$APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+						$data2 = json_decode($APIResult, true);
+
+						if (array_key_exists('error', $data2)) { die("4 : ".$data2['error']); }
+						else{
+							echo 'saved';
+						}				
+					}
+				}
+			}
+		}	
 	}
 
 	public function delete_section(){
@@ -228,7 +318,7 @@ class Tito_controller extends CI_Controller {
 	}
 
 	public function content_analysis(){	
-		if(isset($_GET['ParentID']) && $_GET['ParentID'] !='' && isset($_GET['AllocationRefId']) && $_GET['AllocationRefId'] != ''){
+		if(isset($_GET['ParentID']) && $_GET['ParentID'] !='' && isset($_GET['AllocationRefId']) && $_GET['AllocationRefId'] != ''){			
 			$ParentID = $_GET['ParentID'];
 			$AllocationRefId = $_GET['AllocationRefId'];
 			$error = false;
@@ -262,8 +352,6 @@ class Tito_controller extends CI_Controller {
 			$APIResult = $this->base_model->GetDatabaseDataset($sql);
 			$sectionData = json_decode($APIResult, true);
 			if (array_key_exists('error', $sectionData)) { die("CA4: ".$sectionData['error']); }
-
-
 			$fdata = array(
 				'error'			=> $error,
 				'errorMsg'		=> $errorMsg,
@@ -324,8 +412,6 @@ class Tito_controller extends CI_Controller {
 					if (array_key_exists('error', $data)) { die("2 : ".$data['error']); }
 
 					$data = $data[0];
-
-
 					if(sizeof($data) > 0){
 						foreach ($data as $row) {
 							$sql= "EXEC USP_AGLDE_REGISTERJOB @ParentId=".$row['ParentID'].", @processid=".$processid.", @userName=".$this->session->userdata('userName');
@@ -494,6 +580,8 @@ class Tito_controller extends CI_Controller {
 		$SourceName 		= $this->input->post('SourceName');
 		$status 			= $this->input->post('Status');	
 
+		$SkipParent = ($this->input->post('gotodev')=='1' ? '0' : '1');
+
 		$SourceID = $SubSourceID = '';
 		if($status=='Done'){
 			if($processId=='1'){
@@ -534,7 +622,7 @@ class Tito_controller extends CI_Controller {
 					$returnData = array(
 						'error' 	=> true,
 						// 'message' => '500 internal server error'
-						'message' 	=> $data['message']
+						'message' 	=> 'API Error 1: '.$data['message']
 					);
       				echo json_encode($returnData);
       				die();
@@ -587,58 +675,42 @@ class Tito_controller extends CI_Controller {
 			      		echo json_encode($returnData);
 						die(); 
 					}
-				    $APIResult = $this->base_model->TaskEnd($AllocationRefId, $status,  $this->input->post('Remark'));
-					$data = json_decode($APIResult, true);
-					if (array_key_exists('error', $data)) { 
-						$returnData = array(
-							'error' => true,
-							'message' => "TO1A :".$data['error']
-						);
-			      		echo json_encode($returnData);
-						die(); 
-					}
 
-				    $sql="EXEC USP_AGLDE_GENERATEBATCHES @ParentId=".$ParentID.", @userName = '".$this->session->userdata('userName')."' ";
-				    $APIResult = $this->base_model->ExecuteDatabaseScript($sql);
-				    $data = json_decode($APIResult, true);
-				   	if (array_key_exists('error', $data)) { 
-				   		$returnData = array(
-							'error' => true,
-							'message' => "TO3 : ".$data['error']
-						);
-			      		echo json_encode($returnData);
-				   	}else{
-				   		$returnData = array(
-							'error' => false,
-							'message' => "Saved"
-						);
-			      		echo json_encode($returnData);
-				   	}
+					if($proceed){
+						$APIResult = $this->base_model->TaskEnd($AllocationRefId, $status,  $this->input->post('Remark'));
+						$data = json_decode($APIResult, true);
+						if (array_key_exists('error', $data)) { 
+							$returnData = array(
+								'error' => true,
+								'message' => "TO1B :".$data['error']
+							);
+				      		echo json_encode($returnData);
+							die(); 
+						}
+
+					    $sql="EXEC USP_AGLDE_GENERATEBATCHES @ParentId=".$ParentID.", @userName = '".$this->session->userdata('userName')."', @$SkipParent=".$SkipParent." ";
+					    $APIResult = $this->base_model->ExecuteDatabaseScript($sql);
+					    $data = json_decode($APIResult, true);
+					   	if (array_key_exists('error', $data)) { 
+					   		$returnData = array(
+								'error' => true,
+								'message' => "TO3 : ".$data['error']
+							);
+				      		echo json_encode($returnData);
+					   	}else{
+					   		$returnData = array(
+								'error' => false,
+								'message' => "Saved"
+							);
+				      		echo json_encode($returnData);
+					   	}
+					}else{
+
+					}
 				}
 			}
 			else if($processId=='2'){
 				$AgentID = $this->input->post('AgentID');
-				// $sql="SELECT TOP (1) [RecID] ,[AgentID] ,[AgentName] FROM [dbo].[AgentDetails] WHERE [AgentID] = '".$AgentID."';";
-				// $APIResult = $this->base_model->GetDatabaseDataset($sql);
-				// $data = json_decode($APIResult, true);
-				// if (array_key_exists('error', $data)) { 
-					// $returnData = array(
-						// 'error' => true,
-						// 'message' => "TOS1 : ".$data['error']
-					// );
-					// echo json_encode($returnData);
-					// die();
-				// }
-				// $rawdata = $data[0];
-				// if(sizeof($data[0]) <= 0){
-					// $returnData = array(
-						// 'error' => true,
-						// 'message' => "Invalid AgentID entry. The AgentID does not exist in the AgentDetails list"
-					// );
-					// echo json_encode($returnData);
-					// die();
-				// }
-				
 				$json = '{ "agentId": "'.$AgentID.'" }';
 				$CAPIResult = $this->base_model->A2_API($json, $this->input->post('SourceID'));
 				if($CAPIResult === FALSE) { 
